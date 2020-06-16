@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ensemble des devis
+{% endblock %}
+
+{% block description %}
+    Affichage de tous les devis précedemment effectués
+{% endblock %}
+
+{% block contenu %}
+     <p> Tous mes devis </p>
+
+<a href = {% url "devis_unique" 32 %}>devis 32</a>
+
+{% endblock %}
