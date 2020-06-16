@@ -24,8 +24,8 @@ class Devis(models.Model):
     date_planification = models.DateField(default=timezone.now, verbose_name="Planification prévue pour le devis",
                                           null=True)
     client = models.ForeignKey('Client', on_delete=models.PROTECT)
-    prestations = models.Field('Prestation', on_delete=models.SET_NULL, null=True)
-    reduction = models.IntegerField(default=0, max_length=2)
+    prestations = models.ManyToManyField(Prestation)
+    reduction = models.IntegerField(default=0)
     oral = models.BooleanField(default=False)
 
     class Meta:
@@ -33,7 +33,7 @@ class Devis(models.Model):
         ordering = ['date_creation']
 
     def __str__(self):
-        return "n°{} ({}) : \n{}".format(self.id, self.date_creation, self.client)
+        return "n°{} ({}) : {}\nPrestations : {}".format(self.id, self.date_creation, self.client, self.prestations.all())
 
 
 class Client(models.Model):

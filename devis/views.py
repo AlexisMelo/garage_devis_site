@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from devis.models import Devis
 
 # Create your views here.
 
@@ -14,7 +14,8 @@ def oral_ecrit(request):
     # <h1>Outil de création de devis</h1>""")
 
 def liste(request):
-    return render(request, 'devis/liste_devis.html')
+    devis = Devis.objects.all()
+    return render(request, 'devis/liste_devis.html', {'devis':devis})
 
 
 def devis_from_list(request, numeroDevis):
