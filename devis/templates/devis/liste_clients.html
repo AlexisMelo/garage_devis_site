@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ensemble des clients
+{% endblock %}
+
+{% block description %}
+    Affichage de ma liste de clients
+{% endblock %}
+
+{% block contenu %}
+     <p> Tous mes clients </p>
+
+    {% for c in clients %}
+        <br>
+        <p> {{c.prenom }} {{ c.nom }} ({{c.societe}})</p>
+        <p> {{c.adresse}}</p>
+        <p> {{c.complement_adresse }}</p>
+    {% empty %}
+
+        <p> Aucun client trouvé !</p>
+    {% endfor %}
+
+{% endblock %}

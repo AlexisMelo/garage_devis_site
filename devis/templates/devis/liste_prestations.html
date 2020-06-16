@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ensemble des prestations
+{% endblock %}
+
+{% block description %}
+    Affichage de ma liste de prestations
+{% endblock %}
+
+{% block contenu %}
+     <p> Toutes mes prestations </p>
+
+    {% for p in prestations %}
+        <p> {{ p.titre }} {{ p.prix }}€ </p>
+    {% empty %}
+
+        <p> Aucune prestation trouvée !</p>
+    {% endfor %}
+
+{% endblock %}
