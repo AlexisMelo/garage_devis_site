@@ -18,4 +18,7 @@
         <p> Aucune prestation trouvée !</p>
     {% endfor %}
 
+    <form action="{% url "ajout_prestation" %}">
+        <input type="submit" value="ajouter">
+    </form>
 {% endblock %}

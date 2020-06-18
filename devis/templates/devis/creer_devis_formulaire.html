@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ajout d'un devis à la base de données
+{% endblock %}
+
+{% block description %}
+    Formulaire d'enregistrement d'un devis
+{% endblock %}
+
+{% block contenu %}
+    {% if ajout_valid %}Le devis a bien été ajouté {% endif %}
+
+    <form action="{% url "ajout_devis" %}" method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Enregistrer">
+
+    </form>
+{% endblock %}

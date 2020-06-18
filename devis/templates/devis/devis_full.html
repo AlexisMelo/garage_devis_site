@@ -9,5 +9,9 @@
 {% endblock %}
 
 {% block contenu %}
-      <p>Affichage du devis numéro {{ devis.id }}</p>
+        <p>Affichage du devis numéro {{ devis.id }} : {{ devis.client.nom }} {{ devis.client.prenom }}</p>
+
+        <form action="{% url "edit_devis" devis.id %}">
+            <input type="submit" value="modifier ce devis">
+        </form>
 {% endblock %}

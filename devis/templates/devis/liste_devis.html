@@ -11,6 +11,9 @@
 {% block contenu %}
      <p> Tous mes devis </p>
 
+    {% if ajout %}<p>Votre devis a bien été ajouté <p> {% endif %}
+    {% if modif %}<p>Votre devis a bien été modifié <p> {% endif %}
+
     {% for d in devis %}
         <div>
             <h3><a href="{% url "devis_unique" d.id %}">Devis n° {{ d.id }}</a> : {{ d.date_creation }}</h3>
@@ -24,5 +27,9 @@
 
         <p> Aucun devis trouvé !</p>
     {% endfor %}
+
+    <form action="{% url "ajout_devis" %}">
+        <input type="submit" value="ajouter">
+    </form>
 
 {% endblock %}
