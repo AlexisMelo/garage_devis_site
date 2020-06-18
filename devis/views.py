@@ -3,21 +3,24 @@ from __future__ import unicode_literals
 
 from django.contrib import messages
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from devis.models import Devis, Client, Prestation
 from .forms import PrestationAjoutForm, DevisAjoutForm, DevisModifForm
 
+
 def oral_ecrit(request):
     return render(request, 'devis/oral_ecrit.html')
+
 
 class DevisUpdate(UpdateView):
     model = Devis
     template_name = "devis/devis_update.html"
     form_class = DevisModifForm
     success_url = reverse_lazy("liste_devis")
+
 
 class DevisCreate(CreateView):
     model = Devis
@@ -31,11 +34,13 @@ class DevisCreate(CreateView):
         messages.success(self.request, "Devis créé avec succès !")
         return HttpResponseRedirect(self.get_success_url())
 
+
 class PrestationCreate(CreateView):
     model = Prestation
     template_name = "devis/prestation_creer.html"
     form_class = PrestationAjoutForm
     success_url = reverse_lazy("liste_prestations")
+
 
 class ListeClients(ListView):
     model = Client
@@ -56,6 +61,7 @@ class ListeDevis(ListView):
     context_object_name = "devis"
     template_name = "devis_list"
     paginate_by = 10
+
 
 class DevisDetail(DetailView):
     context_object_name = "devis"
