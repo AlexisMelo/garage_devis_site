@@ -1,9 +1,11 @@
 from django import forms
-from .models import Devis
+from .models import Devis, Prestation
 
-class PrestationAjoutForm(forms.Form):
-    prix = forms.FloatField()
-    titre = forms.CharField(max_length=50, label="Titre de la préstation")
+
+class PrestationAjoutForm(forms.ModelForm):
+    class Meta:
+        model = Prestation
+        fields = '__all__'
 
 class DevisAjoutForm(forms.ModelForm):
     class Meta:

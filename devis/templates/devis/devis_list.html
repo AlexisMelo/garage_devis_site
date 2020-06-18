@@ -9,14 +9,18 @@
 {% endblock %}
 
 {% block contenu %}
+
+    {% include "devis/messages.html" %}
+
      <p> Tous mes devis </p>
 
-    {% if ajout %}<p>Votre devis a bien été ajouté <p> {% endif %}
-    {% if modif %}<p>Votre devis a bien été modifié <p> {% endif %}
+    <form action="{% url "ajout_devis" %}">
+        <input type="submit" value="ajouter">
+    </form>
 
     {% for d in devis %}
         <div>
-            <h3><a href="{% url "devis_unique" d.id %}">Devis n° {{ d.id }}</a> : {{ d.date_creation }}</h3>
+            <h3><a href="{% url "devis_detail" d.id %}">Devis n° {{ d.id }}</a> : {{ d.date_creation }}</h3>
             {% for pres in d.prestations.all %}
                 <p>{{pres.titre}} ({{pres.prix}})</p>
             {% empty %}
@@ -28,8 +32,10 @@
         <p> Aucun devis trouvé !</p>
     {% endfor %}
 
-    <form action="{% url "ajout_devis" %}">
-        <input type="submit" value="ajouter">
-    </form>
+    {% include "devis/pagination.html" %}
+
+
+
+
 
 {% endblock %}

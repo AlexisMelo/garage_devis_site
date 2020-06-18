@@ -11,6 +11,10 @@
 {% block contenu %}
      <p> Toutes mes prestations </p>
 
+    <form action="{% url "ajout_prestation" %}">
+        <input type="submit" value="ajouter">
+    </form>
+
     {% for p in prestations %}
         <p> {{ p.titre }} {{ p.prix }}€ </p>
     {% empty %}
@@ -18,7 +22,6 @@
         <p> Aucune prestation trouvée !</p>
     {% endfor %}
 
-    <form action="{% url "ajout_prestation" %}">
-        <input type="submit" value="ajouter">
-    </form>
+    {% include "devis/pagination.html" %}
+
 {% endblock %}

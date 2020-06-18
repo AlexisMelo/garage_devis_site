@@ -1,86 +1,63 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, redirect
-from django.urls import reverse
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 
 from devis.models import Devis, Client, Prestation
 from .forms import PrestationAjoutForm, DevisAjoutForm, DevisModifForm
 
-
-# Create your views here.
-
 def oral_ecrit(request):
     return render(request, 'devis/oral_ecrit.html')
 
+class DevisUpdate(UpdateView):
+    model = Devis
+    template_name = "devis/devis_update.html"
+    form_class = DevisModifForm
+    success_url = reverse_lazy("liste_devis")
 
-def liste_devis(request):
-    devis = Devis.objects.all()
-    ajout = request.session.get('ajout', None)
-    modif = request.session.get('modif', None)
-    if ajout:
-        del request.session['ajout']
-    if modif:
-        del request.session['modif']
-    return render(request, 'devis/liste_devis.html', {'devis': devis, 'ajout': ajout, 'modif': modif})
+class DevisCreate(CreateView):
+    model = Devis
+    template_name = "devis/devis_creer.html"
+    form_class = DevisAjoutForm
+    success_url = reverse_lazy("liste_devis")
 
+    def form_valid(self, form):
+        self.object = form.save()
 
-def devis_from_list(request, numeroDevis):
-    devis = get_object_or_404(Devis, id=numeroDevis)
-    return render(request, 'devis/devis_full.html', {'devis': devis})
+        messages.success(self.request, "Devis créé avec succès !")
+        return HttpResponseRedirect(self.get_success_url())
 
+class PrestationCreate(CreateView):
+    model = Prestation
+    template_name = "devis/prestation_creer.html"
+    form_class = PrestationAjoutForm
+    success_url = reverse_lazy("liste_prestations")
 
-def liste_clients(request):
-    clients = Client.objects.all()
-    return render(request, 'devis/liste_clients.html', {'clients': clients})
-
-
-def liste_prestations(request):
-    prest = Prestation.objects.all()
-    return render(request, 'devis/liste_prestations.html', {'prestations': prest})
-
-
-def creer_prestation_formulaire(request):
-    form = PrestationAjoutForm(request.POST or None)
-
-    if form.is_valid():
-        prix = form.cleaned_data["prix"]
-        titre = form.cleaned_data["titre"]
-
-        prestation = Prestation(prix=prix, titre=titre)
-        prestation.save()
-
-        ajout_valid = True
-
-    return render(request, 'devis/creer_prestation_formulaire.html', locals())
+class ListeClients(ListView):
+    model = Client
+    context_object_name = "clients"
+    template_name = "client_list"
+    paginate_by = 5
 
 
-def creer_devis_formulaire(request):
+class ListePrestation(ListView):
+    model = Prestation
+    context_object_name = "prestations"
+    template_name = "prestation_list"
+    paginate_by = 5
 
-    form = DevisAjoutForm(request.POST or None)
 
-    if form.is_valid():
-        form.save()
-        ajout = True
+class ListeDevis(ListView):
+    model = Devis
+    context_object_name = "devis"
+    template_name = "devis_list"
+    paginate_by = 10
 
-        request.session['ajout'] = True
-        return redirect('liste_devis')
-
-    return render(request, 'devis/creer_devis_formulaire.html', locals())
-
-def modifier_devis_formulaire(request, numeroDevis):
-    devis = get_object_or_404(Devis,id=numeroDevis)
-
-    form = DevisModifForm(request.POST or None, instance=devis)
-
-    if form.is_valid():
-        nouveauDevis = form.save(commit=False)
-
-        nouveauDevis.prestations.set(form.cleaned_data["prestations"])
-        nouveauDevis.save()
-
-        request.session['modif'] = True
-        return redirect('liste_devis')
-
-    return render(request, 'devis/edit_devis_formulaire.html', locals())
+class DevisDetail(DetailView):
+    context_object_name = "devis"
+    model = Devis
+    template_name = "devis/devis_detail.html"

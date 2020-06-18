@@ -22,7 +22,7 @@ class Prestation(models.Model):
 class Devis(models.Model):
     date_creation = models.DateField(default=timezone.now, verbose_name="Date création du devis")
     date_planification = models.DateField(default=timezone.now, verbose_name="Planification prévue pour le devis",
-                                          null=True)
+                                          blank=True)
     client = models.ForeignKey('Client', on_delete=models.PROTECT)
     prestations = models.ManyToManyField(Prestation)
     reduction = models.IntegerField(default=0)
@@ -37,11 +37,11 @@ class Devis(models.Model):
 
 
 class Client(models.Model):
-    prenom = models.CharField(max_length=50, null=True)
-    nom = models.CharField(max_length=50, null=True)
-    societe = models.CharField(max_length=100, null=True)
+    prenom = models.CharField(max_length=50, blank=True)
+    nom = models.CharField(max_length=50)
+    societe = models.CharField(max_length=100, blank=True)
     adresse = models.TextField(max_length=200)
-    complement_adresse = models.TextField(max_length=200, null=True)
+    complement_adresse = models.TextField(max_length=200, blank=True)
 
     class Meta:
         verbose_name = "client"

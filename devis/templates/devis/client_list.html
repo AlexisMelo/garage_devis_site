@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Ensemble des clients
+{% endblock %}
+
+{% block description %}
+    Affichage de ma liste de clients
+{% endblock %}
+
+{% block contenu %}
+     <p> Tous mes clients </p>
+
+    {% for c in clients %}
+        <div class="client">
+            <h3> {{ c.prenom|title }} {{ c.nom|upper }} </h3>
+            {% if c.societe %}<h5>de {{ c.societe }}</h5> {% endif %}
+            <p> Adresse : {{ c.adresse }}</p>
+            {% if c.complement_adresse %}<p> Complément : {{ c.complement_adresse }}</p>{% endif %}
+    {% empty %}
+
+        <p> Aucun client trouvé !</p>
+    {% endfor %}
+
+    {% include "devis/pagination.html" %}
+{% endblock %}

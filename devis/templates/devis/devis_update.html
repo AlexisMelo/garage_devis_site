@@ -9,10 +9,10 @@
 {% endblock %}
 
 {% block contenu %}
-    {% if modif_valid %}Le devis a bien été modifié {% endif %}
 
     <p>Modification du devis n° {{ devis.id }}</p>
-    <form action="{% url "edit_devis" numeroDevis %}" method="post">
+
+    <form action="" method="post">
 
         {% csrf_token %}
         {{ form.as_p }}
