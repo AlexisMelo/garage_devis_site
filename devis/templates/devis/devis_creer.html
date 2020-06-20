@@ -17,4 +17,17 @@
         <input type="submit" value="Enregistrer">
 
     </form>
+
+
+{% endblock %}
+{% block javascripts %}
+<script>
+
+    $(document).ready(function(){
+
+        $('select').formSelect();
+        $('.datepicker').datepicker();
+    });
+
+</script>
 {% endblock %}
