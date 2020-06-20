@@ -11,6 +11,8 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static "css/footer.css" %}" rel="stylesheet">
+
     {% block stylesheets %}
     {% endblock %}
 </head>
@@ -21,6 +23,7 @@
         <div class="nav-wrapper red accent-4">
             <a href="{% url "accueil_site" %}" class="brand-logo">Logo</a>
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
             <ul class="right hide-on-med-and-down">
                 <li><a href="{% url "creer_devis" %}">Création devis</a></li>
                 <li><a href=" {% url "liste_devis" %}">Liste devis </a></li>
@@ -39,13 +42,24 @@
 
 </header>
 
-<div class="container">
+<main class="container">
 
     {% block contenu %}
     <p>Accueil du site</p>
     {% endblock %}
 
-</div>
+</main>
+
+
+<footer class="page-footer grey darken-3">
+
+  <div class="footer-copyright grey darken-4">
+    <div class="container">
+    © Réalisé par Alexis MELO DA SILVA et Maxime BADDELY
+    <a class="grey-text text-lighten-4 right" href="http://www.100pour100pneu.fr/">Site du garage</a>
+    </div>
+  </div>
+</footer>
 
 
 
@@ -60,5 +74,7 @@
     {% block javascripts %}
     {% endblock %}
 
+
 </body>
+
 </html>

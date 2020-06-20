@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Devis Pneumatique Oral
+{% endblock %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static "css/devis_pneu_oral.css"%}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+    Saisie d'un devis pneumatique oral
+{% endblock %}
+
+{% block contenu %}
+<div class="row center-align row-contenant-tout">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s4">
+                <i class="material-icons prefix">straighten</i>
+                <input id="dimensions_input" type="number" class="validate" min="0">
+                <label for="dimensions_input">Dimensions</label>
+            </div>
+            <div class="input-field col s4">
+                <i class="material-icons prefix">euro</i>
+                <input id="prixAchat_input" type="number" min="0" step="0.01" class="validate">
+                <label for="prixAchat_input">Prix d'achat</label>
+            </div>
+            <div class="input-field col s4">
+                <i class="material-icons prefix">functions</i>
+                <input id="quantite_input" type="number" min="0" class="validate">
+                <label for="quantite_input">Quantité</label>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s4">
+                <div class="col s3">
+                <a class="waves-effect waves-light btn-small changer-quantite-bouton red lighten-1" onclick="changerValeurInput('dimensions_input',-5);">- 5</a>
+                </div>
+                <div class="col s3">
+                    <a class="waves-effect waves-light btn-small changer-quantite-bouton red lighten-1 " onclick="changerValeurInput('dimensions_input',-1);">- 1 </a>
+                </div>
+                <div class="col s3">
+                    <a class="waves-effect waves-light btn-small changer-quantite-bouton green lighten-1" onclick="changerValeurInput('dimensions_input',1);">+ 1</a>
+                </div>
+                <div class="col s3">
+                    <a class="waves-effect waves-light btn-small changer-quantite-bouton green lighten-1" onclick="changerValeurInput('dimensions_input',5);">+ 5</a>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="row">
+                    <div class="col s3 offset-s3">
+                        <a class="waves-effect waves-light btn-small changer-quantite-bouton red lighten-1" onclick="changerValeurInput('prixAchat_input',-10);">- 10</a>
+                    </div>
+                    <div class="col s3">
+                        <a class="waves-effect waves-light btn-small changer-quantite-bouton green lighten-1 " onclick="changerValeurInput('prixAchat_input',10);"> +10 </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col s4">
+                <div class="row">
+                    <div class="col s3">
+                    <a class="waves-effect waves-light btn-small changer-quantite-bouton red lighten-1" onclick="changerValeurInput('quantite_input',-4);">- 4</a>
+                    </div>
+                    <div class="col s3">
+                        <a class="waves-effect waves-light btn-small changer-quantite-bouton red lighten-1 " onclick="changerValeurInput('quantite_input',-1);">- 1 </a>
+                    </div>
+                    <div class="col s3">
+                        <a class="waves-effect waves-light btn-small changer-quantite-bouton green lighten-1" onclick="changerValeurInput('quantite_input',1);">+ 1</a>
+                    </div>
+                    <div class="col s3">
+                        <a class="waves-effect waves-light btn-small changer-quantite-bouton green lighten-1" onclick="changerValeurInput('quantite_input',4);">+ 4</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="input-field col s6 offset-s3" id="colonne-prix-ttc">
+                <p id="paragraphe-prix-ttc" class="">Prix TTC : <span id="valeur-prix-ttc">0</span> €</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript" src="{% static "js/devis_pneu_oral.js" %}"></script>
+{% endblock %}
+

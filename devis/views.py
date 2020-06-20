@@ -12,8 +12,10 @@ from .forms import PrestationAjoutForm, DevisAjoutForm, DevisModifForm
 
 
 def oral_ecrit(request):
-    return render(request, 'devis/oral_ecrit.html')
+    return render(request, 'devis/devis_creation_oral_ecrit.html')
 
+def devis_pneu_oral(request):
+    return render(request, 'devis/devis_pneu_oral.html')
 
 class DevisUpdate(UpdateView):
     model = Devis

@@ -1,0 +1,24 @@
+.row-contenant-tout {
+    margin-top : 20%;
+}
+
+#paragraphe-prix-ttc {
+    padding: 0.3rem;
+    font-size: 2.5rem;
+    border: 3px solid #333333;
+    border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+    text-transform: uppercase;
+    letter-spacing: 0.3ch;
+
+}
+
+#valeur-prix-ttc {
+}
+
+#colonne-prix-ttc {
+    font-size: 3em;
+}
+
+.changer-quantite-bouton {
+    font-size: 1.3em;
+}

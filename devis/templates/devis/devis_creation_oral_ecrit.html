@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Oral ou écrit
+{% endblock %}
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static "css/devis_creation_oral_ecrit.css"%}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+    Choix de faire un devis écrit ou bien oral
+{% endblock %}
+
+{% block contenu %}
+    <div class="row center-align row-avec-mes-boutons">
+        <div class="col m2 s1">
+
+        </div>
+        <div class="col m3 s4">
+            <a href="{% url "devis_pneu_oral" %}" class="waves-effect waves-light btn "><span><span class="devis">Devis</span> <br><span class="type">Oral</span></span></a>
+        </div>
+        <div class="col m2 s2">
+
+        </div>
+        <div class="col m3 s4">
+            <a class="waves-effect waves-light btn"><span><span class="devis">Devis</span> <br><span class="type">Ecrit</span></span></a>
+        </div>
+        <div class="col m2 s1">
+
+        </div>
+
+    </div>
+{% endblock %}
