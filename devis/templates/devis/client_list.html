@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}
     Ensemble des clients
 {% endblock %}
@@ -8,19 +10,34 @@
     Affichage de ma liste de clients
 {% endblock %}
 
+{% block stylesheets %}
+    <link href="{% static "css/client_list.css"%}" rel="stylesheet">
+{% endblock %}
+
 {% block contenu %}
-     <p> Tous mes clients </p>
 
-    {% for c in clients %}
-        <div class="client">
-            <h3> {{ c.prenom|title }} {{ c.nom|upper }} </h3>
-            {% if c.societe %}<h5>de {{ c.societe }}</h5> {% endif %}
-            <p> Adresse : {{ c.adresse }}</p>
-            {% if c.complement_adresse %}<p> Complément : {{ c.complement_adresse }}</p>{% endif %}
-    {% empty %}
+    <table id="table-clients" class="striped highlight">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Societe</th>
+                <th>Adresse</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in clients %}
+                <tr>
+                    <td>{{ c.nom|upper }}</td>
+                    <td>{{ c.prenom|title }}</td>
+                    <td>{{ c.societe }}</td>
+                    <td>{{ c.adresse|truncatewords:50 }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
 
-        <p> Aucun client trouvé !</p>
-    {% endfor %}
+    </table>
 
-    {% include "devis/pagination.html" %}
+        {% include "devis/pagination.html" %}
+
 {% endblock %}

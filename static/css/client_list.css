@@ -1,0 +1,11 @@
+table.highlight > tbody > tr:hover {
+    background-color : #bdbdbd;
+}
+
+thead{
+    background-color : #bdbdbd;
+}
+
+#table-clients {
+    margin-top : 5%;
+}

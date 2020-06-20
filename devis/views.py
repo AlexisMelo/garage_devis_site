@@ -48,7 +48,7 @@ class ListeClients(ListView):
     model = Client
     context_object_name = "clients"
     template_name = "client_list"
-    paginate_by = 5
+    paginate_by = 10
 
 
 class ListePrestation(ListView):
