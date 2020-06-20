@@ -23,6 +23,11 @@ class DevisUpdate(UpdateView):
     form_class = DevisModifForm
     success_url = reverse_lazy("liste_devis")
 
+    def form_valid(self, form):
+        self.object = form.save()
+
+        messages.success(self.request, "Devis modifié avec succès !")
+        return HttpResponseRedirect(self.get_success_url())
 
 class DevisCreate(CreateView):
     model = Devis
@@ -55,7 +60,7 @@ class ListePrestation(ListView):
     model = Prestation
     context_object_name = "prestations"
     template_name = "prestation_list"
-    paginate_by = 5
+    paginate_by = 10
 
 
 class ListeDevis(ListView):

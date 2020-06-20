@@ -1,11 +1,12 @@
 table.highlight > tbody > tr:hover {
-    background-color : transparent;
+    background-color : #bdbdbd;
+    cursor: pointer;
 }
 
 thead{
     background-color : #bdbdbd;
 }
 
-#table-clients {
+#table-devis {
     margin-top : 5%;
 }
