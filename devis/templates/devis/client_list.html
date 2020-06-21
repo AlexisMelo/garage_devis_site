@@ -29,8 +29,8 @@
             {% for c in clients %}
                 <tr>
                     <td>{{ c.nom|upper }}</td>
-                    <td>{{ c.prenom|title }}</td>
-                    <td>{{ c.societe }}</td>
+                    <td>{{ c.prenom|title}}</td>
+                    <td>{{ c.societe}}</td>
                     <td>{{ c.adresse|truncatewords:50 }}</td>
                 </tr>
             {% endfor %}
