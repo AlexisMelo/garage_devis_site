@@ -1,8 +1,14 @@
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'global/css/messages.css' %}">
+{% endblock %}
+
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-        <li {% if message.tags %} class="{{message.tags}}" {% endif %}>
-            {{message}}
+        <li>
+            <span onclick="this.style.display='none';" {% if message.tags %} class="message {{message.tags}}" {% endif %}>{{message}}</span>
         </li>
     {% endfor %}
 </ul>

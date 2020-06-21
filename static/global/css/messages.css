@@ -1,0 +1,41 @@
+.messages {
+    position: absolute;
+    width: 50%;
+    text-align: center;
+    left : 0;
+    right : 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.message {
+    color: white;
+    padding-left: 5%;
+    padding-right: 5%;
+    font-size: 1.2em;
+    border-radius: 25px;
+    padding-top: 5px;
+    padding-bottom : 5px;
+    cursor: pointer;
+}
+
+.debug {
+    background-color : #ea80fc;
+
+}
+
+.info {
+    background-color : #64b5f6;
+}
+
+.success {
+    background-color : #4caf50;
+}
+
+.warning {
+    background-color : #ff9800;
+}
+
+.error {
+    background-color : #f44336;
+}
