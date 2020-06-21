@@ -1,0 +1,45 @@
+{% load static %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'global/css/header.css' %}">
+{% endblock %}
+
+<header>
+    {% if user.is_authenticated %}
+    <ul id="dropdown-pseudo" class="dropdown-content">
+        <li><a href="{% url 'admin:index' %}">Admin</a></li>
+        <li class="divider"></li>
+        <li><a href="{% url 'deconnexion' %}">Déconnexion</a></li>
+    </ul>
+    {% endif %}
+    <nav>
+        <div class="nav-wrapper red accent-4">
+            <a href="{% url "accueil_site" %}" class="brand-logo">Logo</a>
+            <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+
+            <ul class="right hide-on-med-and-down">
+
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'creer_devis' %}">Création devis</a></li>
+
+                <li><a href=" {% url 'liste_devis' %}">Liste devis </a></li>
+                <li><a href=" {% url 'liste_prestations' %}">Liste prestations </a></li>
+                <li><a href=" {% url 'liste_clients' %}">Liste clients </a></li>
+
+                <li><a class="dropdown-trigger pseudo" href="#!" data-target="dropdown-pseudo" id="pseudo">{{user.username}}<i class="material-icons right">arrow_drop_down</i></a></li>
+                {% else %}
+                <li><a href="{% url 'creer_devis' %}">Création devis</a></li>
+                <li><a href=" {% url 'connexion' %}" class="waves-effect waves-light btn grey">Connexion</a></li>
+                {% endif %}
+
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="sidenav" id="mobile-demo">
+        <li><a href="{% url "creer_devis" %}">Création devis</a></li>
+        <li><a href=" {% url "liste_devis" %}">Liste devis </a></li>
+        <li><a href=" {% url "liste_prestations" %}">Liste prestations </a></li>
+        <li><a href=" {% url "liste_clients" %}">Liste clients </a></li>
+    </ul>
+</header>

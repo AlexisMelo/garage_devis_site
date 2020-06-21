@@ -6,7 +6,7 @@
 {% load static %}
 
 {% block stylesheets %}
-    <link href="{% static "css/devis_creation_oral_ecrit.css"%}" rel="stylesheet">
+    <link href="{% static "devis/css/devis_creation_oral_ecrit.css"%}" rel="stylesheet">
 {% endblock %}
 
 {% block description %}
@@ -19,13 +19,13 @@
 
         </div>
         <div class="col m3 s4">
-            <a href="{% url "devis_pneu_oral" %}" class="waves-effect waves-light btn "><span><span class="devis">Devis</span> <br><span class="type">Oral</span></span></a>
+            <a href="{% url 'devis_pneu_oral' %}" class="btn-centre waves-effect waves-light btn "><span><span class="devis">Devis</span> <br><span class="type">Oral</span></span></a>
         </div>
         <div class="col m2 s2">
 
         </div>
         <div class="col m3 s4">
-            <a href="{% url "devis_creation_ecrit" %}" class="waves-effect waves-light btn"><span><span class="devis">Devis</span> <br><span class="type">Ecrit</span></span></a>
+            <a href="{% url 'devis_creation_ecrit' %}" class="btn-centre waves-effect waves-light btn"><span><span class="devis">Devis</span> <br><span class="type">Ecrit</span></span></a>
         </div>
         <div class="col m2 s1">
 

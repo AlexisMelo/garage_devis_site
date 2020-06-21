@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
@@ -30,10 +31,11 @@ class Devis(models.Model):
 
     class Meta:
         verbose_name = "devis"
-        ordering = ['date_creation']
+        ordering = ['id']
 
     def __str__(self):
-        return "n°{} ({}) : {}\nPrestations : {}".format(self.id, self.date_creation, self.client, self.prestations.all())
+        return "n°{} ({}) : {}\nPrestations : {}".format(self.id, self.date_creation, self.client,
+                                                         self.prestations.all())
 
 
 class Client(models.Model):
@@ -48,4 +50,4 @@ class Client(models.Model):
         ordering = ['nom']
 
     def __str__(self):
-        return "{} {} ({}) : {}".format(self.prenom, self.nom, self.societe, self.adresse)
+        return "{} {} {}".format(self.prenom, self.nom, self.societe or "")

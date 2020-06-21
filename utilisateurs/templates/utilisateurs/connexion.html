@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Formulaire de connexion au site
+{% endblock %}
+
+{% block contenu %}
+    {% if error %}
+        <p class="red"><strong>Utilisateur inconnu ou mauvais mot de passe</strong></p>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <p class="green"><strong>Vous êtes connecté, {{user.username}} !</strong></p>
+    {% else %}
+
+    <form method="post" action=".">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value ="Se connecter">
+    </form>
+    {% endif %}
+
+{% endblock %}
+
+
+
