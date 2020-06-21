@@ -39,11 +39,11 @@ class Devis(models.Model):
 
 
 class Client(models.Model):
-    prenom = models.CharField(max_length=50, blank=True)
-    nom = models.CharField(max_length=50)
-    societe = models.CharField(max_length=100, blank=True)
-    adresse = models.TextField(max_length=200)
-    complement_adresse = models.TextField(max_length=200, blank=True)
+    prenom = models.CharField(max_length=50, blank=True, null=True)
+    nom = models.CharField(max_length=50, default="X")
+    societe = models.CharField(max_length=100, blank=True, null=True)
+    adresse = models.TextField(max_length=200, default="X")
+    complement_adresse = models.TextField(max_length=200, blank=True, null=True)
 
     class Meta:
         verbose_name = "client"
