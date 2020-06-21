@@ -1,0 +1,18 @@
+#row-devis-head {
+    margin-bottom : 0;
+    font-size: 2em;
+    color: white;
+}
+
+#row-contenu-devis {
+    height: 50vh;
+    border : solid;
+    margin-bottom : 0;
+    border-bottom : none;
+}
+
+#row-total {
+    border: solid;
+    font-size: 2em;
+    padding-left: 10%;
+}

@@ -15,4 +15,5 @@ urlpatterns = [
     path('modifier/<pk>', views.DevisUpdate.as_view(), name="edit_devis"),
     path('ajout/', views.DevisCreate.as_view(), name="ajout_devis"),
     path('oral/', views.devis_pneu_oral, name="devis_pneu_oral"),
+    path('ecrit/',views.devis_creation_ecrit, name="devis_creation_ecrit"),
 ]

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Devis ecrit
+{% endblock %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static "css/devis_creation_ecrit.css"%}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+    Page principale pour la création d'un devis écrit
+{% endblock %}
+
+{% block contenu %}
+    <div class="row" id="row-qui-contient-tout">
+        <div class="col s12 m6 l7 xl8">
+            <p>Formulaire</p>
+        </div>
+        <div class="col s12 m6 l5 xl4">
+            {% include "devis/devis_affichage_cote.html" %}
+        </div>
+    </div>
+{% endblock %}

@@ -17,6 +17,9 @@ def oral_ecrit(request):
 def devis_pneu_oral(request):
     return render(request, 'devis/devis_pneu_oral.html')
 
+def devis_creation_ecrit(request):
+    return render(request, 'devis/devis_creation_ecrit.html')
+
 class DevisUpdate(UpdateView):
     model = Devis
     template_name = "devis/devis_update.html"
