@@ -1,3 +1,47 @@
 #row-qui-contient-tout {
     margin-top: 5%;
 }
+
+.modal {
+    height: 80vh;
+}
+
+#autocomplete-input {
+    margin-left: 0;
+}
+
+.modal-content > h4 {
+    margin-bottom :  10%;
+}
+
+#bouton-valider-selection-client {
+    color : white;
+}
+
+.modal-content {
+    height: 100%;
+    position : relative;
+}
+
+.modal-footer {
+    bottom : 5%;
+    position : absolute;
+    width : 100;
+}
+
+#affichage_nom_client {
+    font-size: 2em;
+    margin-left: 2%;
+}
+
+#row-client {
+    border: solid;
+}
+
+#button-selectionnez-client {
+    width: 100%;
+}
+
+#colonne-selectionnez-client {
+    padding: 0;
+}

@@ -10,6 +10,7 @@ from django.db.models import Max
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
+from django.template import RequestContext
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
@@ -34,6 +35,12 @@ def devis_creation_ecrit(request):
 
     allClients = Client.objects.all()
     jsonClients = serializers.serialize('json', allClients)
+
+    if request.POST.get('client'):
+        request.session['client'] = request.POST.get('client')
+    elif 'client' not in request.session:
+        request.session['client'] = False
+
 
     if request.session['devis_en_creation']:
 

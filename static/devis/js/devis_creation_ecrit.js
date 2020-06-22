@@ -21,6 +21,7 @@ $(document).ready(function(){
     $('.autocomplete').autocomplete({
     data : myData
     });
+    $('.modal').modal();
 
 
 });
