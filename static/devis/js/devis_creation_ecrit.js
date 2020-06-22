@@ -22,6 +22,7 @@ $(document).ready(function(){
     data : myData
     });
     $('.modal').modal();
+    $('.tooltipped').tooltip();
 
 
 });

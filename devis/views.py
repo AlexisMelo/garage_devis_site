@@ -112,3 +112,6 @@ class DevisDetail(DetailView):
     context_object_name = "devis"
     model = Devis
     template_name = "devis/devis_detail.html"
+
+def ajouter_prestation_cout_fixe(request):
+    return render(request, 'devis/ajouter_prestation_cout_fixe.html', locals())
