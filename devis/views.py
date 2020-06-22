@@ -59,7 +59,7 @@ class DevisCreate(CreateView):
 class ListeClients(ListView):
     model = Client
     context_object_name = "clients"
-    template_name = "client_list"
+    template_name = "devis/client_list.html"
     paginate_by = 10
 
 
@@ -67,7 +67,7 @@ class ListeClients(ListView):
 class ListePrestation(ListView):
     model = PrestationCoutFixe
     context_object_name = "prestations"
-    template_name = "prestation_list"
+    template_name = "devis/prestation_list.html"
     paginate_by = 10
 
 
@@ -75,7 +75,7 @@ class ListePrestation(ListView):
 class ListeDevis(ListView):
     model = Devis
     context_object_name = "devis"
-    template_name = "devis_list"
+    template_name = "devis/devis_list.html"
     paginate_by = 10
 
 

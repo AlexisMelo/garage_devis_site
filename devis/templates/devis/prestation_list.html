@@ -1,22 +1,38 @@
 {% extends "base.html" %}
 
+{% load static %}
+
 {% block title %}
-    Ensemble des prestations
+    Ensemble des prestations avec un coût fixe
 {% endblock %}
 
 {% block description %}
-    Affichage de ma liste de prestations
+    Affichage de ma liste de prestations à coût fixe
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{% static 'devis/css/prestations_list.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block contenu %}
      <p> Toutes mes prestations </p>
 
-    {% for p in prestations %}
-        <p> {{ p.titre }} {{ p.prix }}€ </p>
-    {% empty %}
-
-        <p> Aucune prestation trouvée !</p>
-    {% endfor %}
+    <table id="table-prestations" class="striped hightlight">
+        <thead>
+            <tr>
+                <th>Libellé</th>
+                <th>Prix (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in prestations %}
+                <tr>
+                    <td>{{ p.libelle }}</td>
+                    <td>{{ p.prix_total }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
     {% include "devis/pagination.html" %}
 
