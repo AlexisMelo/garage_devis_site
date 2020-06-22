@@ -25,7 +25,7 @@ SECRET_KEY = 'a$kd^(^s1@_u^+f$15r$uzjq)()4)7e@jc70(jh=is13n!a(sm'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost','http://r0b0tiik.alwaysdata.net/']
+ALLOWED_HOSTS = ['localhost','r0b0tiik.alwaysdata.net']
 
 
 # Application definition
