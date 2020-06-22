@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'devis',
     'utilisateurs',
     'phonenumber_field',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -132,3 +133,12 @@ STATICFILES_DIRS = (
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 LOGIN_URL = "/utilisateurs/connexion"
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCALTION': '/var/tmp/django_cache',
+    }
+}
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'

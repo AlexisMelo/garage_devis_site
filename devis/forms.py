@@ -1,5 +1,5 @@
 from django import forms
-from django.forms import DateInput
+from django.forms import DateInput, CharField
 
 from .models import Devis
 

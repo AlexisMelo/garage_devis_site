@@ -4,11 +4,16 @@ from __future__ import unicode_literals
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseRedirect
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Max
+from django.forms import model_to_dict
+from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
+import json
 
 from devis.models import Devis, Client, Prestation, PrestationCoutFixe
 from .forms import DevisAjoutForm, DevisModifForm
@@ -24,8 +29,24 @@ def devis_pneu_oral(request):
 
 @login_required
 def devis_creation_ecrit(request):
-    return render(request, 'devis/devis_creation_ecrit.html')
+    if not 'devis_en_creation' in request.session:
+        request.session['devis_en_creation'] = True
 
+    allClients = Client.objects.all()
+    jsonClients = serializers.serialize('json', allClients)
+
+    if request.session['devis_en_creation']:
+
+        tousMesDevis = Devis.objects.all()
+        nbDevis = tousMesDevis.count()
+
+        numeroSupposeDevis = 1
+
+        if nbDevis != 0:
+            numeroSupposeDevis = tousMesDevis.aggregate(Max('id'))['id__max'] + 1
+
+
+    return render(request, 'devis/devis_creation_ecrit.html', locals())
 
 @method_decorator(login_required, name='dispatch')
 class DevisUpdate(UpdateView):
