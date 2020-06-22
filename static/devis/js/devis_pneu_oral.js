@@ -1,7 +1,8 @@
 var TVA = 1.2;
 var marge = 11.5;
 
-function changerValeurInput(input, valeur) {
+/*
+function incrementerValeurInput(input, valeur) {
 
     monInput = $('#'+input);
 
@@ -21,6 +22,12 @@ function changerValeurInput(input, valeur) {
         }
 
     }
+}
+*/
+
+function setValeurInput(input, valeur) {
+    $('#'+input).val(valeur).trigger("input");
+    $("label[for='"+input+"']").addClass("active");
 }
 
 $(document).ready(function(){
