@@ -1,19 +1,13 @@
 from django import forms
 from django.forms import DateInput
 
-from .models import Devis, Prestation
-
-
-class PrestationAjoutForm(forms.ModelForm):
-    class Meta:
-        model = Prestation
-        fields = '__all__'
+from .models import Devis
 
 
 class DevisAjoutForm(forms.ModelForm):
     class Meta:
         model = Devis
-        fields = ['date_planification', 'client', 'prestations', 'reduction']
+        fields = ['date_planification', 'client', 'prestations_fixe', 'prestations_variable', 'reduction']
         widgets = {
             'date_planification': DateInput(attrs={'format': 'dd-mm-yyyy', 'class': 'datepicker'})
         }
@@ -22,7 +16,7 @@ class DevisAjoutForm(forms.ModelForm):
 class DevisModifForm(forms.ModelForm):
     class Meta:
         model = Devis
-        fields = ['date_planification', 'client', 'prestations', 'reduction']
+        fields = ['date_planification', 'client', 'prestations_fixe','prestations_variable', 'reduction']
         widgets = {
             'date_planification': DateInput(attrs={'format': 'dd-mm-yyyy', 'class': 'datepicker'})
         }

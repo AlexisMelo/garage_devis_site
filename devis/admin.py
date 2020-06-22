@@ -2,7 +2,8 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from .models import Devis, Client, Prestation
+from .models import Devis, Client, Prestation, PrestationCoutVariableConcrete, PrestationCoutFixe, \
+    PrestationCoutVariableStandard, PieceDetacheeStandard, PieceDetacheeAvecPrix
 
 
 # Register your models here.
@@ -10,9 +11,9 @@ from .models import Devis, Client, Prestation
 
 class DevisAdmin(admin.ModelAdmin):
     list_display = ('id', 'date_creation', 'client', 'oral')
-    list_filter = ('date_creation', 'client', 'oral', 'prestations',)
+    list_filter = ('date_creation', 'client', 'oral', )
     date_hierarchy = 'date_creation'
-    ordering = ('date_creation',)
+    ordering = ('id',)
     search_fields = ('client', 'date_creation')
 
 
@@ -23,13 +24,10 @@ class ClientAdmin(admin.ModelAdmin):
     search_fields = ('prenom', 'nom', 'societe')
 
 
-class PrestationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'titre', 'prix')
-    list_filter = ('titre',)
-    ordering = ('titre',)
-    search_fields = ('titre',)
-
-
 admin.site.register(Devis, DevisAdmin)
-admin.site.register(Prestation, PrestationAdmin)
 admin.site.register(Client, ClientAdmin)
+admin.site.register(PrestationCoutVariableConcrete)
+admin.site.register(PrestationCoutFixe)
+admin.site.register(PrestationCoutVariableStandard)
+admin.site.register(PieceDetacheeStandard)
+admin.site.register(PieceDetacheeAvecPrix)
