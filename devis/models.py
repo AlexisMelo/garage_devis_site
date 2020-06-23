@@ -10,6 +10,16 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils import timezone
 
 
+class Categorie(models.Model):
+    libelle = models.CharField(max_length=50, default="Autres")
+
+    def __str__(self):
+        return self.libelle
+
+    class Meta:
+        verbose_name = "Catégorie"
+
+
 class PieceDetacheeStandard(models.Model):
     libelle = models.CharField(max_length=50, default="Pièce détachée standard")
 
@@ -29,15 +39,17 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     class Meta:
         verbose_name = "Pièce détachée avec prix associé"
 
+def get_autre_categorie():
+    return Categorie.objects.get_or_create(libelle="Autres")[0]
 
 class Prestation(models.Model):
     libelle = models.CharField(max_length=50, default="Prestation standard")
+    categorie = models.ForeignKey('Categorie', default=get_autre_categorie, on_delete=models.SET_DEFAULT)
 
     class Meta:
         verbose_name = "Prestation standard, sans coût"
         managed = False
         abstract = True
-
 
     def __str__(self):
         return self.libelle

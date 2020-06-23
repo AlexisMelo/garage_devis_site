@@ -1,5 +1,98 @@
-{% extends "base.html" %}
+{% extends "devis/devis_creation_base.html" %}
 
-{% block contenu %}
-    slt frere
+{% load static %}
+
+{% block title %}
+    Sélection de préstations au coût fixe
+{% endblock %}
+
+{% block autres_stylesheet %}
+    <link href="{% static "devis/css/ajouter_prestation_cout_fixe.css"%}" rel="stylesheet">
+{% endblock %}
+
+{% block cote_gauche %}
+
+    <div class="row center-align" id="row-titre">
+        <div class="col s12"><span id="titre">Sélectionnez une catégorie, puis la préstation à ajouter</span></div>
+    </div>
+    <ul class="popout collapsible">
+        {% for categorie in categories %}
+            <li>
+                <div class="collapsible-header"><i class="material-icons">miscellaneous_services</i>{{categorie.libelle}}</div>
+                <div class="collapsible-body">
+
+                    <table class="highlight striped">
+                        <tbody>
+                        {% for p in prestations %}
+
+                            {% if p.categorie == categorie %}
+                            <tr class="modal-trigger" onclick="openmodal('{{p.id}}'+'-modal');">
+                                <td class="td-libelle">{{p.libelle}}</td>
+                                <td class="td-prix">{{p.prix_total}} €</td>
+                            </tr>
+
+                            <div id="{{p.id}}-modal" class="modal">
+                                <div class="modal-content">
+                                    <div class="row modal-entete valign-wrapper">
+                                        <div class="col s8">
+                                            <h4>{{p.libelle}}</h4>
+                                        </div>
+                                        <div class="col s4 right-align">
+                                            <span><span class="prix_unitaire">( <span id="{{p.id}}-prix_unitaire">{{p.prix_total }}<span> € )</span><span class="prix_total"> Total : <span id="{{p.id}}-prix_total">{{p.prix_total}}</span> €</span></span>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="row valign-wrapper center-align modal-realcontent" id="row-gestion-quantite">
+
+                                        <div class="col s2 offset-s1 xl1 offset-xl4">
+                                            <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('{{p.id}}-quantite',-1);"><i class="material-icons right">remove</i></a>
+                                        </div>
+                                        <div class="col input-field s4 xl2">
+
+                                            <input id="{{p.id}}-quantite" type="text" class="validate" min="1" value="1">
+                                            <label for="{{p.id}}-quantite">Quantité</label>
+
+                                        </div>
+                                        <div class="col s2 xl1">
+                                            <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('{{p.id}}-quantite',1);"><i class="material-icons right">add</i></a>
+                                        </div>
+                                        <div class="col s1 xl4">
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="row center-align">
+                                        <div class="col s6">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
+                                        </div>
+                                        <div class="col s6">
+                                            <a href="#!" class="modal-close waves-effect waves-green btn">Ajouter au devis</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+                        {% empty %}
+                            c chelou ca par contre
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'global/js/initCollapsible.js' %}"></script>
+    <script type="text/javascript" src="{% static 'global/js/initModal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_cout_fixe.js' %}"></script>
 {% endblock %}

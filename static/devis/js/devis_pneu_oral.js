@@ -1,30 +1,6 @@
 var TVA = 1.2;
 var marge = 11.5;
 
-/*
-function incrementerValeurInput(input, valeur) {
-
-    monInput = $('#'+input);
-
-    newval = +monInput.val() + valeur;
-
-    if (newval <= parseInt(monInput.attr('min'))) {
-        $("label[for='"+input+"']").removeClass("active");
-        monInput.val('').trigger("input");
-    }
-    else {
-        $("label[for='"+input+"']").addClass("active");
-
-        if (Number.isInteger(newval)) {
-            monInput.val(newval).trigger("input");
-        } else {
-            monInput.val(newval.toFixed(2)).trigger("input");
-        }
-
-    }
-}
-*/
-
 function setValeurInput(input, valeur) {
     $('#'+input).val(valeur).trigger("input");
     $("label[for='"+input+"']").addClass("active");

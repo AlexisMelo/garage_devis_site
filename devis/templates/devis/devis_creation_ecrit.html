@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "devis/devis_creation_base.html" %}
 
 {% block title %}
     Devis ecrit
@@ -7,7 +7,7 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block stylesheets %}
+{% block autres_stylesheet %}
     <link href="{% static "devis/css/devis_creation_ecrit.css"%}" rel="stylesheet">
 {% endblock %}
 
@@ -15,55 +15,51 @@
     Page principale pour la création d'un devis écrit
 {% endblock %}
 
-{% block contenu %}
-    <div class="row" id="row-qui-contient-tout">
-        <div class="col s12 m6 l7 xl7">
-            <div class="row valign-wrapper" id="row-client">
-                {% if request.session.client %}
-                    <div class="col s7 l8 valign-wrapper">
-                        <i class="material-icons prefix">account_circle</i>
-                        <span id="affichage_nom_client">{{request.session.client|truncatechars:30}}</span>
-                    </div>
-                    <div class="col s5 l4 right-align">
-                        <div class="col s12">
-                        <a class="waves-effect waves-light btn modal-trigger orange" href="#modal1">Changer</a>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col s12 center-align" id="colonne-selectionnez-client">
-                        <a class="waves-effect waves-light btn modal-trigger red" id="button-selectionnez-client" href="#modal1">Selectionnez une fiche client</a>
-                    </div>
-                {% endif %}
+{% block cote_gauche %}
+    <div class="row valign-wrapper" id="row-client">
+        {% if request.session.client %}
+            <div class="col s7 l8 valign-wrapper">
+                <i class="material-icons prefix">account_circle</i>
+                <span id="affichage_nom_client">{{request.session.client|truncatechars:30}}</span>
             </div>
-            <div class="row">
+            <div class="col s5 l4 right-align">
                 <div class="col s12">
-                    <div class="row center-align" id="row-label-ajoutez-prestations">
-                        <div class="col s12">
-                            <span>Ajoutez des préstations au devis</span>
-                        </div>
-                    </div>
-                    <div class="row ">
-                        <div class="col s5 center-align">
-                            <a href="{% url 'ajouter_prestation_cout_fixe' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation dont le prix est fixé à l'avance. Exemple : Vidange Partielle 5W40 à 69.00€ "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût fixe</span></span></a>
-                        </div>
-                        <div class="col s5  offset-s2 ">
-                        <a href="#" class="btn-centre waves-effect waves-light btn tooltipped" data-position="bottom" data-tooltip="Prestation dont le prix dépend de paramètres. Exemple : Disques AV/AR requiert saisie du prix des disques AV et disques AR "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût variable</span></span></a>
-                        </div>
-                    </div>
+                <a class="waves-effect waves-light btn modal-trigger orange" href="#modal1">Changer</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="col s12 center-align" id="colonne-selectionnez-client">
+                <a class="waves-effect waves-light btn modal-trigger red" id="button-selectionnez-client" href="#modal1">Selectionnez une fiche client</a>
+            </div>
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col s12">
+            <div class="row center-align" id="row-label-ajoutez-prestations">
+                <div class="col s12">
+                    <span>Ajoutez des préstations au devis</span>
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col s5 center-align">
+                    <a href="{% url 'ajouter_prestation_cout_fixe' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation dont le prix est fixé à l'avance. Exemple : Vidange Partielle 5W40 à 69.00€ "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût fixe</span></span></a>
+                </div>
+                <div class="col s5  offset-s2 ">
+                <a href="#" class="btn-centre waves-effect waves-light btn tooltipped" data-position="bottom" data-tooltip="Prestation dont le prix dépend de paramètres. Exemple : Disques AV/AR requiert saisie du prix des disques AV et disques AR "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût variable</span></span></a>
                 </div>
             </div>
         </div>
-
-        <div class="col s12 m6 l5 xl4 offset-xl1">
-            {% include "devis/devis_affichage_cote.html" %}
-        </div>
     </div>
+
 
     <form id="modal1" class="modal" action="{% url 'devis_creation_ecrit' %}" method="post">
         <div class="modal-content center-align ">
-          <h4>Sélectionnez un client ! </h4>
-            {% csrf_token %}
-          <div class="row">
+            <div class="row modal-entete">
+                <h4>Sélectionnez un client ! </h4>
+                {% csrf_token %}
+            </div>
+
+          <div class="row modal-realcontent">
             <div class="col s12">
               <div class="row modal-form-row">
                 <div class="input-field col s12">

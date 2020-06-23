@@ -1,0 +1,32 @@
+#row-qui-contient-tout {
+    margin-top: 5%;
+}
+
+.modal-footer .row {
+    margin:  0 !important;
+
+}
+
+.modal-footer {
+    bottom : 0;
+    width : 100;
+    background-color : #eeeeee !important;
+}
+
+.modal-content {
+    padding : 0 !important;
+}
+
+.modal-entete {
+    padding-top : 2%;
+    top:  0;
+    background-color : #eeeeee;
+}
+
+.modal-content .row {
+    margin : 0 !important;
+}
+
+.modal-realcontent {
+    min-height : 20vh;
+}

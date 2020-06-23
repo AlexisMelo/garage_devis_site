@@ -21,13 +21,16 @@
         <thead>
             <tr>
                 <th>Libellé</th>
+                <th>Catégorie</th>
                 <th>Prix (€)</th>
+
             </tr>
         </thead>
         <tbody>
             {% for p in prestations %}
                 <tr>
                     <td>{{ p.libelle }}</td>
+                    <td>{{ p.categorie }}</td>
                     <td>{{ p.prix_total }}</td>
                 </tr>
             {% endfor %}

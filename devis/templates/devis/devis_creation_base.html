@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static 'devis/css/devis_creation_base.css'%}" rel="stylesheet">
+    {% block autres_stylesheet %}
+
+    {% endblock %}
+{% endblock %}
+
+{% block contenu %}
+    <div class="row" id="row-qui-contient-tout">
+        <div class="col s12 m6 l7 xl7">
+            {% block cote_gauche %}
+            {% endblock %}
+        </div>
+
+        <div class="col s12 m6 l5 xl4 offset-xl1">
+            {% include "devis/devis_affichage_cote.html" %}
+        </div>
+    </div>
+{% endblock %}

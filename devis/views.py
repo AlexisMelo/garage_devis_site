@@ -16,7 +16,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 import json
 
-from devis.models import Devis, Client, Prestation, PrestationCoutFixe
+from devis.models import Devis, Client, Prestation, PrestationCoutFixe, Categorie
 from .forms import DevisAjoutForm, DevisModifForm
 
 
@@ -52,6 +52,7 @@ def devis_creation_ecrit(request):
         if nbDevis != 0:
             numeroSupposeDevis = tousMesDevis.aggregate(Max('id'))['id__max'] + 1
 
+        request.session['numeroProchainDevis'] = numeroSupposeDevis
 
     return render(request, 'devis/devis_creation_ecrit.html', locals())
 
@@ -114,4 +115,12 @@ class DevisDetail(DetailView):
     template_name = "devis/devis_detail.html"
 
 def ajouter_prestation_cout_fixe(request):
+
+    prestations = PrestationCoutFixe.objects.all()
+
+    categoriesPossibles = prestations.values('categorie').distinct()
+    print(categoriesPossibles)
+
+    categories = Categorie.objects.filter(id__in=categoriesPossibles)
+
     return render(request, 'devis/ajouter_prestation_cout_fixe.html', locals())

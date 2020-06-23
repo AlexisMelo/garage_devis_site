@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from .models import Devis, Client, Prestation, PrestationCoutVariableConcrete, PrestationCoutFixe, \
-    PrestationCoutVariableStandard, PieceDetacheeStandard, PieceDetacheeAvecPrix
+    PrestationCoutVariableStandard, PieceDetacheeStandard, PieceDetacheeAvecPrix, Categorie
 
 
 # Register your models here.
@@ -26,6 +26,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 admin.site.register(Devis, DevisAdmin)
 admin.site.register(Client, ClientAdmin)
+admin.site.register(Categorie)
 admin.site.register(PrestationCoutVariableConcrete)
 admin.site.register(PrestationCoutFixe)
 admin.site.register(PrestationCoutVariableStandard)
