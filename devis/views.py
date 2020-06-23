@@ -55,9 +55,7 @@ def devis_creation_ecrit(request):
 
         if 'mesPrestationsCoutFixe' in request.session:
             #afficher prestations
-            pass
-
-        mesPrestationsCoutFixe = request.session['mesPrestationsCoutFixe']
+            mesPrestationsCoutFixe = request.session['mesPrestationsCoutFixe']
 
     return render(request, 'devis/devis_creation_ecrit.html', locals())
 
