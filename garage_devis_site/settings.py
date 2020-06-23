@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'a$kd^(^s1@_u^+f$15r$uzjq)()4)7e@jc70(jh=is13n!a(sm'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost','r0b0tiik.alwaysdata.net']
 
