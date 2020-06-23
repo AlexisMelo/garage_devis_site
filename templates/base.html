@@ -28,6 +28,8 @@
 
     </main>
 
+
+
     {% include "footer.html" %}
 
     <script src = "https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -36,6 +38,13 @@
     <script src="{% static 'global/js/header.js' %}"></script>
 
     {% block javascripts %}
+    {% endblock %}
+
+
+    {% block floating-button %}
+        {% if request.session.devis_en_creation %}
+            {% include 'floating_button.html' %}
+        {% endif %}
     {% endblock %}
 
 

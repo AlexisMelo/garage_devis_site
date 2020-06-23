@@ -9,10 +9,33 @@
     border : solid;
     margin-bottom : 0;
     border-bottom : none;
+    overflow:auto;
 }
 
 #row-total {
     border: solid;
     font-size: 2em;
     padding-left: 10%;
+    padding-right: 10%;
+}
+
+.row-prestation {
+    margin-bottom: 0;
+    min-height: 6vh;
+}
+
+.row-prestation-colored {
+    background-color: #eeeeee;
+}
+
+.libelle_prestation {
+    font-size : 1.3em;
+}
+
+.cout_prestation {
+    font-size: 1.1em;
+}
+
+.quantite_prestation {
+    color : #757575;
 }

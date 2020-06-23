@@ -9,7 +9,7 @@ from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Max
 from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.template import RequestContext
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
@@ -27,6 +27,14 @@ def oral_ecrit(request):
 def devis_pneu_oral(request):
     return render(request, 'devis/devis_pneu_oral.html')
 
+@login_required
+def ajouter_client_en_session(request):
+    if request.POST.get('client'):
+        request.session['client'] = request.POST.get('client')
+    else:
+        request.session['client'] = False
+
+    return redirect('devis_creation_ecrit')
 
 @login_required
 def devis_creation_ecrit(request):
@@ -36,23 +44,20 @@ def devis_creation_ecrit(request):
     allClients = Client.objects.all()
     jsonClients = serializers.serialize('json', allClients)
 
-    if request.POST.get('client'):
-        request.session['client'] = request.POST.get('client')
-    elif 'client' not in request.session:
-        request.session['client'] = False
-
-
     if request.session['devis_en_creation']:
 
         tousMesDevis = Devis.objects.all()
         nbDevis = tousMesDevis.count()
-
         numeroSupposeDevis = 1
-
         if nbDevis != 0:
             numeroSupposeDevis = tousMesDevis.aggregate(Max('id'))['id__max'] + 1
-
         request.session['numeroProchainDevis'] = numeroSupposeDevis
+
+        if 'mesPrestationsCoutFixe' in request.session:
+            #afficher prestations
+            pass
+
+        mesPrestationsCoutFixe = request.session['mesPrestationsCoutFixe']
 
     return render(request, 'devis/devis_creation_ecrit.html', locals())
 
@@ -114,13 +119,45 @@ class DevisDetail(DetailView):
     model = Devis
     template_name = "devis/devis_detail.html"
 
+@login_required
 def ajouter_prestation_cout_fixe(request):
 
     prestations = PrestationCoutFixe.objects.all()
 
     categoriesPossibles = prestations.values('categorie').distinct()
-    print(categoriesPossibles)
 
     categories = Categorie.objects.filter(id__in=categoriesPossibles)
 
     return render(request, 'devis/ajouter_prestation_cout_fixe.html', locals())
+
+@login_required
+def ajouter_prestation_fixe_en_session(request):
+
+    if not 'mesPrestationsCoutFixe' in request.session:
+        request.session['mesPrestationsCoutFixe'] = {}
+
+    quantite = request.POST.get('quantite')
+    libelle = request.POST.get('libelle')
+    prix_unit = request.POST.get('prix_unit')
+    prix_total = float(prix_unit.replace(',','.')) * float(quantite)
+
+    request.session['mesPrestationsCoutFixe'][request.POST.get('id_prestation')] = {'quantite':quantite, 'libelle' : libelle, 'prix_total': prix_total}
+    request.session.modified = True
+
+    update_prix_total_session(request)
+
+    return redirect('ajouter_prestation_cout_fixe')
+
+@login_required
+def update_prix_total_session(request):
+
+    prix_total = 0.00
+
+    if 'mesPrestationsCoutFixe' in request.session:
+        liste_couts = [ p['prix_total'] for p in request.session['mesPrestationsCoutFixe'].values() if p]
+        sommeCoutPrestations = sum(liste_couts)
+        prix_total += sommeCoutPrestations
+        print(sommeCoutPrestations)
+
+    request.session['prix_devis_total'] = prix_total
+    request.session.modified = True

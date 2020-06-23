@@ -1,0 +1,19 @@
+<style>
+    .fixed-action-btn {
+        right: 50px;
+        bottom : 100px;
+    }
+</style>
+<div class="fixed-action-btn">
+  <a href="{% url 'devis_creation_ecrit' %}"class="btn-floating btn-large red tooltipped pulse" data-position="left" data-tooltip="Retourner à l'édition du devis">
+    <i class="large material-icons">description</i>
+  </a>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $('.fixed-action-btn').floatingActionButton();
+        $('.tooltipped').tooltip();
+
+    });
+</script>

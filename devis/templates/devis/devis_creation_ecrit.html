@@ -52,7 +52,7 @@
     </div>
 
 
-    <form id="modal1" class="modal" action="{% url 'devis_creation_ecrit' %}" method="post">
+    <form id="modal1" class="modal" action="{% url 'ajouter_client_en_session' %}" method="post">
         <div class="modal-content center-align ">
             <div class="row modal-entete">
                 <h4>Sélectionnez un client ! </h4>
@@ -93,4 +93,7 @@
         var mesClients = {{jsonClients|safe}};
     </script>
     <script type="text/javascript" src="{% static 'devis/js/devis_creation_ecrit.js' %}"></script>
+{% endblock %}
+
+    {% block floating-button %}
 {% endblock %}

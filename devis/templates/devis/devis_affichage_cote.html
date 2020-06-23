@@ -8,10 +8,26 @@
     <span>Devis n° {{request.session.numeroProchainDevis}}</span>
 </div>
 <div class="row" id="row-contenu-devis">
-
+    <div class="col s12">
+        {% for p, value in request.session.mesPrestationsCoutFixe.items %}
+        <div class="row tooltipped valign-wrapper row-prestation {% if p|divisibleby:2 %} row-prestation-colored {% endif %}" data-position="bottom" data-tooltip="{{value.libelle}}">
+                <div class="col s9">
+                    <span><span class="libelle_prestation">{{value.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{value.quantite}}</span></span>
+                </div>
+                <div class="col s3 right-align">
+                    <span class="cout_prestation">{{value.prix_total}} €</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 </div>
 <div class="row" id="row-total">
-    <span>Total :</span>
+    <div class="col s5 left-align">
+        Total :
+    </div>
+    <div class="col s7 right-align">
+        {{ request.session.prix_devis_total }} €
+    </div>
 </div>
 <div class="row center-align">
     <div class="col s6">
@@ -22,3 +38,7 @@
     </div>
 
 </div>
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'global/js/initTooltip.js' %}"></script>
+{% endblock %}
