@@ -40,7 +40,6 @@ INSTALLED_APPS = [
     'devis',
     'utilisateurs',
     'phonenumber_field',
-    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
