@@ -7,7 +7,7 @@ from .models import Devis
 class DevisAjoutForm(forms.ModelForm):
     class Meta:
         model = Devis
-        fields = ['date_planification', 'client', 'prestations_fixe', 'prestations_variable', 'reduction']
+        fields = ['date_planification', 'client', 'lignes', 'reduction']
         widgets = {
             'date_planification': DateInput(attrs={'format': 'dd-mm-yyyy', 'class': 'datepicker'})
         }
@@ -16,7 +16,7 @@ class DevisAjoutForm(forms.ModelForm):
 class DevisModifForm(forms.ModelForm):
     class Meta:
         model = Devis
-        fields = ['date_planification', 'client', 'prestations_fixe','prestations_variable', 'reduction']
+        fields = ['date_planification', 'client', 'lignes', 'reduction']
         widgets = {
             'date_planification': DateInput(attrs={'format': 'dd-mm-yyyy', 'class': 'datepicker'})
         }

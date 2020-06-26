@@ -21,3 +21,9 @@
         </div>
     </div>
 {% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'global/js/initTooltip.js' %}"></script>
+    {% block autres_javascript %}
+    {% endblock %}
+{% endblock %}

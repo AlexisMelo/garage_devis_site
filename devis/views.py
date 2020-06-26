@@ -16,7 +16,7 @@ from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 import json
 
-from devis.models import Devis, Client, Prestation, PrestationCoutFixe, Categorie
+from devis.models import Devis, Client, Prestation, PrestationCoutFixe, Categorie, PrestationCoutVariableStandard
 from .forms import DevisAjoutForm, DevisModifForm
 
 
@@ -97,7 +97,7 @@ class ListeClients(ListView):
 
 @method_decorator(login_required, name='dispatch')
 class ListePrestation(ListView):
-    model = PrestationCoutFixe
+    model = Prestation
     context_object_name = "prestations"
     template_name = "devis/prestation_list.html"
     paginate_by = 10
@@ -127,6 +127,14 @@ def ajouter_prestation_cout_fixe(request):
     categories = Categorie.objects.filter(id__in=categoriesPossibles)
 
     return render(request, 'devis/ajouter_prestation_cout_fixe.html', locals())
+
+def ajouter_prestation_cout_variable(request):
+
+    prestations = PrestationCoutVariableStandard.objects.all()
+    categoriesPossibles = prestations.values('categorie').distinct()
+    categories = Categorie.objects.filter(id__in=categoriesPossibles)
+
+    return render(request, 'devis/ajouter_prestation_cout_variable.html', locals())
 
 @login_required
 def ajouter_prestation_fixe_en_session(request):

@@ -1,0 +1,25 @@
+.td-champs {
+    font-size : 0.7em;
+    width : 50%;
+}
+
+#row-gestion-quantite {
+    bottom: 0;
+}
+
+.row-piece {
+    border-bottom : dashed #e0e0e0;
+}
+
+.row-gestion-quantite {
+    padding-top: 3%;
+    padding-bottom : 3%;
+}
+
+.prix_client {
+    font-size: 2em;
+}
+
+.prix_boutique {
+    font-size : 1em;
+}

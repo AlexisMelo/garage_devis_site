@@ -1,0 +1,43 @@
+#row-titre {
+    margin-top : 5%;
+}
+
+#titre {
+    font-size : 1.5em;
+}
+
+.collapsible-body {
+    padding : 0 !important;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color : #bdbdbd;
+    cursor : pointer;
+}
+
+.row-footer {
+    margin-left: 0;
+    margin-right : 0;
+}
+
+.td-libelle {
+    padding-left: 5%;
+}
+
+.modal-content h4 {
+    padding-left: 5%;
+}
+
+.modal-content h5 {
+    padding-right : 10%;
+}
+
+.modal-content h6 {
+    height : 100%;
+}
+
+
+.bottom {
+    bottom : 0;
+}
+

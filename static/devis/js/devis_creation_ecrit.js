@@ -1,5 +1,3 @@
-console.log(mesClients);
-
 myData = {};
 
 mesClients.forEach((client) => {
@@ -16,7 +14,6 @@ mesClients.forEach((client) => {
     myData[maChaine] = "";
 })
 
-console.log(myData);
 $(document).ready(function(){
     $('.autocomplete').autocomplete({
     data : myData
