@@ -67,11 +67,11 @@
                                     <div class="col input-field s4 xl2">
 
                                         {% csrf_token %}
-                                        <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1">
+                                        <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
                                         <label for="{{p.id}}-quantite">Quantité</label>
-                                        <input type="hidden" name="id_prestation" value="{{p.id}}">
-                                        <input type="hidden" name="libelle" value="{{p.libelle}}">
-                                        <input type="hidden" name="prix_unit" value="{{p.prix}}">
+                                        <input type="hidden" name="id_prestation" value="{{p.id}}" required>
+                                        <input type="hidden" name="libelle" value="{{p.libelle}}" required>
+                                        <input type="hidden" name="prix_unit" value="{{p.prix}}" required>
 
                                     </div>
                                     <div class="col s2 xl1">
@@ -90,7 +90,7 @@
                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
                                     </div>
                                     <div class="col s6">
-                                        <button type="submit" class="modal-close waves-effect waves-green btn">
+                                        <button type="submit" class="waves-effect waves-green btn">
                                             Ajouter au devis
                                         </button>
                                     </div>

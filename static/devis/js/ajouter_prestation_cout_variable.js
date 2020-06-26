@@ -25,10 +25,10 @@ function applicationMarge(prix) {
     if (prix <= 5) {
         return prix*2.5;
     }
-    else if (prix <= 10){
+    if (prix <= 10) {
         return prix*2;
     }
-    else if (prix <= 20) {
+    if (prix <= 20) {
         return prix*1.75;
     }
     return prix*1.5;

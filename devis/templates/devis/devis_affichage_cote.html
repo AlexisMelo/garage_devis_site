@@ -1,7 +1,7 @@
 {% load static %}
 
 {% block stylesheets %}
-    <link href="{% static "devis/css/devis_affichage_cote.css" %}" rel="stylesheet">
+    <link href="{% static 'devis/css/devis_affichage_cote.css' %}" rel="stylesheet">
 {% endblock %}
 
 <div class="row center-align grey darken-4" id="row-devis-head">
@@ -11,13 +11,36 @@
     <div class="col s12">
         {% for p, value in request.session.mesPrestationsCoutFixe.items %}
         <div class="row tooltipped valign-wrapper row-prestation {% if p|divisibleby:2 %} row-prestation-colored {% endif %}" data-position="bottom" data-tooltip="{{value.libelle}}">
-                <div class="col s9">
-                    <span><span class="libelle_prestation">{{value.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{value.quantite}}</span></span>
-                </div>
-                <div class="col s3 right-align">
-                    <span class="cout_prestation">{{value.prix_total}} €</span>
-                </div>
+            <div class="col s9">
+                <span><span class="libelle_prestation">{{value.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{value.quantite}}</span></span>
             </div>
+            <div class="col s3 right-align">
+                <span class="cout_prestation">{{value.prix_total}} €</span>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% for indicePrestation, prestation in request.session.mesPrestationsCoutVariable.items %}
+        <div class="row tooltipped valign-wrapper row-prestation {% if indicePrestation|divisibleby:2 %} row-prestation-colored {% endif %}" data-position="bottom" data-tooltip="{{prestation.libelle}}">
+            <div class="col s12">
+                <div class="row">
+                    <div class="col s9">
+                        <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
+                    </div>
+                    <div class="col s3 right-align">
+                        <span class="cout_prestation">{{prestation.prix_total}} €</span>
+                    </div>
+                </div>
+                {% for indicePiece, piece in prestation.pieces_detachees.items %}
+                    <div class="row row-piece-devis-recap">
+                       <span class="piece-details">- <span>{{piece.libelle}}</span> : <span>{{piece.prix_vente}} €</span></span>
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+        </div>
         {% endfor %}
     </div>
 </div>

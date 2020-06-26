@@ -41,16 +41,16 @@
                     {% for p in prestations %}
 
                         {% if p.categorie == categorie %}
-                       <form id="{{p.id}}-modal" class="modal" action="{% url 'ajouter_prestation_fixe_en_session' %}" method="post">
+                       <form id="{{p.id}}-modal" class="modal" action="{% url 'ajouter_prestation_variable_en_session' %}" method="post">
                             <div class="modal-content">
                                 <div class="row modal-entete valign-wrapper">
-                                    <div class="col s8">
+                                    <div class="col s7">
                                         <h4>{{p.libelle}}</h4>
                                     </div>
-                                    <div class="col s4 right-align">
+                                    <div class="col s5 right-align">
                                         <span>
                                             <span class="prix_boutique">
-                                                ( Brut : <span id="{{p.id}}-prix_boutique">?</span> €)
+                                                ( <span id="{{p.id}}-prix_boutique">?</span> €)
                                             </span>
                                             <span class="prix_client"> Total :
                                                 <span id="{{p.id}}-prix_client">?</span> €
@@ -69,7 +69,7 @@
                                             </div>
 
                                             <div class="col s4 input-field">
-                                                <input id="{{p.id}}-{{piece.id}}-prix" name="{{piece.id}}-prix" type="number" step="0.01" class="validate">
+                                                <input id="{{p.id}}-{{piece.id}}-prix" name="{{piece.id}}-prix" type="number" step="0.01" class="validate" required>
                                                 <label for="{{p.id}}-{{piece.id}}-prix">Prix d'achat</label>
                                             </div>
                                             <div class="col s2">
@@ -85,10 +85,10 @@
                                         <div class="col input-field s4 xl2">
 
                                             {% csrf_token %}
-                                            <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1">
+                                            <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
                                             <label for="{{p.id}}-quantite">Quantité</label>
-                                            <input type="hidden" name="id_prestation" value="{{p.id}}">
-                                            <input type="hidden" name="libelle" value="{{p.libelle}}">
+                                            <input type="hidden" name="id_prestation" value="{{p.id}}" required>
+                                            <input type="hidden" name="libelle" value="{{p.libelle}}" required>
 
                                         </div>
                                         <div class="col s2 xl1">
@@ -109,7 +109,7 @@
                                         <a href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
                                     </div>
                                     <div class="col s6">
-                                        <button type="submit" class="modal-close waves-effect waves-green btn">
+                                        <button type="submit" class="waves-effect waves-green btn">
                                             Ajouter au devis
                                         </button>
                                     </div>

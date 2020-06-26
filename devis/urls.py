@@ -18,5 +18,6 @@ urlpatterns = [
     path('ajouter/prestation_cout_fixe', views.ajouter_prestation_cout_fixe, name="ajouter_prestation_cout_fixe"),
     path('ajouter/prestation_cout_variable', views.ajouter_prestation_cout_variable, name="ajouter_prestation_cout_variable"),
     path('ajouter/prestation_cout_fixe_en_session', views.ajouter_prestation_fixe_en_session, name="ajouter_prestation_fixe_en_session"),
+    path('ajouter/prestation_cout_variable_en_session', views.ajouter_prestation_variable_en_session, name="ajouter_prestation_variable_en_session"),
     path('ajouter/ajouter_client_en_session', views.ajouter_client_en_session, name="ajouter_client_en_session"),
 ]
