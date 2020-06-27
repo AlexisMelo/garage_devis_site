@@ -41,25 +41,20 @@
 
                     {% for indicePrestation, prestation in request.session.mesPrestationsCoutVariable.items %}
                         <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsCoutVariable' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.libelle}}">
-                            <div class="col s12">
-                                <div class="row">
-                                    <div class="col s9">
-                                        <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
-                                    </div>
-                                    <div class="col s3 right-align">
-                                        <span class="cout_prestation">{{prestation.prix_total}} €</span>
-                                    </div>
-                                </div>
-                                {% for indicePiece, piece in prestation.pieces_detachees.items %}
-                                    <div class="row row-piece-devis-recap">
-                                       <span class="piece-details">- <span>{{piece.libelle}}</span> : <span>{{piece.prix_vente}} €</span></span>
-                                    </div>
-                                {% endfor %}
 
+                            <div class="col s9">
+                                <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
                             </div>
-
-
+                            <div class="col s3 right-align">
+                                <span class="cout_prestation">{{prestation.prix_total}} €</span>
+                            </div>
                         </div>
+                        {% for indicePiece, piece in prestation.pieces_detachees.items %}
+                            <div class="row row-piece-devis-recap">
+                               <span class="piece-details">- <span>{{piece.libelle}}</span> : <span>{{piece.prix_vente}} €</span></span>
+                            </div>
+                        {% endfor %}
+
                     {% endfor %}
 
                 </div>
@@ -74,16 +69,12 @@
 
                 {% for indicePrestation, prestation in request.session.mesPrestationsPneumatiques.items %}
                     <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsPneumatiques' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.marque}}">
-                        <div class="col s12">
-                            <div class="row">
-                                <div class="col s9">
-                                    <span><span class="libelle_prestation">{{prestation.marque|truncatechars:20}} {{prestation.dimensions}}"</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
-                                </div>
-                                <div class="col s3 right-align">
-                                    <span class="cout_prestation">{{prestation.prix_total}} €</span>
-                                </div>
-                            </div>
 
+                        <div class="col s9">
+                            <span><span class="libelle_prestation">{{prestation.marque|truncatechars:20}} {{prestation.dimensions}}"</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
+                        </div>
+                        <div class="col s3 right-align">
+                            <span class="cout_prestation">{{prestation.prix_total}} €</span>
                         </div>
 
                     </div>
