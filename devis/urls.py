@@ -15,6 +15,7 @@ urlpatterns = [
     path('ajout/', views.DevisCreate.as_view(), name="ajout_devis"),
     path('oral/', views.devis_pneu_oral, name="devis_pneu_oral"),
     path('ecrit/',views.devis_creation_ecrit, name="devis_creation_ecrit"),
+    path('reset/',views.reset, name="reset"),
     path('ajouter/prestation_cout_fixe', views.ajouter_prestation_cout_fixe, name="ajouter_prestation_cout_fixe"),
     path('ajouter/prestation_cout_variable', views.ajouter_prestation_cout_variable, name="ajouter_prestation_cout_variable"),
     path('ajouter/prestation_cout_fixe_en_session', views.ajouter_prestation_fixe_en_session, name="ajouter_prestation_fixe_en_session"),

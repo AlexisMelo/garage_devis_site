@@ -20,10 +20,6 @@
     margin-left: 2%;
 }
 
-#row-client {
-    border: solid;
-}
-
 #button-selectionnez-client {
     width: 100%;
 }
@@ -64,4 +60,8 @@
 
 .input-field {
     margin-top : 5%;
+}
+
+.btn:hover {
+    background-color: #616161;
 }

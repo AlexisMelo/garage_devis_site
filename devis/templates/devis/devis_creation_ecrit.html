@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block cote_gauche %}
-    <div class="row valign-wrapper" id="row-client">
+    <div class="row valign-wrapper z-depth-2" id="row-client">
         {% if request.session.client %}
             <div class="col s7 l8 valign-wrapper">
                 <i class="material-icons prefix">account_circle</i>
@@ -28,7 +28,7 @@
             </div>
         {% else %}
             <div class="col s12 center-align" id="colonne-selectionnez-client">
-                <a class="waves-effect waves-light btn modal-trigger red" id="button-selectionnez-client" href="#modal1">Selectionnez une fiche client</a>
+                <a class="waves-effect waves-light btn modal-trigger grey darken-4" id="button-selectionnez-client" href="#modal1">Selectionnez une fiche client</a>
             </div>
         {% endif %}
     </div>

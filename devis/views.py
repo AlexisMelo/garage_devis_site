@@ -228,3 +228,18 @@ def update_prix_total_session(request):
 
     request.session['prix_devis_total'] = prix_total
     request.session.modified = True
+
+@login_required
+def reset(request):
+
+    request.session.pop('mesPrestationsCoutFixe', None)
+    request.session.pop('mesPrestationsCoutVariable', None)
+    request.session.pop('devis_en_creation', None)
+    request.session.pop('prix_devis_total', None)
+    request.session.pop('client', None)
+
+    request.session.modified = True
+
+    messages.success(request,"Devis réinitialisé")
+
+    return redirect('creer_devis')
