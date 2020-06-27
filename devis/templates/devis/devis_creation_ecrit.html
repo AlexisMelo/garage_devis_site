@@ -46,6 +46,11 @@
         <a href="{% url 'ajouter_prestation_cout_variable' %}" class="btn-centre waves-effect waves-light btn tooltipped" data-position="bottom" data-tooltip="Prestation dont le prix dépend de paramètres. Exemple : Disques AV/AR requiert saisie du prix des disques AV et disques AR "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût variable</span></span></a>
         </div>
     </div>
+    <div class="row">
+        <div class="col s5 center-align">
+            <a href="{% url 'devis_pneu_oral' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation concernant la vente de pneus"><span><span class="prestation">Prestation</span> <br><span class="cout">Pneumatique</span></span></a>
+        </div>
+    </div>
 
     <form id="modal1" class="modal" action="{% url 'ajouter_client_en_session' %}" method="post">
         <div class="modal-content center-align ">
@@ -58,9 +63,9 @@
             <div class="col s12">
               <div class="row modal-form-row">
                 <div class="input-field col s12">
-                            <i class="material-icons prefix">user</i>
-                            <input autocomplete="off" name="client" type="text" id="autocomplete-input" class="autocomplete">
-                            <label for="autocomplete-input">Sélectionnez un client...</label>
+                    <i class="material-icons prefix">user</i>
+                    <input autocomplete="off" name="client" type="text" id="autocomplete-input" class="autocomplete">
+                    <label for="autocomplete-input">Sélectionnez un client...</label>
                 </div>
               </div>
             </div>
@@ -82,7 +87,7 @@
     </form>
 {% endblock %}
 
-{% block javascripts %}
+{% block autres_javascript %}
 
     <script type="text/javascript">
         var mesClients = {{jsonClients|safe}};

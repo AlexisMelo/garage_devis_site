@@ -22,10 +22,8 @@
 .row-prestation {
     margin-bottom: 0;
     min-height: 6vh;
-}
-
-.row-prestation-colored {
-    background-color: #eeeeee;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
 }
 
 .libelle_prestation {
@@ -47,4 +45,17 @@
 
 .piece-details {
     color : #757575;
+}
+
+#liste-prestations {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.body-collaspe-cote {
+    padding: 0;
+}
+
+.header-collaspe-cote {
+    padding : 0.3rem;
 }

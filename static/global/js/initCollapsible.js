@@ -1,3 +1,3 @@
 $(document).ready(function(){
-    $('.collapsible').collapsible();
+    $('.collapsible:not(.expandable)').collapsible();
 });

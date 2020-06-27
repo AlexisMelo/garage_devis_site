@@ -19,3 +19,8 @@
 .changer-quantite-bouton {
     font-size: 1.3em;
 }
+
+.btn-marque {
+    width: 100%;
+    margin-bottom : 5%;
+}

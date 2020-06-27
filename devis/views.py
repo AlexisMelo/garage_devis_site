@@ -13,7 +13,7 @@ from django.forms import model_to_dict
 from django.http import HttpResponseRedirect, JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.template import RequestContext
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 import json
@@ -28,7 +28,10 @@ def oral_ecrit(request):
 
 
 def devis_pneu_oral(request):
-    return render(request, 'devis/devis_pneu_oral.html')
+    if request.META.get('HTTP_REFERER').endswith(reverse('devis_creation_ecrit')):
+        ajout_au_devis_possible = True
+
+    return render(request, 'devis/devis_pneu_oral.html', locals())
 
 
 @login_required
@@ -163,6 +166,43 @@ def ajouter_prestation_fixe_en_session(request):
     return redirect('ajouter_prestation_cout_fixe')
 
 
+@login_required
+def ajouter_prestation_pneumatique_en_session(request):
+    if not 'mesPrestationsPneumatiques' in request.session:
+        request.session['mesPrestationsPneumatiques'] = {}
+
+    nouvelId = len(request.session['mesPrestationsPneumatiques']) + 1
+    print(request.POST)
+
+    quantite = request.POST.get('quantite')
+    dimensions = request.POST.get('dimensions')
+    prixAchat = request.POST.get('prixAchat')
+    marque = request.POST.get('marque')
+
+    prixttc = float(prixAchat)
+    TVA = 1.2
+    marge = 11.5
+
+    if int(dimensions) < 19:
+        prixttc += int(dimensions) - 3
+    else:
+        prixttc += int(dimensions)
+
+    prixttc *= TVA
+    prixttc += marge
+    prixttc *= int(quantite)
+
+    request.session['mesPrestationsPneumatiques'][nouvelId] = {'quantite': quantite,
+                                                               'dimensions': dimensions,
+                                                               'prixAchat': prixAchat,
+                                                               'marque': marque,
+                                                               'prix_total': round(prixttc,2)}
+
+    request.session.modified = True
+    update_prix_total_session(request)
+    return redirect('devis_creation_ecrit')
+
+
 def application_marge(prix):
     if prix <= 5:
         return prix * 2.5
@@ -226,20 +266,26 @@ def update_prix_total_session(request):
         sommeCoutPrestations = sum(liste_couts)
         prix_total += sommeCoutPrestations
 
+    if 'mesPrestationsPneumatiques' in request.session:
+        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsPneumatiques'].values() if p]
+        sommeCoutPrestations = sum(liste_couts)
+        prix_total += sommeCoutPrestations
+
     request.session['prix_devis_total'] = prix_total
     request.session.modified = True
 
+
 @login_required
 def reset(request):
-
     request.session.pop('mesPrestationsCoutFixe', None)
     request.session.pop('mesPrestationsCoutVariable', None)
+    request.session.pop('mesPrestationsPneumatiques', None)
     request.session.pop('devis_en_creation', None)
     request.session.pop('prix_devis_total', None)
     request.session.pop('client', None)
 
     request.session.modified = True
 
-    messages.success(request,"Devis réinitialisé")
+    messages.success(request, "Devis réinitialisé")
 
     return redirect('creer_devis')
