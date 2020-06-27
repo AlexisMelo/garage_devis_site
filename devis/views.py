@@ -192,11 +192,11 @@ def ajouter_prestation_pneumatique_en_session(request):
     prixttc += marge
     prixttc *= int(quantite)
 
-    request.session['mesPrestationsPneumatiques'][nouvelId] = {'quantite': quantite,
+    request.session['mesPrestationsPneumatiques'][str(nouvelId)] = {'quantite': quantite,
                                                                'dimensions': dimensions,
                                                                'prixAchat': prixAchat,
                                                                'marque': marque,
-                                                               'prix_total': round(prixttc,2)}
+                                                               'prix_total': round(prixttc, 2)}
 
     request.session.modified = True
     update_prix_total_session(request)
@@ -289,3 +289,15 @@ def reset(request):
     messages.success(request, "Devis réinitialisé")
 
     return redirect('creer_devis')
+
+
+def supprimer_prestation_en_session(request, type_prestation, prestation_id):
+    print(type_prestation)
+    print(prestation_id)
+    print(request.session[type_prestation])
+
+
+    request.session[type_prestation].pop(prestation_id, None)
+    update_prix_total_session(request)
+    request.session.modified = True
+    return redirect(request.META.get('HTTP_REFERER'))

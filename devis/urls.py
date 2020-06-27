@@ -22,4 +22,5 @@ urlpatterns = [
     path('ajouter/prestation_cout_fixe_en_session', views.ajouter_prestation_fixe_en_session, name="ajouter_prestation_fixe_en_session"),
     path('ajouter/prestation_cout_variable_en_session', views.ajouter_prestation_variable_en_session, name="ajouter_prestation_variable_en_session"),
     path('ajouter/ajouter_client_en_session', views.ajouter_client_en_session, name="ajouter_client_en_session"),
+    path('supprimer/prestation_en_session/<str:type_prestation>/<str:prestation_id>)', views.supprimer_prestation_en_session, name="supprimer_prestation_en_session"),
 ]
