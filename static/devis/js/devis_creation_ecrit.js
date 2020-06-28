@@ -16,7 +16,8 @@ mesClients.forEach((client) => {
 
 $(document).ready(function(){
     $('.autocomplete').autocomplete({
-    data : myData
+    data : myData,
+    limit : 7
     });
     $('.modal').modal();
     $('.tooltipped').tooltip();

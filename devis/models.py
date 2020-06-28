@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
+from decimal import Decimal
+
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
@@ -41,8 +43,10 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     class Meta:
         verbose_name = "Pièce détachée avec prix associé"
 
+
 def get_autre_categorie():
     return Categorie.objects.get_or_create(libelle="Autres")[0]
+
 
 class Prestation(PolymorphicModel):
     libelle = models.CharField(max_length=50, default="Prestation standard")
@@ -54,6 +58,10 @@ class Prestation(PolymorphicModel):
     def __str__(self):
         return self.libelle
 
+    @property
+    def prix_total(self):
+        return 0
+
 
 class PrestationCoutFixe(Prestation):
     prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
@@ -63,6 +71,10 @@ class PrestationCoutFixe(Prestation):
 
     def __str__(self):
         return "{} - {}".format(self.libelle, self.prix)
+
+    @property
+    def prix_total(self):
+        return self.prix
 
 
 class PrestationCoutVariableStandard(Prestation):
@@ -74,6 +86,10 @@ class PrestationCoutVariableStandard(Prestation):
     def __str__(self):
         return "{} - {}".format(self.libelle, self.pieces_detachees)
 
+    @property
+    def prix_total(self):
+        return 0
+
 
 class PrestationCoutVariableConcrete(Prestation):
     pieces_detachees = models.ManyToManyField(PieceDetacheeAvecPrix)
@@ -84,6 +100,10 @@ class PrestationCoutVariableConcrete(Prestation):
     def __str__(self):
         return "{} - {}".format(self.libelle, self.pieces_detachees)
 
+    @property
+    def prix_total(self):
+        return sum([piece.prix for piece in self.pieces_detachees.all()])
+
 
 class LigneDevis(models.Model):
     prestation = models.ForeignKey('Prestation', on_delete=models.CASCADE)
@@ -91,6 +111,10 @@ class LigneDevis(models.Model):
 
     class Meta:
         verbose_name = "Ligne d'un devis"
+
+    @property
+    def prix_total(self):
+        return self.quantite * self.prestation.prix_total
 
 
 class Devis(models.Model):
@@ -110,6 +134,10 @@ class Devis(models.Model):
     def __str__(self):
         return "n°{} ({}) : {}".format(self.id, self.date_creation, self.client)
 
+    @property
+    def prix_total(self):
+        return sum([ligne.prix_total for ligne in self.lignes.all()])
+
 
 class Client(models.Model):
     prenom = models.CharField(max_length=50, blank=True, null=True)
@@ -126,17 +154,41 @@ class Client(models.Model):
     def __str__(self):
         return "{} {} {}".format(self.prenom, self.nom, self.societe or "")
 
+
 class Marque(models.Model):
     libelle = models.CharField(max_length=50)
 
     class Meta:
         verbose_name = "Marque"
 
+
 class PrestationPneumatique(Prestation):
     prixAchat = models.DecimalField(max_digits=7, decimal_places=2, default=0)
     dimensions = models.PositiveIntegerField()
-    quantite = models.PositiveIntegerField()
-    marque = models.ForeignKey('Marque',on_delete=models.SET_NULL, null=True, blank=True)
+    marque = models.ForeignKey('Marque', on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
         verbose_name = "Prestation concernant les pneus"
+
+    @property
+    def prix_total(self):
+        TVA = 1.2
+        marge = 11.5
+
+        print(self)
+
+        prixttc = float(self.prixAchat)
+        print(prixttc)
+
+        if self.dimensions < 19:
+            prixttc += self.dimensions - 3
+        else:
+            prixttc += self.dimensions
+
+        print(prixttc)
+        prixttc *= TVA
+        print(prixttc)
+        prixttc += marge
+        print(prixttc)
+
+        return round(prixttc, 2)

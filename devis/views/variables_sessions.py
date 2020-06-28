@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
@@ -136,23 +135,11 @@ def ajouter_prestation_variable_en_session(request):
 @login_required
 def supprimer_prestation_en_session(request, type_prestation, prestation_id):
     request.session[type_prestation].pop(prestation_id, None)
+    if not request.session[type_prestation]:
+        del request.session[type_prestation]
+
     update_prix_total_session(request)
     request.session.modified = True
+
     return redirect(request.META.get('HTTP_REFERER'))
-
-
-@login_required
-def reset(request):
-    request.session.pop('mesPrestationsCoutFixe', None)
-    request.session.pop('mesPrestationsCoutVariable', None)
-    request.session.pop('mesPrestationsPneumatiques', None)
-    request.session.pop('devis_en_creation', None)
-    request.session.pop('prix_devis_total', None)
-    request.session.pop('client', None)
-
-    request.session.modified = True
-
-    messages.success(request, "Devis réinitialisé")
-
-    return redirect('creer_devis')
 

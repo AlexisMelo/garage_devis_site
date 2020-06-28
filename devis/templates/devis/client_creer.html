@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Ajout d'un client à la base de données
+{% endblock %}
+
+{% block description %}
+    Formulaire d'enregistrement d'un client
+{% endblock %}
+
+{% block contenu %}
+
+    <form action="{% url 'ajout_client' %}" method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Enregistrer">
+
+    </form>
+
+
+{% endblock %}

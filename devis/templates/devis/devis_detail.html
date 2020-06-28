@@ -4,6 +4,8 @@
     Devis {{ devis.id }}
 {% endblock %}
 
+{% load class_tag %}
+
 {% block description %}
     Afichage du devis {{ devis.id }}
 {% endblock %}
@@ -11,7 +13,27 @@
 {% block contenu %}
         <p>Affichage du devis numéro {{ devis.id }} : {{ devis.client.nom }} {{ devis.client.prenom }}</p>
 
-        <form action="{% url "edit_devis" devis.id %}">
+        {% for ligne in devis.lignes.all %}
+            <p>{{ligne.prestation.libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
+
+            {% if ligne.prestation|get_class == "PrestationCoutVariableConcrete" %}
+                {% for piece in ligne.prestation.pieces_detachees.all %}
+                    <p>{{piece.libelle}} {{piece.prix}}</p>
+                {% endfor %}
+            {% elif ligne.prestation|get_class == "PrestationPneumatique" %}
+
+            {% elif ligne.prestation|get_class == "PrestationCoutVariableConcrete" %}
+
+            {% endif %}
+
+            {% if not forloop.first %}
+            <hr>
+            {% endif %}
+        {% endfor %}
+
+        <p>Total devis : {{devis.prix_total}}</p>
+
+        <form action="{% url 'edit_devis' devis.id %}">
             <input type="submit" value="modifier ce devis">
         </form>
 {% endblock %}
