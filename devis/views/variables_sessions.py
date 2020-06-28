@@ -1,0 +1,158 @@
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect
+
+from devis.models import PieceDetacheeStandard
+from devis.views.utilitaires import application_marge
+
+
+@login_required
+def ajouter_client_en_session(request):
+    if request.POST.get('client'):
+        request.session['client'] = request.POST.get('client')
+    else:
+        request.session['client'] = False
+
+    return redirect('devis_creation_ecrit')
+
+
+@login_required
+def update_prix_total_session(request):
+    prix_total = 0.00
+
+    if 'mesPrestationsCoutFixe' in request.session:
+        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsCoutFixe'].values() if p]
+        sommeCoutPrestations = sum(liste_couts)
+        prix_total += sommeCoutPrestations
+
+    if 'mesPrestationsCoutVariable' in request.session:
+        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsCoutVariable'].values() if p]
+        sommeCoutPrestations = sum(liste_couts)
+        prix_total += sommeCoutPrestations
+
+    if 'mesPrestationsPneumatiques' in request.session:
+        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsPneumatiques'].values() if p]
+        sommeCoutPrestations = sum(liste_couts)
+        prix_total += sommeCoutPrestations
+
+    request.session['prix_devis_total'] = prix_total
+    request.session.modified = True
+
+
+@login_required
+def ajouter_prestation_fixe_en_session(request):
+    if not 'mesPrestationsCoutFixe' in request.session:
+        request.session['mesPrestationsCoutFixe'] = {}
+
+    quantite = request.POST.get('quantite')
+    libelle = request.POST.get('libelle')
+    prix_unit = request.POST.get('prix_unit')
+    prix_total = float(prix_unit.replace(',', '.')) * float(quantite)
+
+    request.session['mesPrestationsCoutFixe'][request.POST.get('id_prestation')] = {'quantite': quantite,
+                                                                                    'libelle': libelle,
+                                                                                    'prix_total': prix_total}
+    request.session.modified = True
+    update_prix_total_session(request)
+
+    return redirect('ajouter_prestation_cout_fixe')
+
+
+@login_required
+def ajouter_prestation_pneumatique_en_session(request):
+    if not 'mesPrestationsPneumatiques' in request.session:
+        request.session['mesPrestationsPneumatiques'] = {}
+
+    nouvelId = len(request.session['mesPrestationsPneumatiques']) + 1
+    print(request.POST)
+
+    quantite = request.POST.get('quantite')
+    dimensions = request.POST.get('dimensions')
+    prixAchat = request.POST.get('prixAchat')
+    marque = request.POST.get('marque')
+
+    prixttc = float(prixAchat)
+    TVA = 1.2
+    marge = 11.5
+
+    if int(dimensions) < 19:
+        prixttc += int(dimensions) - 3
+    else:
+        prixttc += int(dimensions)
+
+    prixttc *= TVA
+    prixttc += marge
+    prixttc *= int(quantite)
+
+    request.session['mesPrestationsPneumatiques'][str(nouvelId)] = {'quantite': quantite,
+                                                                    'dimensions': dimensions,
+                                                                    'prixAchat': prixAchat,
+                                                                    'marque': marque,
+                                                                    'prix_total': round(prixttc, 2)}
+
+    request.session.modified = True
+    update_prix_total_session(request)
+    return redirect('devis_creation_ecrit')
+
+
+@login_required
+def ajouter_prestation_variable_en_session(request):
+    if not 'mesPrestationsCoutVariable' in request.session:
+        request.session['mesPrestationsCoutVariable'] = {}
+
+    quantite = int(request.POST.get('quantite'))
+    libelle = request.POST.get('libelle')
+
+    request.session['mesPrestationsCoutVariable'][request.POST.get('id_prestation')] = {'quantite': quantite,
+                                                                                        'libelle': libelle,
+                                                                                        'pieces_detachees': {}}
+
+    for key in request.POST:
+        if key.endswith('prix'):
+            piece_detachee_id = key.split("-")[0]
+            piece_detachee_object = PieceDetacheeStandard.objects.get(id=piece_detachee_id)
+
+            piece_detachee = {}
+            piece_detachee['libelle'] = piece_detachee_object.libelle
+            piece_detachee['prix_achat'] = round(float(request.POST.get(key).replace(',', '.')), 2)
+            piece_detachee['prix_vente'] = round(application_marge(float(request.POST.get(key).replace(',', '.'))), 2)
+
+            request.session['mesPrestationsCoutVariable'][request.POST.get('id_prestation')]['pieces_detachees'][
+                piece_detachee_id] = piece_detachee
+
+    prixtotal = 0
+    for piece in request.session['mesPrestationsCoutVariable'][request.POST.get('id_prestation')][
+        'pieces_detachees'].values():
+        prixtotal += piece['prix_vente']
+
+    request.session['mesPrestationsCoutVariable'][request.POST.get('id_prestation')][
+        'prix_total'] = round(prixtotal * quantite, 2)
+
+    request.session.modified = True
+    update_prix_total_session(request)
+
+    return redirect('ajouter_prestation_cout_variable')
+
+@login_required
+def supprimer_prestation_en_session(request, type_prestation, prestation_id):
+    request.session[type_prestation].pop(prestation_id, None)
+    update_prix_total_session(request)
+    request.session.modified = True
+    return redirect(request.META.get('HTTP_REFERER'))
+
+
+@login_required
+def reset(request):
+    request.session.pop('mesPrestationsCoutFixe', None)
+    request.session.pop('mesPrestationsCoutVariable', None)
+    request.session.pop('mesPrestationsPneumatiques', None)
+    request.session.pop('devis_en_creation', None)
+    request.session.pop('prix_devis_total', None)
+    request.session.pop('client', None)
+
+    request.session.modified = True
+
+    messages.success(request, "Devis réinitialisé")
+
+    return redirect('creer_devis')
+
