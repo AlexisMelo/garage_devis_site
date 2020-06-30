@@ -38,17 +38,14 @@
             <span>Ajoutez des préstations au devis</span>
         </div>
     </div>
-    <div class="row ">
-        <div class="col s5 center-align">
-            <a href="{% url 'ajouter_prestation_cout_fixe' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation dont le prix est fixé à l'avance. Exemple : Vidange Partielle 5W40 à 69.00€ "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût fixe</span></span></a>
-        </div>
-        <div class="col s5  offset-s2 ">
-        <a href="{% url 'ajouter_prestation_cout_variable' %}" class="btn-centre waves-effect waves-light btn tooltipped" data-position="bottom" data-tooltip="Prestation dont le prix dépend de paramètres. Exemple : Disques AV/AR requiert saisie du prix des disques AV et disques AR "><span><span class="prestation">Prestation</span> <br><span class="cout">Coût variable</span></span></a>
+    <div class="row">
+        <div class="col s8 offset-s2  center-align">
+            <a href="{% url 'devis_pneu_oral' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation concernant la vente de pneus"><span><span class="prestation">Prestation</span> <br><span class="cout">Pneumatique</span></span></a>
         </div>
     </div>
     <div class="row">
-        <div class="col s5 center-align">
-            <a href="{% url 'devis_pneu_oral' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation concernant la vente de pneus"><span><span class="prestation">Prestation</span> <br><span class="cout">Pneumatique</span></span></a>
+        <div class="col s8 offset-s2 center-align">
+            <a href="{% url 'ajouter_prestation_mecanique' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation concernant la mécanique : forfaits, prestations à paramètres, et nouvelles prestations"><span><span class="prestation">Prestation</span> <br><span class="cout">Mécanique</span></span></a>
         </div>
     </div>
 

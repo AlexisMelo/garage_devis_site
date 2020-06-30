@@ -1,0 +1,109 @@
+<ul class="popout collapsible">
+    {% for categorie in catVars %}
+        <li>
+            <div class="collapsible-header"><i class="material-icons">{{categorie.icone}}</i>{{categorie.libelle}}</div>
+            <div class="collapsible-body">
+
+                <table class="highlight striped">
+                    <tbody>
+                    {% for p in prestationsVar %}
+
+                        {% if p.categorie == categorie %}
+                        <tr href="#{{p.id}}-modal" class="modal-trigger">
+                            <td class="td-libelle">{{p.libelle}}</td>
+                            <td class="td-champs right-align">Champs : {% for piece in p.pieces_detachees.all %} {% if not forloop.first %}, {% endif %} {{piece.libelle}} {% endfor %}</td>
+                        </tr>
+                        {% endif %}
+
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+
+                {% for p in prestationsVar %}
+
+                    {% if p.categorie == categorie %}
+                   <form id="{{p.id}}-modal" class="modal" action="{% url 'ajouter_prestation_variable_en_session' %}" method="post">
+                        <div class="modal-content">
+                            <div class="row modal-entete valign-wrapper">
+                                <div class="col s7">
+                                    <h4>{{p.libelle}}</h4>
+                                </div>
+                                <div class="col s5 right-align">
+                                    <span>
+                                        <span class="prix_boutique">
+                                            ( <span id="{{p.id}}-prix_boutique">?</span> €)
+                                        </span>
+                                        <span class="prix_client"> Total :
+                                            <span id="{{p.id}}-prix_client">?</span> €
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="row modal-realcontent">
+
+
+                                {% for piece in p.pieces_detachees.all %}
+                                    <div class="row valign-wrapper row-piece">
+                                        <div class="col s5 offset-s1">
+                                            {{piece.libelle}}
+                                        </div>
+
+                                        <div class="col s4 input-field">
+                                            <input id="{{p.id}}-{{piece.id}}-prix" name="{{piece.id}}-prix" type="number" step="0.01" class="validate" required>
+                                            <label for="{{p.id}}-{{piece.id}}-prix">Prix d'achat</label>
+                                        </div>
+                                        <div class="col s2">
+
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                                <div class="row center-align valign-wrapper row-gestion-quantite">
+                                    <div class="col s2 offset-s1 xl1 offset-xl4">
+                                        <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('{{p.id}}-quantite',-1);"><i class="material-icons right">remove</i></a>
+                                    </div>
+                                    <div class="col input-field s4 xl2">
+
+                                        {% csrf_token %}
+                                        <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
+                                        <label for="{{p.id}}-quantite">Quantité</label>
+                                        <input type="hidden" name="id_prestation" value="{{p.id}}" required>
+                                        <input type="hidden" name="libelle" value="{{p.libelle}}" required>
+
+                                    </div>
+                                    <div class="col s2 xl1">
+                                        <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('{{p.id}}-quantite',1);"><i class="material-icons right">add</i></a>
+                                    </div>
+                                    <div class="col s1 xl4">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="modal-footer">
+                            <div class="row center-align">
+                                <div class="col s6">
+                                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
+                                </div>
+                                <div class="col s6">
+                                    <button type="submit" class="waves-effect waves-green btn">
+                                        Ajouter au devis
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+        </li>
+
+    {% endfor %}
+</ul>

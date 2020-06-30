@@ -54,7 +54,7 @@ def ajouter_prestation_fixe_en_session(request):
     request.session.modified = True
     update_prix_total_session(request)
 
-    return redirect('ajouter_prestation_cout_fixe')
+    return redirect('ajouter_prestation_mecanique')
 
 
 @login_required
@@ -129,7 +129,7 @@ def ajouter_prestation_variable_en_session(request):
     request.session.modified = True
     update_prix_total_session(request)
 
-    return redirect('ajouter_prestation_cout_variable')
+    return redirect('ajouter_prestation_mecanique')
 
 @login_required
 def supprimer_prestation_en_session(request, type_prestation, prestation_id):

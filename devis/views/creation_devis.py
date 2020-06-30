@@ -10,12 +10,22 @@ from devis.models import Client, Categorie, PrestationCoutFixe, PrestationCoutVa
     PrestationCoutVariableConcrete, PieceDetacheeStandard, PieceDetacheeAvecPrix, PrestationPneumatique, Marque
 
 
-def devis_pneu_oral(request):
+def ajouter_prestation_pneumatique(request):
     if request.META.get('HTTP_REFERER').endswith(reverse('devis_creation_ecrit')):
         ajout_au_devis_possible = True
 
-    return render(request, 'devis/devis_pneu_oral.html', locals())
+    return render(request, 'devis/ajouter_prestation_pneumatique.html', locals())
 
+def ajouter_prestation_mecanique(request):
+    prestationsFixes = PrestationCoutFixe.objects.all()
+    catPossiblePrestFixe = prestationsFixes.values('categorie').distinct()
+    catFixes = Categorie.objects.filter(id__in=catPossiblePrestFixe)
+
+    prestationsVar = PrestationCoutVariableStandard.objects.all()
+    catPossiblePrestVar = prestationsVar.values('categorie').distinct()
+    catVars = Categorie.objects.filter(id__in=catPossiblePrestVar)
+
+    return render(request, 'devis/ajouter_prestation_mecanique.html', locals())
 
 @login_required
 def devis_creation_ecrit(request):
@@ -39,27 +49,6 @@ def devis_creation_ecrit(request):
             mesPrestationsCoutFixe = request.session['mesPrestationsCoutFixe']
 
     return render(request, 'devis/devis_creation_ecrit.html', locals())
-
-
-@login_required
-def ajouter_prestation_cout_fixe(request):
-    prestations = PrestationCoutFixe.objects.all()
-
-    categoriesPossibles = prestations.values('categorie').distinct()
-
-    categories = Categorie.objects.filter(id__in=categoriesPossibles)
-
-    return render(request, 'devis/ajouter_prestation_cout_fixe.html', locals())
-
-
-@login_required
-def ajouter_prestation_cout_variable(request):
-    prestations = PrestationCoutVariableStandard.objects.all()
-    categoriesPossibles = prestations.values('categorie').distinct()
-    categories = Categorie.objects.filter(id__in=categoriesPossibles)
-
-    return render(request, 'devis/ajouter_prestation_cout_variable.html', locals())
-
 
 @login_required
 def reset(request):

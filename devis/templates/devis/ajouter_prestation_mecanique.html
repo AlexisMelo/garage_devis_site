@@ -1,0 +1,32 @@
+{% extends "devis/devis_creation_base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Sélection de préstations mécaniques
+{% endblock %}
+
+{% block autres_stylesheet %}
+    <link href="{% static 'devis/css/ajouter_prestation.css' %}" rel="stylesheet">
+    <link href="{% static 'devis/css/ajouter_prestation_cout_fixe.css' %}" rel="stylesheet">
+    <link href="{% static 'devis/css/ajouter_prestation_cout_variable.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block cote_gauche %}
+    <div class="row center-align row-titre">
+        <div class="col s12"><span id="titre">Forfaits</span></div>
+    </div>
+    {% include "devis/mecanique_prestations_cout_fixe.html" %}
+    <div class="row center-align row-titre">
+        <div class="col s12"><span id="titre">Préstations</span></div>
+    </div>
+    {% include "devis/mecanique_prestations_cout_variable.html" %}
+{% endblock %}
+
+{% block autres_javascript %}
+    <script type="text/javascript" src="{% static 'global/js/initCollapsible.js' %}"></script>
+    <script type="text/javascript" src="{% static 'global/js/initModal.js' %}"></script>
+    <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation.js' %}"></script>
+    <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_cout_fixe.js' %}"></script>
+    <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_cout_variable.js' %}"></script>
+{% endblock %}
