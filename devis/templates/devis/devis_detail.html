@@ -51,4 +51,7 @@
         {% endfor %}
 
         <p>Total devis : {{devis.prix_total}}</p>
+
+        <a href="{% url 'get_pdf' devis.id %}" class="waves-effect waves-light btn"><i class="material-icons right">picture_as_pdf</i>PDF</a>
+
 {% endblock %}
