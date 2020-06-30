@@ -158,4 +158,4 @@ def sauvegarder_devis(request):
     devis.save()
     nettoyer_devis_en_cours(request)
     messages.success(request, 'Devis ajouté avec succès')
-    return redirect('liste_devis')
+    return redirect('devis_detail', pk=devis.id)
