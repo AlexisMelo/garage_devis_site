@@ -80,9 +80,6 @@ def nettoyer_devis_en_cours(request):
 
 @login_required
 def sauvegarder_devis(request):
-    for key, value in request.session.items():
-        print('{} => {}'.format(key, value))
-
     if not 'client' in request.session or not request.session['client']:
         messages.error(request, 'Sélectionnez un client !')
         return redirect('devis_creation_ecrit')
@@ -95,7 +92,6 @@ def sauvegarder_devis(request):
     devis = Devis()
 
     clientFields = request.session.get('client').split(" ", maxsplit=2)
-    print(clientFields)
 
     client = None
 

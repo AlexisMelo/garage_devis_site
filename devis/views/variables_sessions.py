@@ -34,7 +34,7 @@ def update_prix_total_session(request):
         sommeCoutPrestations = sum(liste_couts)
         prix_total += sommeCoutPrestations
 
-    request.session['prix_devis_total'] = prix_total
+    request.session['prix_devis_total'] = round(prix_total,2)
     request.session.modified = True
 
 
@@ -63,7 +63,6 @@ def ajouter_prestation_pneumatique_en_session(request):
         request.session['mesPrestationsPneumatiques'] = {}
 
     nouvelId = len(request.session['mesPrestationsPneumatiques']) + 1
-    print(request.POST)
 
     quantite = request.POST.get('quantite')
     dimensions = request.POST.get('dimensions')

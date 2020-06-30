@@ -172,23 +172,17 @@ class PrestationPneumatique(Prestation):
 
     @property
     def prix_total(self):
-        TVA = 1.2
-        marge = 11.5
+        TVA = Decimal(1.2)
+        marge = Decimal(11.5)
 
-        print(self)
-
-        prixttc = float(self.prixAchat)
-        print(prixttc)
+        prixttc = self.prixAchat
 
         if self.dimensions < 19:
             prixttc += self.dimensions - 3
         else:
             prixttc += self.dimensions
 
-        print(prixttc)
         prixttc *= TVA
-        print(prixttc)
         prixttc += marge
-        print(prixttc)
 
         return round(prixttc, 2)
