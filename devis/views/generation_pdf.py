@@ -4,7 +4,7 @@ from django.contrib.staticfiles.finders import find
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from reportlab.lib import colors
-from reportlab.lib.colors import red, black, white, green, grey
+from reportlab.lib.colors import red, black, white, green, grey, blue
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.pdfmetrics import stringWidth
@@ -14,6 +14,8 @@ from django.templatetags.static import static
 from devis.models import Devis, PrestationCoutFixe, PrestationCoutVariableConcrete, PrestationPneumatique
 
 from reportlab.lib.units import cm
+
+from devis.views.utilitaires import iterable
 
 largeur, hauteur = A4
 
@@ -51,118 +53,147 @@ def setDevisId(c, devis):
     c.drawText(textobject)
 
 
-def setLignesHeader(c):
+def setLignesHeader(c, y=21*cm):
     c.setStrokeColor(colors.HexColor("#212121"))
     c.setFillColor(colors.HexColor("#212121"))
-    c.rect(0, 21 * cm, width=largeur * 1 / 2, height=1 * cm, fill=1)
+    c.rect(0, y, width=largeur * 1 / 2, height=1 * cm, fill=1)
 
     c.setFillColor(red)
-    c.rect(largeur * 1 / 2, 21 * cm, width=largeur * 1 / 6, height=1 * cm, fill=1)
+    c.rect(largeur * 1 / 2, y, width=largeur * 1 / 6, height=1 * cm, fill=1)
     c.setFillColor(red)
-    c.rect(largeur * 1 / 2 + (largeur * 1 / 6), 21 * cm, width=largeur * 1 / 6, height=1 * cm, fill=1)
+    c.rect(largeur * 1 / 2 + (largeur * 1 / 6), y, width=largeur * 1 / 6, height=1 * cm, fill=1)
     c.setFillColor(red)
-    c.rect(largeur * 1 / 2 + (largeur * 2 / 6), 21 * cm, width=largeur * 1 / 6, height=1 * cm, fill=1)
+    c.rect(largeur * 1 / 2 + (largeur * 2 / 6), y, width=largeur * 1 / 6, height=1 * cm, fill=1)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=3.5 * cm, y=21.25 * cm)
+    textobject.setTextOrigin(x=3.5 * cm, y=y + 0.25*cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Prestation")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=10.8 * cm, y=21.25 * cm)
+    textobject.setTextOrigin(x=10.8 * cm, y=y + 0.25*cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Prix unité")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=14.4 * cm, y=21.25 * cm)
+    textobject.setTextOrigin(x=14.4 * cm, y=y + 0.25*cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Quantité")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=18.3 * cm, y=21.25 * cm)
+    textobject.setTextOrigin(x=18.3 * cm, y=y + 0.25*cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Total")
     c.drawText(textobject)
 
+def setTotal(c, movingY):
+    pass
 
-def setLigneValeursCalculees(c, string, boxbeginX, boxsize, movingY, tailleOccupee):
+def getLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
     widthPrixUnit = stringWidth(string, "Helvetica", fontSize=14)
     prixUnitObject = c.beginText()
     prixUnitObject.setFont(psfontname="Helvetica", size=14)
     prixUnitObject.setFillColor(black)
     prixUnitObject.setTextOrigin(boxbeginX + (boxsize - widthPrixUnit - 0.2 * cm), movingY - cm)
     prixUnitObject.textLine(string)
-    c.drawText(prixUnitObject)
+    return prixUnitObject
 
 
-def setPrestationName(c, name, movingY):
+def getPrestationNameTO(c, name, movingY):
     textobject = c.beginText()
     textobject.setTextOrigin(x=0.5 * cm, y=movingY - cm)
     textobject.setFont(psfontname="Helvetica", size=14)
     textobject.setFillColor(black)
-    textobject.textLine((name + "EJZ0FEJFEHZFIZHFHZFHZFHZFH9ZHF9")[0:30])
-    c.drawText(textobject)
+    textobject.textLine(name[0:30])
+    return textobject
 
 
-def setLigne(c, ligne, movingY):
+def getLigne(c, ligne, movingY):
     tailleOccupee = 0
+    textObjects = []
 
-    print(type(ligne.prestation))
     if isinstance(ligne.prestation, PrestationCoutFixe):
         tailleOccupee = 1.5 * cm
-        setPrestationName(c, ligne.prestation.libelle, movingY)
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
 
     elif isinstance(ligne.prestation, PrestationCoutVariableConcrete):
         tailleOccupee = 1.5 * cm
-        setPrestationName(c, ligne.prestation.libelle, movingY)
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
 
     elif isinstance(ligne.prestation, PrestationPneumatique):
         tailleOccupee = 1.5 * cm
-        setPrestationName(c, "{} {}\"".format(ligne.prestation.marque.libelle, ligne.prestation.dimensions), movingY)
+        textObjects.append(
+            getPrestationNameTO(c, "{} {}\"".format(ligne.prestation.marque.libelle, ligne.prestation.dimensions),
+                                movingY))
 
     boxsize = largeur * 1 / 6
 
     prixUnitaire = str(ligne.prestation.prix_total)
-    setLigneValeursCalculees(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
-                             movingY=movingY, tailleOccupee=tailleOccupee)
+    textObjects.append(getLigneValeursCalculeesTO(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
+                                                  movingY=movingY))
 
     quantite = str(ligne.quantite)
-    setLigneValeursCalculees(c=c, string=quantite, boxbeginX=largeur * 1 / 2 + (largeur * 1 / 6), boxsize=boxsize,
-                             movingY=movingY, tailleOccupee=tailleOccupee)
+    textObjects.append(
+        getLigneValeursCalculeesTO(c=c, string=quantite, boxbeginX=largeur * 1 / 2 + (largeur * 1 / 6), boxsize=boxsize,
+                                   movingY=movingY))
 
     prixTotal = str(ligne.prix_total)
-    setLigneValeursCalculees(c=c, string=prixTotal, boxbeginX=largeur * 1 / 2 + (largeur * 2 / 6), boxsize=boxsize,
-                             movingY=movingY, tailleOccupee=tailleOccupee)
+    textObjects.append(getLigneValeursCalculeesTO(c=c, string=prixTotal, boxbeginX=largeur * 1 / 2 + (largeur * 2 / 6),
+                                                  boxsize=boxsize,
+                                                  movingY=movingY))
 
-    c.setStrokeColor(colors.HexColor("#212121"))
-    c.line(0, movingY - tailleOccupee, largeur, movingY - tailleOccupee)
+    return tailleOccupee, textObjects
 
-    return tailleOccupee
+
+def setTextObjects(c, textObjects):
+    if iterable(textObjects):
+        for to in textObjects:
+            c.drawText(to)
+    else:
+        c.drawText(textObjects)
+
+
+def initNouvellePage(c):
+    c.showPage()
+    setDecoration(c)
+    topLeft = 26*cm
+    tailleAutorisee = topLeft - 2*cm
+
+    setLignesHeader(c, y = 26*cm)
+
+    return topLeft, tailleAutorisee
 
 
 def setLignes(c, devis):
-    c.setFillColor(colors.HexColor("#e0e0e0"))
-    c.rect(0, 2 * cm, width=largeur, height=19 * cm, fill=1, stroke=0)
-
-    c.setStrokeColor(green)
-    c.circle(0, 2 * cm, r=cm, stroke=1)
-    c.circle(0, 21 * cm, r=cm, stroke=1)
-    c.circle(largeur, 2 * cm, r=cm, stroke=1)
-    c.circle(largeur, 21 * cm, r=cm, stroke=1)
 
     topleftY = 21 * cm
     movingY = topleftY
+    tailleAutorisee = topleftY - 2*cm
 
     for ligne in devis.lignes.all():
-        tailleOcuppee = setLigne(c, ligne, movingY)
-        movingY -= tailleOcuppee
+        tailleOccupee, textObjects = getLigne(c, ligne, movingY)
+
+        yBotPrest = movingY - tailleOccupee
+        yBotMin = topleftY - tailleAutorisee
+
+        if yBotPrest < yBotMin:
+            topleftY, tailleAutorisee = initNouvellePage(c)
+            movingY = topleftY
+            tailleOccupee, textObjects = getLigne(c, ligne, movingY)
+
+        movingY -= tailleOccupee
+        setTextObjects(c, textObjects)
+
+        c.setStrokeColor(colors.HexColor("#212121"))
+        c.line(0, movingY, largeur, movingY)
+
 
 
 def generer_pdf(request, pk):
