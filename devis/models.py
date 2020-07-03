@@ -43,6 +43,9 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     class Meta:
         verbose_name = "Pièce détachée avec prix associé"
 
+    @property
+    def prix_total(self):
+        return self.prix
 
 def get_autre_categorie():
     return Categorie.objects.get_or_create(libelle="Autres")[0]

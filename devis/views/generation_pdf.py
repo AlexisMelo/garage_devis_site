@@ -27,6 +27,12 @@ def setDecoration(c):
     c.setFillColor(red)
     c.rect(4 * cm, hauteur - 1.4 * cm, largeur - 3 * cm, 0.3 * cm, fill=1, stroke=0)
 
+    c.setFillColor(colors.HexColor("#212121"))
+    c.rect(4 * cm, cm, largeur - 3 * cm, 0.5 * cm, fill=1, stroke=0)
+
+    c.setFillColor(red)
+    c.rect(0, cm, largeur - 3 * cm, 0.3 * cm, fill=1, stroke=0)
+
 
 def setClient(c, devis):
     c.setFillColor(colors.HexColor("#212121"))
@@ -53,11 +59,12 @@ def setDevisId(c, devis):
     c.drawText(textobject)
 
 
-def setLignesHeader(c, y=21*cm):
+def setLignesHeader(c, y=21 * cm):
     c.setStrokeColor(colors.HexColor("#212121"))
     c.setFillColor(colors.HexColor("#212121"))
     c.rect(0, y, width=largeur * 1 / 2, height=1 * cm, fill=1)
 
+    c.setStrokeColor(red)
     c.setFillColor(red)
     c.rect(largeur * 1 / 2, y, width=largeur * 1 / 6, height=1 * cm, fill=1)
     c.setFillColor(red)
@@ -66,35 +73,37 @@ def setLignesHeader(c, y=21*cm):
     c.rect(largeur * 1 / 2 + (largeur * 2 / 6), y, width=largeur * 1 / 6, height=1 * cm, fill=1)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=3.5 * cm, y=y + 0.25*cm)
+    textobject.setTextOrigin(x=3.5 * cm, y=y + 0.25 * cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Prestation")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=10.8 * cm, y=y + 0.25*cm)
+    textobject.setTextOrigin(x=10.8 * cm, y=y + 0.25 * cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Prix unité")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=14.4 * cm, y=y + 0.25*cm)
+    textobject.setTextOrigin(x=14.4 * cm, y=y + 0.25 * cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Quantité")
     c.drawText(textobject)
 
     textobject = c.beginText()
-    textobject.setTextOrigin(x=18.3 * cm, y=y + 0.25*cm)
+    textobject.setTextOrigin(x=18.3 * cm, y=y + 0.25 * cm)
     textobject.setFont(psfontname="Helvetica", size=20)
     textobject.setFillColor(white)
     textobject.textLine("Total")
     c.drawText(textobject)
 
+
 def setTotal(c, movingY):
     pass
+
 
 def getLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
     widthPrixUnit = stringWidth(string, "Helvetica", fontSize=14)
@@ -102,6 +111,16 @@ def getLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
     prixUnitObject.setFont(psfontname="Helvetica", size=14)
     prixUnitObject.setFillColor(black)
     prixUnitObject.setTextOrigin(boxbeginX + (boxsize - widthPrixUnit - 0.2 * cm), movingY - cm)
+    prixUnitObject.textLine(string)
+    return prixUnitObject
+
+
+def getSousLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
+    widthPrixUnit = stringWidth(string, "Helvetica", fontSize=9)
+    prixUnitObject = c.beginText()
+    prixUnitObject.setFont(psfontname="Helvetica", size=9)
+    prixUnitObject.setFillColor(colors.HexColor("#424242"))
+    prixUnitObject.setTextOrigin(boxbeginX + (boxsize - widthPrixUnit - 0.2 * cm), movingY)
     prixUnitObject.textLine(string)
     return prixUnitObject
 
@@ -115,9 +134,19 @@ def getPrestationNameTO(c, name, movingY):
     return textobject
 
 
+def getPieceTO(c, piece, movingY):
+    textobject = c.beginText()
+    textobject.setTextOrigin(x=1 * cm, y=movingY)
+    textobject.setFont(psfontname="Helvetica", size=9)
+    textobject.setFillColor(colors.HexColor("#424242"))
+    textobject.textLine(("- " + piece.libelle)[0:30])
+    return textobject
+
+
 def getLigne(c, ligne, movingY):
     tailleOccupee = 0
     textObjects = []
+    boxsize = largeur * 1 / 6
 
     if isinstance(ligne.prestation, PrestationCoutFixe):
         tailleOccupee = 1.5 * cm
@@ -126,14 +155,23 @@ def getLigne(c, ligne, movingY):
     elif isinstance(ligne.prestation, PrestationCoutVariableConcrete):
         tailleOccupee = 1.5 * cm
         textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
+        movingYCopie = movingY - cm
+        for piece in ligne.prestation.pieces_detachees.all():
+            movingYCopie -= cm
+            textObjects.append(getPieceTO(c, piece, movingYCopie))
+
+            prixUnitaire = str(piece.prix_total)
+            textObjects.append(
+                getSousLigneValeursCalculeesTO(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
+                                               movingY=movingYCopie))
+
+            tailleOccupee += cm
 
     elif isinstance(ligne.prestation, PrestationPneumatique):
         tailleOccupee = 1.5 * cm
         textObjects.append(
             getPrestationNameTO(c, "{} {}\"".format(ligne.prestation.marque.libelle, ligne.prestation.dimensions),
                                 movingY))
-
-    boxsize = largeur * 1 / 6
 
     prixUnitaire = str(ligne.prestation.prix_total)
     textObjects.append(getLigneValeursCalculeesTO(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
@@ -160,22 +198,57 @@ def setTextObjects(c, textObjects):
         c.drawText(textObjects)
 
 
-def initNouvellePage(c):
+def initNouvellePage(c, lignesHeader=True):
     c.showPage()
     setDecoration(c)
-    topLeft = 26*cm
-    tailleAutorisee = topLeft - 2*cm
+    topLeft = 26 * cm
+    tailleAutorisee = topLeft - 2 * cm
 
-    setLignesHeader(c, y = 26*cm)
+    if lignesHeader:
+        setLignesHeader(c, y=26 * cm)
 
     return topLeft, tailleAutorisee
 
 
-def setLignes(c, devis):
+def colorerLigne(c, movingY, tailleOccupee, numeroLigne):
+    if numeroLigne % 2 == 0:
+        c.setFillColor(colors.HexColor("#eeeeee"))
+    else:
+        c.setFillColor(white)
 
+    c.rect(0, movingY, largeur, height=tailleOccupee, fill=1, stroke=0)
+
+
+def getsetTotal(c, movingY, devis):
+    c.setFillColor(colors.HexColor("#212121"))
+    c.rect(11.5 * cm, movingY, width=3.5 * cm, height=1 * cm, fill=1, stroke=0)
+    c.setFillColor(red)
+    c.rect(11 * cm + 4 * cm, movingY, width=6 * cm, height=1 * cm, fill=1, stroke=0)
+
+    textobjectTotal = c.beginText()
+    textobjectTotal.setTextOrigin(x=12.3 * cm, y=movingY + 0.2 * cm)
+    textobjectTotal.setFont(psfontname="Helvetica", size=25)
+    textobjectTotal.setFillColor(white)
+    textobjectTotal.textLine("Total")
+
+    stringPrix = str(devis.prix_total) + " €"
+    widthTotalPrix = stringWidth(stringPrix, "Helvetica", fontSize=25)
+    widthPossible = 5 * cm
+    textObjectPrix = c.beginText()
+    textObjectPrix.setTextOrigin(11 * cm + 5 * cm + (widthPossible - widthTotalPrix - 0.2 * cm), movingY + 0.2 * cm)
+    textObjectPrix.setFont(psfontname="Helvetica", size=25)
+    textObjectPrix.setFillColor(white)
+    textObjectPrix.textLine(stringPrix)
+
+    return [textobjectTotal, textObjectPrix]
+
+
+
+def setLignes(c, devis):
     topleftY = 21 * cm
     movingY = topleftY
-    tailleAutorisee = topleftY - 2*cm
+    tailleAutorisee = topleftY - 2 * cm
+    numeroLigne = 1
 
     for ligne in devis.lignes.all():
         tailleOccupee, textObjects = getLigne(c, ligne, movingY)
@@ -189,11 +262,19 @@ def setLignes(c, devis):
             tailleOccupee, textObjects = getLigne(c, ligne, movingY)
 
         movingY -= tailleOccupee
+        colorerLigne(c, movingY, tailleOccupee, numeroLigne)
+
+        if numeroLigne == devis.lignes.all().count():
+            nouveauY = movingY - 3 * cm
+            if nouveauY < yBotMin:
+                nouveauY, tailleAutorisee = initNouvellePage(c, lignesHeader=False)
+
+            textObjects += getsetTotal(c, nouveauY, devis)
+
+        else:
+            numeroLigne += 1
+
         setTextObjects(c, textObjects)
-
-        c.setStrokeColor(colors.HexColor("#212121"))
-        c.line(0, movingY, largeur, movingY)
-
 
 
 def generer_pdf(request, pk):
