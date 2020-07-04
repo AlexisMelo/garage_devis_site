@@ -5,9 +5,16 @@
 .modal-content > h4 {
     margin-bottom :  10%;
 }
-
+.btn-changer {
+    margin-top: 5%;
+    margin-bottom : 5%;
+}
 #bouton-valider-selection-client {
     color : white;
+}
+
+#row-mo-reduc {
+    margin-top : 10%;
 }
 
 .modal-content {
@@ -17,6 +24,11 @@
 
 #affichage_nom_client {
     font-size: 2em;
+    margin-left: 2%;
+}
+
+#affichage_mo {
+    font-size : 1.2em;
     margin-left: 2%;
 }
 
@@ -48,14 +60,22 @@
 
 }
 
-#row-label-ajoutez-prestations {
-    margin-top: 20%;
-    margin-bottom : 10%;
+.row-titre {
+    margin-top: 5%;
+    margin-bottom : 5%;
     font : 2em "Fira Sans", sans-serif;
 }
 
-.modal-realcontent {
+.modal-realcontent-client {
     height : 50vh;
+    margin-left : 0 !important;
+    margin-right: 0 !important;
+}
+
+.modal-realcontent-mo {
+    height : 15vh;
+    margin-left : 0 !important;
+    margin-right: 0 !important;
 }
 
 .input-field {

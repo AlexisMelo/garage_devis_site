@@ -22,9 +22,7 @@
                 <span id="affichage_nom_client">{{request.session.client|truncatechars:30}}</span>
             </div>
             <div class="col s5 l4 right-align">
-                <div class="col s12">
-                <a class="waves-effect waves-light btn modal-trigger orange" href="#modal1">Changer</a>
-                </div>
+                <a class="btn-changer waves-effect waves-light btn modal-trigger orange" href="#modal1">Changer</a>
             </div>
         {% else %}
             <div class="col s12 center-align" id="colonne-selectionnez-client">
@@ -33,7 +31,7 @@
         {% endif %}
     </div>
 
-    <div class="row center-align" id="row-label-ajoutez-prestations">
+    <div class="row center-align row-titre">
         <div class="col s12">
             <span>Ajoutez des préstations au devis</span>
         </div>
@@ -48,24 +46,82 @@
             <a href="{% url 'ajouter_prestation_mecanique' %}" class="btn-centre waves-effect waves-light btn tooltipped " data-position="bottom" data-tooltip="Prestation concernant la mécanique : forfaits, prestations à paramètres, et nouvelles prestations"><span><span class="prestation">Prestation</span> <br><span class="cout">Mécanique</span></span></a>
         </div>
     </div>
+    <div class="row" id="row-mo-reduc">
+        <div class="col s12 l6 ">
+            {% if request.session.mo %}
+            <div class="row valign-wrapper z-depth-2">
+                <div class="col s12 l8 valign-wrapper">
+                <i class="material-icons prefix">access_time</i>
+                <span id="affichage_mo">{{request.session.mo.heures}} Heure(s) à {{request.session.mo.tauxHoraire}}€/h</span>
+                </div>
+                <div class="col s4 offset-s4 offset-l0 l4 right-align">
+                    <a class="btn-changer waves-effect waves-light btn modal-trigger orange" href="#modalMO">Changer</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="row center-align">
+                <div class="col s12 center-align" id="colonne-selectionnez-mo">
+                <a class="waves-effect waves-light btn modal-trigger grey darken-4" id="button-selectionnez-mo" href="#modalMO">Ajoutez la main d'oeuvre</a>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+        <div class="col s12 l6">
+
+        </div>
+    </div>
+
+    <form id="modalMO" class="modal" action="{% url 'ajouter_mo_en_session' %}" method="post">
+        <div class="modal-content center-align">
+            <div class="row modal-entete">
+                <h4>Entrez le coût de la main d'oeuvre</h4>
+                {% csrf_token %}
+            </div>
+        </div>
+        <div class="row modal-realcontent-mo modal-form-row">
+
+                <div class="input-field col s4 offset-s1">
+                    <i class="large material-icons prefix">access_time</i>
+                    <input required id="quantite-mo-input" name="heures" type="number" value="{{request.session.mo.heures|default:1}}" min="0">
+                    <label for="quantite-mo-input">Nombre d'heures</label>
+                </div>
+                <div class="input-field col s4 offset-s1">
+                    <i class="large material-icons prefix">euro_symbol</i>
+                    <input required id="prix-mo-input" name="tauxHoraire" type="number" value="{{request.session.mo.tauxHoraire|default:55}}" step="0.01" min="0">
+                    <label for="prix-mo-input">Taux horaire</label>
+                </div>
+
+        </div>
+        <div class="modal-footer">
+            <div class="row center-align">
+                <div class="col s4 offset-s2">
+                    <a class=" modal-action modal-close waves-effect waves-red btn-flat">Annuler</a>
+                </div>
+                <div class="col s4">
+                  <button id="bouton-valider-selection-MO" type="submit" class="waves-effect btn green">
+                    Valider
+                  </button>
+                </div>
+
+            </div>
+        </div>
+    </form>
 
     <form id="modal1" class="modal" action="{% url 'ajouter_client_en_session' %}" method="post">
         <div class="modal-content center-align ">
             <div class="row modal-entete">
-                <h4>Sélectionnez un client ! </h4>
+                <h4>Sélectionnez un client</h4>
                 {% csrf_token %}
             </div>
 
-          <div class="row modal-realcontent">
-            <div class="col s12">
-              <div class="row modal-form-row">
-                <div class="input-field col s12">
-                    <i class="material-icons prefix">user</i>
+          <div class="row modal-realcontent-client modal-form-row">
+
+                <div class="input-field col s8 offset-s2">
                     <input autocomplete="off" name="client" type="text" id="autocomplete-input" class="autocomplete">
                     <label for="autocomplete-input">Sélectionnez un client...</label>
                 </div>
-              </div>
-            </div>
+
           </div>
         </div>
         <div class="modal-footer">

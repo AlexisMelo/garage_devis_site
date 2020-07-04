@@ -41,6 +41,11 @@
             <p>{{ligne.prestation.libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
 
 
+            {% elif ligne.prestation|get_class == "PrestationMainOeuvre" %}
+
+            <p>Main oeuvre : {{ligne.quantite}} Heures à {{ligne.prestation.tauxHoraire}} € = {{ligne.prix_total}}</p>
+
+
 
 
 

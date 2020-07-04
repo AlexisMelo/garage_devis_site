@@ -7,13 +7,24 @@ from devis.views.utilitaires import application_marge
 
 @login_required
 def ajouter_client_en_session(request):
-    if request.POST.get('client'):
+    if request.POST.get('client', None):
         request.session['client'] = request.POST.get('client')
     else:
         request.session['client'] = False
 
     return redirect('devis_creation_ecrit')
 
+@login_required
+def ajouter_mo_session(request):
+    if request.POST.get('heures', None) and request.POST.get('tauxHoraire', None):
+        request.session['mo'] = {
+            "heures" : request.POST.get('heures', None),
+            "tauxHoraire" : request.POST.get('tauxHoraire', None)
+        }
+
+    request.session.modified = True
+    update_prix_total_session(request)
+    return redirect('devis_creation_ecrit')
 
 @login_required
 def update_prix_total_session(request):
@@ -33,6 +44,9 @@ def update_prix_total_session(request):
         liste_couts = [p['prix_total'] for p in request.session['mesPrestationsPneumatiques'].values() if p]
         sommeCoutPrestations = sum(liste_couts)
         prix_total += sommeCoutPrestations
+
+    if 'mo' in  request.session:
+        prix_total += float(request.session['mo']['tauxHoraire']) * float(request.session['mo']['heures'])
 
     request.session['prix_devis_total'] = round(prix_total,2)
     request.session.modified = True

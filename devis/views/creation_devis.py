@@ -7,7 +7,8 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 
 from devis.models import Client, Categorie, PrestationCoutFixe, PrestationCoutVariableStandard, Devis, LigneDevis, \
-    PrestationCoutVariableConcrete, PieceDetacheeStandard, PieceDetacheeAvecPrix, PrestationPneumatique, Marque
+    PrestationCoutVariableConcrete, PieceDetacheeStandard, PieceDetacheeAvecPrix, PrestationPneumatique, Marque, \
+    PrestationMainOeuvre
 
 
 def ajouter_prestation_pneumatique(request):
@@ -64,6 +65,7 @@ def nettoyer_devis_en_cours(request):
     request.session.pop('devis_en_creation', None)
     request.session.pop('prix_devis_total', None)
     request.session.pop('client', None)
+    request.session.pop('mo', None)
     request.session.modified = True
 
 
@@ -134,6 +136,17 @@ def sauvegarder_devis(request):
             nouvellePrestPneu.save()
             ligne, created = LigneDevis.objects.get_or_create(prestation=nouvellePrestPneu, quantite=prestation.get('quantite'))
             devis.lignes.add(ligne)
+
+    if 'mo' in request.session:
+        p = PrestationMainOeuvre(tauxHoraire=request.session['mo']['tauxHoraire'])
+        p.save()
+        ligne, created = LigneDevis.objects.get_or_create(prestation=p, quantite=request.session['mo']['heures'])
+        devis.lignes.add(ligne)
+    else:
+        p = PrestationMainOeuvre(tauxHoraire=55)
+        p.save()
+        ligne, created = LigneDevis.objects.get_or_create(prestation=p, quantite=1)
+        devis.lignes.add(ligne)
 
     devis.save()
     nettoyer_devis_en_cours(request)

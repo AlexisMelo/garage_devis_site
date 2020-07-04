@@ -11,7 +11,8 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from django.templatetags.static import static
-from devis.models import Devis, PrestationCoutFixe, PrestationCoutVariableConcrete, PrestationPneumatique
+from devis.models import Devis, PrestationCoutFixe, PrestationCoutVariableConcrete, PrestationPneumatique, \
+    PrestationMainOeuvre
 
 from reportlab.lib.units import cm
 
@@ -189,11 +190,18 @@ def getLigne(c, ligne, movingY):
             getPrestationNameTO(c, "{} {}\"".format(ligne.prestation.marque.libelle, ligne.prestation.dimensions),
                                 movingY))
 
+    elif isinstance(ligne.prestation, PrestationMainOeuvre):
+        tailleOccupee = 1.5 * cm
+        textObjects.append(getPrestationNameTO(c, "Main d'oeuvre", movingY))
+
     prixUnitaire = str(ligne.prestation.prix_total)
     textObjects.append(getLigneValeursCalculeesTO(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
                                                   movingY=movingY))
 
-    quantite = str(ligne.quantite)
+    if isinstance(ligne.prestation, PrestationMainOeuvre):
+        quantite = str(ligne.quantite) + " heures"
+    else:
+        quantite = str(ligne.quantite)
     textObjects.append(
         getLigneValeursCalculeesTO(c=c, string=quantite, boxbeginX=largeur * 1 / 2 + (largeur * 1 / 6), boxsize=boxsize,
                                    movingY=movingY))
