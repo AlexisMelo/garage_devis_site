@@ -122,8 +122,7 @@ class LigneDevis(models.Model):
 
 class Devis(models.Model):
     date_creation = models.DateField(default=timezone.now, verbose_name="Date création du devis")
-    date_planification = models.DateField(default=timezone.now, verbose_name="Planification prévue pour le devis",
-                                          blank=True)
+    date_planification = models.DateField(default=timezone.now, verbose_name="Planification prévue pour le devis")
     client = models.ForeignKey('Client', on_delete=models.PROTECT)
 
     lignes = models.ManyToManyField(LigneDevis)
@@ -143,19 +142,18 @@ class Devis(models.Model):
 
 
 class Client(models.Model):
-    prenom = models.CharField(max_length=50, blank=True, null=True)
-    nom = models.CharField(max_length=50)
-    societe = models.CharField(max_length=100, blank=True, null=True)
-    adresse = models.TextField(max_length=200)
+    intitule = models.CharField(max_length=100)
+    adresse = models.TextField(max_length=200, blank=True, null=True)
     complement_adresse = models.TextField(max_length=200, blank=True, null=True)
     telephone = PhoneNumberField(null=True, blank=True)
+    date_ajout = models.DateField(default=timezone.now)
 
     class Meta:
         verbose_name = "Client"
-        ordering = ['nom']
+        ordering = ['intitule']
 
     def __str__(self):
-        return "{} {} {}".format(self.prenom, self.nom, self.societe or "")
+        return self.intitule
 
 
 class Marque(models.Model):

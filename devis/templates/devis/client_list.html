@@ -21,18 +21,16 @@
     <table id="table-clients" class="striped highlight">
         <thead>
             <tr>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Societe</th>
+                <th  id="th_intitule">Intitule</th>
+                <th id="th_tel">Telephone</th>
                 <th>Adresse</th>
             </tr>
         </thead>
         <tbody>
             {% for c in clients %}
                 <tr>
-                    <td>{{ c.nom|upper }}</td>
-                    <td>{{ c.prenom|title}}</td>
-                    <td>{{ c.societe}}</td>
+                    <td>{{ c.intitule|title }}</td>
+                    <td>{{ c.telephone|default_if_none:""}}</td>
                     <td>{{ c.adresse|truncatewords:50 }}</td>
                 </tr>
             {% endfor %}

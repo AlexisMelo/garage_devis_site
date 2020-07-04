@@ -19,10 +19,10 @@ class DevisAdmin(admin.ModelAdmin):
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('id', 'prenom', 'nom', 'societe')
-    list_filter = ('prenom', 'nom', 'societe',)
-    ordering = ('nom', 'prenom',)
-    search_fields = ('prenom', 'nom', 'societe')
+    list_display = ('id', 'intitule')
+    list_filter = ('intitule',)
+    ordering = ('intitule',)
+    search_fields = ('intitule',)
 
 
 admin.site.register(Client, ClientAdmin)

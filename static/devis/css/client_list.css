@@ -9,3 +9,11 @@ thead{
 #table-clients {
     margin-top : 5%;
 }
+
+#th_tel {
+    width : 20%;
+}
+
+#th_intitule {
+    width : 40%;
+}

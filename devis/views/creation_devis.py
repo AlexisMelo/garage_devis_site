@@ -80,36 +80,16 @@ def sauvegarder_devis(request):
 
     devis = Devis()
 
-    clientFields = request.session.get('client').split(" ", maxsplit=2)
-
-    client = None
-
     try:
-        client = Client.objects.get(nom__iexact=clientFields[0])
-    except Client.MultipleObjectsReturned:
-        if len(clientFields) == 2:
-            try:
-                client = Client.objects.get(nom__iexact=clientFields[0], prenom__iexact=clientFields[1])
-            except:
-                try:
-                    client = Client.objects.get(nom__iexact=clientFields[0],
-                                                societe__iexact=clientFields[1].replace('(', '').replace(')',
-                                                                                                         '').strip())
-                except:
-                    pass
-        elif len(clientFields) == 3:
-            try:
-                client = Client.objects.get(nom__iexact=clientFields[0], prenom__iexact=clientFields[1],
-                                            societe__iexact=clientFields[2].replace('(', '').replace(')', '').strip())
-            except:
-                pass
-    except:
-        pass
-
-    if client is None:
-        messages.error(request, "Impossible de faire le lien avec une fiche client, veuillez la renseigner")
-    else:
+        client = Client.objects.get(intitule__iexact=request.session.get('client'))
         devis.client = client
+    except Client.DoesNotExist:
+        messages.error(request, "Impossible de faire le lien avec une fiche client, veuillez la renseigner")
+        request.session["ajout_client_inconnu_pour_devis"] = True
+        return redirect("ajout_client")
+    except Client.MultipleObjectsReturned:
+        messages.error(request, "Plusieurs clients avec le même nom trouvé, veuillez en sélectionner un : (c pas encore implémenté")
+        return redirect("devis_creation_ecrit")
 
     try:
         devis.full_clean()

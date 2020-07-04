@@ -7,4 +7,4 @@ from .models import Devis, Client
 class ClientAjoutForm(forms.ModelForm):
     class Meta:
         model = Client
-        fields = '__all__'
+        fields = ['intitule','adresse','complement_adresse','telephone']

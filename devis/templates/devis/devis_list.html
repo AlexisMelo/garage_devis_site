@@ -22,7 +22,6 @@
                 <th>Numéro</th>
                 <th>Date création</th>
                 <th>Client</th>
-                <th>Société</th>
                 <th>Date prévue</th>
             </tr>
         </thead>
@@ -31,8 +30,7 @@
                 <tr onclick="location.href=&quot;{% url 'devis_detail' d.id %}&quot;">
                     <td>{{ d.id }}</td>
                     <td>{{ d.date_creation }}</td>
-                    <td>{{ d.client.nom|upper }} {{ d.client.prenom|title }}</td>
-                    <td>{{ d.client.societe }}</td>
+                    <td>{{ d.client.intitule}}</td>
                     <td>{{ d.date_planification }}</td>
                 </tr>
             {% endfor %}
