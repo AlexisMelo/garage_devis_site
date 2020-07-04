@@ -45,6 +45,27 @@ def setClient(c, devis):
     textobject.textLine(str(devis.client)[0:34])
     c.drawText(textobject)
 
+    textAdresse = c.beginText()
+    textAdresse.setTextOrigin(x=0.1 * cm, y=hauteur - 4.5 * cm)
+    textAdresse.setFont(psfontname='Helvetica', size=17)
+    textAdresse.setFillColor(black)
+
+    adresseList = devis.client.adresse.split()
+    stringFinales = []
+    currentSring = ""
+    for string in adresseList:
+        print(string)
+        print("current : " + currentSring)
+        if len(currentSring) + len(string) > 26 and currentSring:
+            stringFinales.append(currentSring)
+            currentSring = ""
+        currentSring += " " + string[0:28]
+
+    stringFinales.append(currentSring)
+    for string in stringFinales:
+        textAdresse.textLine(string)
+    c.drawText(textAdresse)
+
 
 def setDevisId(c, devis):
     c.setFillColor(colors.HexColor("#212121"))
@@ -99,11 +120,6 @@ def setLignesHeader(c, y=21 * cm):
     textobject.setFillColor(white)
     textobject.textLine("Total")
     c.drawText(textobject)
-
-
-def setTotal(c, movingY):
-    pass
-
 
 def getLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
     widthPrixUnit = stringWidth(string, "Helvetica", fontSize=14)
@@ -276,6 +292,16 @@ def setLignes(c, devis):
 
         setTextObjects(c, textObjects)
 
+def setDate(c, devis):
+    dateString = devis.date_creation.strftime("%d/%m/%Y")
+    print(dateString)
+    textdate = c.beginText()
+    textdate.setTextOrigin(x=13.7 * cm, y=hauteur - 5.5*cm)
+    textdate.setFont(psfontname="Helvetica", size=18)
+    textdate.setFillColor(black)
+    textdate.textLine("Date : {}".format(dateString))
+    c.drawText(textdate)
+
 
 def generer_pdf(request, pk):
     buffer = io.BytesIO()
@@ -287,7 +313,10 @@ def generer_pdf(request, pk):
     setClient(c, devis)
     setDecoration(c)
     setLignesHeader(c)
+    setDate(c, devis)
+
     setLignes(c, devis)
+
 
     c.showPage()
     c.save()
