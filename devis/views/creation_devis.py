@@ -8,7 +8,7 @@ from django.urls import reverse
 
 from devis.models import Client, Categorie, PrestationCoutFixe, PrestationCoutVariableStandard, Devis, LigneDevis, \
     PrestationCoutVariableConcrete, PieceDetacheeStandard, PieceDetacheeAvecPrix, PrestationPneumatique, Marque, \
-    PrestationMainOeuvre
+    PrestationMainOeuvre, PrestationNouvelle
 
 
 def ajouter_prestation_pneumatique(request):
@@ -62,6 +62,7 @@ def nettoyer_devis_en_cours(request):
     request.session.pop('mesPrestationsCoutFixe', None)
     request.session.pop('mesPrestationsCoutVariable', None)
     request.session.pop('mesPrestationsPneumatiques', None)
+    request.session.pop('mesPrestationsNouvelles', None)
     request.session.pop('devis_en_creation', None)
     request.session.pop('prix_devis_total', None)
     request.session.pop('client', None)
@@ -76,7 +77,7 @@ def sauvegarder_devis(request):
         return redirect('devis_creation_ecrit')
 
     if not any(key in request.session for key in
-               ['mesPrestationsCoutFixe', 'mesPrestationsCoutVariable', 'mesPrestationsPneumatiques']):
+               ['mesPrestationsCoutFixe', 'mesPrestationsCoutVariable', 'mesPrestationsPneumatiques', 'mesPrestationsNouvelles']):
         messages.error(request, 'Ajoutez au moins une préstation au devis !')
         return redirect('devis_creation_ecrit')
 
@@ -129,7 +130,8 @@ def sauvegarder_devis(request):
 
     if 'mesPrestationsPneumatiques' in request.session:
         for prestation in request.session['mesPrestationsPneumatiques'].values():
-            nouvellePrestPneu = PrestationPneumatique(prixAchat=prestation.get('prixAchat'),
+            nouvellePrestPneu = PrestationPneumatique(libelle="Prestation pneumatique",
+                                                      prixAchat=prestation.get('prixAchat'),
                                                       dimensions=prestation.get('dimensions'),
                                                       marque=Marque.objects.get_or_create(libelle=prestation.get('marque'))[0])
 
@@ -137,13 +139,22 @@ def sauvegarder_devis(request):
             ligne, created = LigneDevis.objects.get_or_create(prestation=nouvellePrestPneu, quantite=prestation.get('quantite'))
             devis.lignes.add(ligne)
 
+    if 'mesPrestationsNouvelles' in request.session:
+        for prestation in request.session['mesPrestationsNouvelles'].values():
+            nouvellePrest = PrestationNouvelle(libelle=prestation.get('libelle'),
+                                               prix=prestation.get('prix'))
+
+            nouvellePrest.save()
+            ligne, created = LigneDevis.objects.get_or_create(prestation=nouvellePrest, quantite=prestation.get('quantite'))
+            devis.lignes.add(ligne)
+
     if 'mo' in request.session:
-        p = PrestationMainOeuvre(tauxHoraire=request.session['mo']['tauxHoraire'])
+        p = PrestationMainOeuvre(libelle="Main d'oeuvre", tauxHoraire=request.session['mo']['tauxHoraire'])
         p.save()
         ligne, created = LigneDevis.objects.get_or_create(prestation=p, quantite=request.session['mo']['heures'])
         devis.lignes.add(ligne)
     else:
-        p = PrestationMainOeuvre(tauxHoraire=55)
+        p = PrestationMainOeuvre(libelle="Main d'oeuvre", tauxHoraire=55)
         p.save()
         ligne, created = LigneDevis.objects.get_or_create(prestation=p, quantite=1)
         devis.lignes.add(ligne)

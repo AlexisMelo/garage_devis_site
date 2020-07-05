@@ -25,30 +25,19 @@
                 {% endfor %}
 
 
-
-
             {% elif ligne.prestation|get_class == "PrestationPneumatique" %}
 
             <p>{{ligne.prestation.marque.libelle}} {{ligne.prestation.dimensions}}" x{{ligne.quantite}} = {{ligne.prix_total}}</p>
 
-
-
-
-
-
             {% elif ligne.prestation|get_class == "PrestationCoutFixe" %}
 
             <p>{{ligne.prestation.libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
+            {% elif ligne.prestation|get_class == "PrestationNouvelle" %}
 
-
+            <p>{{ligne.prestation.libelle}} x {{ligne.quantite}} = {{ligne.prix_total}}</p>
             {% elif ligne.prestation|get_class == "PrestationMainOeuvre" %}
 
             <p>Main oeuvre : {{ligne.quantite}} Heures à {{ligne.prestation.tauxHoraire}} € = {{ligne.prix_total}}</p>
-
-
-
-
-
 
             {% endif %}
 

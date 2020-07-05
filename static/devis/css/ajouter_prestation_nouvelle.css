@@ -1,0 +1,10 @@
+#btn_nouvelle_prest {
+    width : 100%;
+    height: auto;
+    padding : 0.5rem;
+    color: black;
+    text-transform : none;
+}
+#btn_nouvelle_prest > i {
+    margin-left : 2%;
+}

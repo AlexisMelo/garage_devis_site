@@ -10,15 +10,21 @@
     <link href="{% static 'devis/css/ajouter_prestation.css' %}" rel="stylesheet">
     <link href="{% static 'devis/css/ajouter_prestation_cout_fixe.css' %}" rel="stylesheet">
     <link href="{% static 'devis/css/ajouter_prestation_cout_variable.css' %}" rel="stylesheet">
+    <link href="{% static 'devis/css/ajouter_prestation_nouvelle.css' %}" rel="stylesheet">
+
 {% endblock %}
 
 {% block cote_gauche %}
-    <div class="row center-align row-titre">
-        <div class="col s12"><span id="titre">Forfaits</span></div>
+    <div class="row row-titre center-align">
+        <div class="col s12 titre">Nouveau</div>
+    </div>
+    {% include "devis/mecanique_prestation_nouvelle.html" %}
+    <div class="row row-titre center-align">
+        <div class="col s12 titre">Forfaits</div>
     </div>
     {% include "devis/mecanique_prestations_cout_fixe.html" %}
-    <div class="row center-align row-titre">
-        <div class="col s12"><span id="titre">Préstations</span></div>
+    <div class="row row-titre center-align">
+        <div class="col s12 titre">Préstations à coût variable</div>
     </div>
     {% include "devis/mecanique_prestations_cout_variable.html" %}
 {% endblock %}
@@ -29,4 +35,6 @@
     <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation.js' %}"></script>
     <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_cout_fixe.js' %}"></script>
     <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_cout_variable.js' %}"></script>
+    <script type="text/javascript" src="{% static 'devis/js/ajouter_prestation_nouvelle.js' %}"></script>
+
 {% endblock %}

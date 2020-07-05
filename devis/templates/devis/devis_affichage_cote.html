@@ -10,11 +10,30 @@
 <div class="row" id="row-contenu-devis">
 
         <ul class="collapsible expandable" id="liste-prestations">
+        {% if request.session.mesPrestationsNouvelles %}
+
+            <li class="active">
+                <div class="collapsible-header grey lighten-2 header-collaspe-cote"><i class="material-icons">list</i>Nouvelles préstations ({{request.session.mesPrestationsNouvelles|length}})</div>
+
+                <div class="collapsible-body body-collaspe-cote">
+                    {% for indicePrestation, prestation in request.session.mesPrestationsNouvelles.items %}
+                    <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsNouvelles' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.libelle}}">
+                        <div class="col s9">
+                            <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
+                        </div>
+                        <div class="col s3 right-align">
+                            <span class="cout_prestation">{{prestation.prix_total}} €</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+              </div>
+            </li>
+        {% endif %}
 
         {% if request.session.mesPrestationsCoutFixe %}
 
             <li class="active">
-              <div class="collapsible-header grey lighten-2 header-collaspe-cote"><i class="material-icons">list</i>Prestations à coût fixe ({{request.session.mesPrestationsCoutFixe|length}})</div>
+              <div class="collapsible-header grey lighten-2 header-collaspe-cote"><i class="material-icons">list</i>Forfaits ({{request.session.mesPrestationsCoutFixe|length}})</div>
               <div class="collapsible-body body-collaspe-cote">
 
                     {% for indicePrestation, prestation in request.session.mesPrestationsCoutFixe.items %}

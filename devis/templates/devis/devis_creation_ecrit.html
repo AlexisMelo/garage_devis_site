@@ -50,25 +50,25 @@
         <div class="col s12 l6 ">
             {% if request.session.mo %}
             <div class="row valign-wrapper z-depth-2">
-                <div class="col s12 l8 valign-wrapper">
+                <div class="col s7 valign-wrapper">
                 <i class="material-icons prefix">access_time</i>
                 <span id="affichage_mo">{{request.session.mo.heures}} Heure(s) à {{request.session.mo.tauxHoraire}}€/h</span>
                 </div>
-                <div class="col s4 offset-s4 offset-l0 l4 right-align">
+                <div class="col s5 right-align">
                     <a class="btn-changer waves-effect waves-light btn modal-trigger orange" href="#modalMO">Changer</a>
                 </div>
             </div>
             {% else %}
             <div class="row center-align">
                 <div class="col s12 center-align" id="colonne-selectionnez-mo">
-                <a class="waves-effect waves-light btn modal-trigger grey darken-4" id="button-selectionnez-mo" href="#modalMO">Ajoutez la main d'oeuvre</a>
+                <a class="waves-effect waves-light btn modal-trigger grey darken-4 tooltipped" data-position="bottom" data-tooltip="Par défaut, la main d'oeuvre est fixée à 1 heure pour 55€. Pour la supprimer, fixez le nombre d'heures à 0." id="button-selectionnez-mo" href="#modalMO">Ajoutez la main d'oeuvre</a>
                 </div>
             </div>
             {% endif %}
 
         </div>
         <div class="col s12 l6">
-
+            <span>Appliquez une réduction ! (Non implémenté pour l'instant)</span>
         </div>
     </div>
 

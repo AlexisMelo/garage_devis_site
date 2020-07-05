@@ -2,7 +2,7 @@
     margin-top : 5%;
 }
 
-#titre {
+.titre {
     font-size : 1.5em;
 }
 
@@ -41,3 +41,6 @@ table.highlight > tbody > tr:hover {
     bottom : 0;
 }
 
+.collapsible.popout>li {
+    margin: 0 !important;
+}

@@ -12,7 +12,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from django.templatetags.static import static
 from devis.models import Devis, PrestationCoutFixe, PrestationCoutVariableConcrete, PrestationPneumatique, \
-    PrestationMainOeuvre
+    PrestationMainOeuvre, PrestationNouvelle
 
 from reportlab.lib.units import cm
 
@@ -165,7 +165,11 @@ def getLigne(c, ligne, movingY):
     textObjects = []
     boxsize = largeur * 1 / 6
 
-    if isinstance(ligne.prestation, PrestationCoutFixe):
+    if isinstance(ligne.prestation, PrestationNouvelle):
+        tailleOccupee = 1.5 * cm
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
+
+    elif isinstance(ligne.prestation, PrestationCoutFixe):
         tailleOccupee = 1.5 * cm
         textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
 
@@ -199,7 +203,7 @@ def getLigne(c, ligne, movingY):
                                                   movingY=movingY))
 
     if isinstance(ligne.prestation, PrestationMainOeuvre):
-        quantite = str(ligne.quantite) + " heures"
+        quantite = str(ligne.quantite) + " heure(s)"
     else:
         quantite = str(ligne.quantite)
     textObjects.append(

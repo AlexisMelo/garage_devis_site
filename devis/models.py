@@ -197,3 +197,13 @@ class PrestationMainOeuvre(Prestation):
     @property
     def prix_total(self):
         return self.tauxHoraire
+
+class PrestationNouvelle(Prestation):
+    prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
+
+    class Meta:
+        verbose_name = "Prestation répondant à un besoin ponctuel"
+
+    @property
+    def prix_total(self):
+        return self.prix

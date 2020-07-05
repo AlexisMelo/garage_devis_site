@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col s12 ">
+        <a class="waves-effect waves-light btn modal-trigger white tooltipped" data-position="bottom" data-tooltip="Attention ! Ces préstations sont à utiliser pour un besoin précis. Une fois le devis enregistré, elles ne sont plus réutilisables. Si vous effectuez souvent la même saisie, n'hésitez pas à ajouter un forfait ou bien une préstation à coût variable pour gagner du temps." href="#modal-nvelle" id="btn_nouvelle_prest">
+            <i class="material-icons left">new_releases</i>
+            <span class="left">Nouvelle préstation</span>
+        </a>
+    </div>
+</div>
+
+<form id="modal-nvelle" class="modal" action="{% url 'ajouter_prestation_nouvelle_en_session' %}" method="post">
+    <div class="modal-content">
+        <div class="row modal-entete valign-wrapper">
+            <div class="col s8">
+                <h4>Ajout d'une nouvelle préstation</h4>
+            </div>
+            <div class="col s4 right-align">
+                <span>
+                    <span class="prix_unitaire">
+                        (<span id="nvelle-prix_unitaire">? </span>€/U)
+                    </span>
+                    <span class="prix_total"> Total :
+                        <span id="nvelle-prix_total">? </span>€
+                    </span>
+                </span>
+            </div>
+        </div>
+
+        <div class="row modal-realcontent">
+
+            <div class="row valign-wrapper row-piece">
+                <div class="col s5 center-align">
+                    Titre de la préstation
+                </div>
+
+                <div class="col s6 input-field">
+                    <input id="nvelle-libelle" name="libelle" type="text" class="validate" required>
+                    <label for="nvelle-libelle">Libellé</label>
+                </div>
+                <div class="col s1">
+
+                </div>
+            </div>
+            <div class="row valign-wrapper row-piece">
+                <div class="col s5 center-align">
+                    Prix de vente de la préstation
+                </div>
+
+                <div class="col s6 input-field">
+                <input id="nvelle-prix" name="prix" type="number" step="0.01" min="0" class="validate" required>
+                <label for="nvelle-prix">Prix de vente</label>
+                </div>
+                <div class="col s1">
+
+                </div>
+            </div>
+
+            <div class="row center-align valign-wrapper row-gestion-quantite">
+
+                <div class="col s2 offset-s1 xl1 offset-xl4">
+                    <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('nvelle-quantite',-1);"><i class="material-icons right">remove</i></a>
+                </div>
+
+                <div class="col input-field s4 xl2">
+
+                    {% csrf_token %}
+                    <input id="nvelle-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
+                    <label for="nvelle-quantite">Quantité</label>
+
+                </div>
+
+                <div class="col s2 xl1">
+                    <a class="waves-effect waves-light btn-floating grey" onclick="incrementerValeurInput('nvelle-quantite',1);"><i class="material-icons right">add</i></a>
+                </div>
+
+                <div class="col s1 xl4">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-footer">
+        <div class="row center-align">
+            <div class="col s6">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Annuler</a>
+            </div>
+            <div class="col s6">
+                <button type="submit" class="waves-effect waves-green btn">
+                    Ajouter au devis
+                </button>
+            </div>
+        </div>
+    </div>
+</form>

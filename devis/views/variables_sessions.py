@@ -26,24 +26,20 @@ def ajouter_mo_session(request):
     update_prix_total_session(request)
     return redirect('devis_creation_ecrit')
 
+def sommeTotaux(request, cle):
+    if cle in request.session:
+        liste_couts = [p['prix_total'] for p in request.session[cle].values() if p]
+        return sum(liste_couts)
+    return 0
+
 @login_required
 def update_prix_total_session(request):
     prix_total = 0.00
 
-    if 'mesPrestationsCoutFixe' in request.session:
-        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsCoutFixe'].values() if p]
-        sommeCoutPrestations = sum(liste_couts)
-        prix_total += sommeCoutPrestations
-
-    if 'mesPrestationsCoutVariable' in request.session:
-        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsCoutVariable'].values() if p]
-        sommeCoutPrestations = sum(liste_couts)
-        prix_total += sommeCoutPrestations
-
-    if 'mesPrestationsPneumatiques' in request.session:
-        liste_couts = [p['prix_total'] for p in request.session['mesPrestationsPneumatiques'].values() if p]
-        sommeCoutPrestations = sum(liste_couts)
-        prix_total += sommeCoutPrestations
+    prix_total += sommeTotaux(request, 'mesPrestationsCoutFixe')
+    prix_total += sommeTotaux(request, 'mesPrestationsCoutVariable')
+    prix_total += sommeTotaux(request, 'mesPrestationsPneumatiques')
+    prix_total += sommeTotaux(request, 'mesPrestationsNouvelles')
 
     if 'mo' in  request.session:
         prix_total += float(request.session['mo']['tauxHoraire']) * float(request.session['mo']['heures'])
@@ -70,6 +66,28 @@ def ajouter_prestation_fixe_en_session(request):
 
     return redirect('ajouter_prestation_mecanique')
 
+@login_required
+def ajouter_prestation_nouvelle_en_session(request):
+    if not 'mesPrestationsNouvelles' in request.session:
+        request.session['mesPrestationsNouvelles'] = {}
+
+    quantite = int(request.POST.get('quantite'))
+    libelle = request.POST.get('libelle')
+    prix = float(request.POST.get('prix'))
+
+    nouvelId = len(request.session['mesPrestationsNouvelles']) + 1
+
+    request.session['mesPrestationsNouvelles'][str(nouvelId)] = {
+        'quantite' : quantite,
+        'libelle' : libelle,
+        'prix' : prix,
+        'prix_total' : round(quantite * prix,2)
+    }
+
+    request.session.modified = True
+    update_prix_total_session(request)
+
+    return redirect('ajouter_prestation_mecanique')
 
 @login_required
 def ajouter_prestation_pneumatique_en_session(request):
