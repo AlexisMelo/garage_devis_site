@@ -22,7 +22,6 @@
                 <th>Numéro</th>
                 <th>Date création</th>
                 <th>Client</th>
-                <th>Date prévue</th>
             </tr>
         </thead>
         <tbody>
@@ -31,7 +30,6 @@
                     <td>{{ d.id }}</td>
                     <td>{{ d.date_creation }}</td>
                     <td>{{ d.client.intitule}}</td>
-                    <td>{{ d.date_planification }}</td>
                 </tr>
             {% endfor %}
         </tbody>

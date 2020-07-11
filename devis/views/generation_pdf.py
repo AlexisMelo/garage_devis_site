@@ -132,31 +132,12 @@ def getLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
     return prixUnitObject
 
 
-def getSousLigneValeursCalculeesTO(c, string, boxbeginX, boxsize, movingY):
-    widthPrixUnit = stringWidth(string, "Helvetica", fontSize=9)
-    prixUnitObject = c.beginText()
-    prixUnitObject.setFont(psfontname="Helvetica", size=9)
-    prixUnitObject.setFillColor(colors.HexColor("#424242"))
-    prixUnitObject.setTextOrigin(boxbeginX + (boxsize - widthPrixUnit - 0.2 * cm), movingY)
-    prixUnitObject.textLine(string)
-    return prixUnitObject
-
-
 def getPrestationNameTO(c, name, movingY):
     textobject = c.beginText()
     textobject.setTextOrigin(x=0.5 * cm, y=movingY - cm)
     textobject.setFont(psfontname="Helvetica", size=14)
     textobject.setFillColor(black)
     textobject.textLine(name[0:30])
-    return textobject
-
-
-def getPieceTO(c, piece, movingY):
-    textobject = c.beginText()
-    textobject.setTextOrigin(x=1 * cm, y=movingY)
-    textobject.setFont(psfontname="Helvetica", size=9)
-    textobject.setFillColor(colors.HexColor("#424242"))
-    textobject.textLine(("- " + piece.libelle)[0:30])
     return textobject
 
 
@@ -176,17 +157,6 @@ def getLigne(c, ligne, movingY):
     elif isinstance(ligne.prestation, PrestationCoutVariableConcrete):
         tailleOccupee = 1.5 * cm
         textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
-        movingYCopie = movingY - cm
-        for piece in ligne.prestation.pieces_detachees.all():
-            movingYCopie -= cm
-            textObjects.append(getPieceTO(c, piece, movingYCopie))
-
-            prixUnitaire = str(piece.prix_total)
-            textObjects.append(
-                getSousLigneValeursCalculeesTO(c=c, string=prixUnitaire, boxbeginX=largeur * 1 / 2, boxsize=boxsize,
-                                               movingY=movingYCopie))
-
-            tailleOccupee += cm
 
     elif isinstance(ligne.prestation, PrestationPneumatique):
         tailleOccupee = 1.5 * cm

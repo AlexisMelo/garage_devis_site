@@ -122,7 +122,6 @@ class LigneDevis(models.Model):
 
 class Devis(models.Model):
     date_creation = models.DateField(default=timezone.now, verbose_name="Date création du devis")
-    date_planification = models.DateField(default=timezone.now, verbose_name="Planification prévue pour le devis")
     client = models.ForeignKey('Client', on_delete=models.PROTECT)
 
     lignes = models.ManyToManyField(LigneDevis)
