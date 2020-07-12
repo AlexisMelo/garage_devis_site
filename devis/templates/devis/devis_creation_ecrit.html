@@ -19,7 +19,7 @@
         {% if request.session.client %}
             <div class="col s7 l8 valign-wrapper">
                 <i class="material-icons prefix">account_circle</i>
-                <span id="affichage_nom_client">{{request.session.client|truncatechars:30}}</span>
+                <span id="affichage_nom_client">{{request.session.client.intitule|truncatechars:30}}</span>
             </div>
             <div class="col s5 l4 right-align">
                 <a class="btn-changer waves-effect waves-light btn modal-trigger orange" href="#modal1">Changer</a>

@@ -10,10 +10,27 @@ thead{
     margin-top : 5%;
 }
 
+#btnNveauClient {
+    width: 100%;
+}
+
 #th_tel {
     width : 20%;
 }
 
 #th_intitule {
     width : 40%;
+}
+
+#rowTop {
+    margin-top : 2%;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color : #e0e0e0;
+    cursor: pointer;
+}
+
+#row-aucun-client {
+    margin-top: 30%;
 }

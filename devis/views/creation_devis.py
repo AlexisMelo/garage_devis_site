@@ -84,7 +84,11 @@ def sauvegarder_devis(request):
     devis = Devis()
 
     try:
-        client = Client.objects.get(intitule__iexact=request.session.get('client'))
+        clientSession = request.session.get('client')
+        if clientSession['id']:
+            client = Client.objects.get(id=clientSession['id'])
+        else:
+            client = Client.objects.get(intitule__icontains=clientSession['intitule'])
         devis.client = client
     except Client.DoesNotExist:
         messages.error(request, "Impossible de faire le lien avec une fiche client, veuillez la renseigner")

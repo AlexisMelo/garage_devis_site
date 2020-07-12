@@ -1,17 +1,29 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
-from devis.models import PieceDetacheeStandard
+from devis.models import PieceDetacheeStandard, Client
 from devis.views.utilitaires import application_marge
 
 
 @login_required
 def ajouter_client_en_session(request):
     if request.POST.get('client', None):
-        request.session['client'] = request.POST.get('client')
+        request.session['client'] = {
+            'intitule' : request.POST.get('client'),
+            'id' : None
+        }
     else:
         request.session['client'] = False
 
+    return redirect('devis_creation_ecrit')
+
+@login_required
+def ajouter_client_en_session_avec_id(request, numClient):
+    client = Client.objects.get(id=numClient)
+    request.session['client'] = {
+        'intitule' : client.intitule,
+        'id' : numClient
+    }
     return redirect('devis_creation_ecrit')
 
 @login_required

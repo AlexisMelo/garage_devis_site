@@ -6,6 +6,7 @@ from decimal import Decimal
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
+from django.urls import reverse
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
@@ -153,6 +154,9 @@ class Client(models.Model):
 
     def __str__(self):
         return self.intitule
+
+    def get_absolute_url(self):
+        return reverse('client_detail', args=[str(self.id)])
 
 
 class Marque(models.Model):

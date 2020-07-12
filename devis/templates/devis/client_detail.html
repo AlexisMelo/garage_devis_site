@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Client n°{{client.id}}
+{% endblock %}
+
+{% load static %}
+
+{% block stylesheets %}
+    <link href="{% static 'devis/css/client_detail.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block description %}
+    Affichage de la fiche client n° {{client.id}}
+{% endblock %}
+
+{% block contenu %}
+    <div class="row z-depth-1 valign-wrapper">
+        <div class="col s7 ">
+            <h4>{{client.intitule}}</h4>
+        </div>
+        <div class="col s3">
+            <a href="{% url 'nouveau_devis_depuis_client' client.id %}"class="grey darken-2 waves-effect waves-light btn" id="btn-nouveau-devis"><i class="material-icons right">description</i>Nouveau Devis</a>
+
+        </div>
+        <div class="col s2">
+            <a href="{% url 'update_client' client.id %}" class="waves-effect waves-light btn grey" id="btn-editer"><i class="material-icons right">edit</i>Editer</a>
+        </div>
+    </div>
+
+{% endblock %}

@@ -16,8 +16,25 @@
 
 {% block contenu %}
 
-    <a href="{% url 'ajout_client' %}" class="waves-effect waves-light btn">Ajouter</a>
+    <div class="row valign-wrapper" id="rowTop">
+        <div class="col s3">
+            <a href="{% url 'ajout_client' %}" class="grey waves-effect waves-light btn" id="btnNveauClient">Nouveau client</a>
+        </div>
+        <div class="col s9">
+            <div class="nav-wrapper">
+              <form id="formRecherche" method="GET" action="">
+                <div class="input-field">
+                  <input placeholder="Rechercher un client par intitulé, adresse, téléphone, ..." id="search" type="search" name="search" required value="{{request.GET.search}}">
+                  <label class="label-icon" for="search"><i id="searchIcon" class="material-icons">search</i></label>
+                    <i class="material-icons" onclick="location.href='{% url 'liste_clients' %}'; console.log('c cliqué');">close</i>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
 
+
+    {% if clients %}
     <table id="table-clients" class="striped highlight">
         <thead>
             <tr>
@@ -28,16 +45,25 @@
         </thead>
         <tbody>
             {% for c in clients %}
-                <tr>
+                <tr onclick="location.href=&quot;{% url 'client_detail' c.id %}&quot;">
                     <td>{{ c.intitule|title }}</td>
-                    <td>{{ c.telephone|default_if_none:""}}</td>
+                    <td>{{ c.telephone.as_national|default_if_none:""}}</td>
                     <td>{{ c.adresse|truncatewords:50 }}</td>
                 </tr>
             {% endfor %}
         </tbody>
 
     </table>
+    {% else %}
+        <div class="row center-align" id="row-aucun-client">
+            <h6>Aucun client ne correspond à vos critères de recherche...</h6>
+        </div>
+    {% endif %}
 
         {% include "devis/pagination.html" %}
 
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'devis/js/client_liste.js' %}"></script>
 {% endblock %}

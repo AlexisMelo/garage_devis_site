@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Modification de client n° {{client.id}}
+{% endblock %}
+
+{% block description %}
+    Formulaire de modification d'un client
+{% endblock %}
+
+{% block contenu %}
+
+    <form method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Modifier">
+
+    </form>
+
+
+{% endblock %}
