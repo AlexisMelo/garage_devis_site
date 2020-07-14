@@ -5,3 +5,48 @@
 #btn-editer {
     width : 95%;
 }
+
+#row-nom {
+    margin-top: 2%;
+}
+
+.information {
+    font-size: 25px;
+}
+
+.sous_information {
+    font-size: 18px;
+}
+
+.icon-description {
+    margin-right : 2%;
+}
+
+.collapsible .collapsible-body {
+    padding : 0;
+}
+
+.th-prestations {
+    width: 67%;
+}
+
+.th-date {
+    width: 14%;
+}
+
+.th-prix {
+    width: 12%;
+}
+
+.th-pdf {
+    width : 7%;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color : #e0e0e0;
+    cursor: pointer;
+}
+
+.td-prestations {
+    text-align :left !important;
+}

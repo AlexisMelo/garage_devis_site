@@ -1,9 +1,6 @@
-from django.conf.urls import url
 from django.urls import path
-from django.views.generic import ListView
 
 from . import views
-from .models import Client
 
 urlpatterns = [
     path('choix/', views.oral_ecrit, name="creer_devis"),

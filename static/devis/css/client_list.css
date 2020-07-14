@@ -2,10 +2,6 @@ table.highlight > tbody > tr:hover {
     background-color : transparent;
 }
 
-thead{
-    background-color : #bdbdbd;
-}
-
 #table-clients {
     margin-top : 5%;
 }

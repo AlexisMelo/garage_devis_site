@@ -55,8 +55,6 @@ def setClient(c, devis):
     stringFinales = []
     currentSring = ""
     for string in adresseList:
-        print(string)
-        print("current : " + currentSring)
         if len(currentSring) + len(string) > 26 and currentSring:
             stringFinales.append(currentSring)
             currentSring = ""
@@ -276,7 +274,6 @@ def setLignes(c, devis):
 
 def setDate(c, devis):
     dateString = devis.date_creation.strftime("%d/%m/%Y")
-    print(dateString)
     textdate = c.beginText()
     textdate.setTextOrigin(x=13.7 * cm, y=hauteur - 5.5*cm)
     textdate.setFont(psfontname="Helvetica", size=18)
@@ -306,4 +303,4 @@ def generer_pdf(request, pk):
     buffer.seek(0)
 
     # return FileResponse(buffer, as_attachment=True, filename="hello.pdf")
-    return FileResponse(buffer, filename="hello.pdf")
+    return FileResponse(buffer, as_attachment=True, filename="{}-{}".format(str(devis.id).zfill(5), devis.date_creation))

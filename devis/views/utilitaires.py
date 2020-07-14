@@ -7,6 +7,7 @@ def application_marge(prix):
         return prix * 1.75
     return prix * 1.5
 
+
 def iterable(obj):
     try:
         iter(obj)
@@ -14,3 +15,5 @@ def iterable(obj):
         return False
     else:
         return True
+
+

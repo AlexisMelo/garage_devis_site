@@ -3,10 +3,6 @@ table.highlight > tbody > tr:hover {
     cursor: pointer;
 }
 
-thead{
-    background-color : #bdbdbd;
-}
-
 #table-devis {
     margin-top : 5%;
 }

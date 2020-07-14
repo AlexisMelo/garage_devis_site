@@ -3,10 +3,9 @@ from __future__ import unicode_literals
 
 from decimal import Decimal
 
-from django.contrib.auth.models import User
-from django.core.validators import RegexValidator
 from django.db import models
 from django.urls import reverse
+from django.utils.datetime_safe import date
 from phonenumber_field.modelfields import PhoneNumberField
 
 # Create your models here.
@@ -140,6 +139,19 @@ class Devis(models.Model):
     def prix_total(self):
         return sum([ligne.prix_total for ligne in self.lignes.all()])
 
+    @property
+    def prest_str(self):
+        str = " + ".join([ligne.prestation.libelle for ligne in self.lignes.all()])
+        return str
+
+def pluriel(quantite, mot):
+    if quantite != 0:
+
+        if quantite == 1:
+            return "1 {}".format(mot)
+
+        return "{} {}s".format(quantite, mot)
+    return None
 
 class Client(models.Model):
     intitule = models.CharField(max_length=100)
@@ -158,6 +170,24 @@ class Client(models.Model):
     def get_absolute_url(self):
         return reverse('client_detail', args=[str(self.id)])
 
+    @property
+    def devis(self):
+        return Devis.objects.filter(client=self)
+
+    def temps_client_formatte(self):
+        nbJours = (date.today() - self.date_ajout).days
+
+        annees = int(nbJours / 365)
+        semaines = int((nbJours % 365) / 7)
+        jours = (nbJours % 365) % 7
+
+        retour = []
+
+        retour.append(pluriel(annees, "année"))
+        retour.append(pluriel(semaines, "semaine"))
+        retour.append(pluriel(jours, "jour"))
+
+        return ", ".join(filter(None,retour))
 
 class Marque(models.Model):
     libelle = models.CharField(max_length=50)

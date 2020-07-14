@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block contenu %}
-    <div class="row z-depth-1 valign-wrapper">
+    <div class="row grey lighten-4 z-depth-1 valign-wrapper" id="row-nom">
         <div class="col s7 ">
             <h4>{{client.intitule}}</h4>
         </div>
@@ -27,5 +27,64 @@
             <a href="{% url 'update_client' client.id %}" class="waves-effect waves-light btn grey" id="btn-editer"><i class="material-icons right">edit</i>Editer</a>
         </div>
     </div>
+    <div class="row valign-wrapper ">
+        <div class="col s9 valign-wrapper">
+            <i class="material-icons icon-description">date_range</i>
+            <span class="sous_information">Client depuis le <span class="information">{{client.date_ajout}}</span> ({{client.temps_client_formatte}})</span>
+        </div>
+        <div class="col s3 valign-wrapper">
+            {% if client.telephone %}
+            <i class="material-icons icon-description">phone</i>
+            <span class="information">{{client.telephone.as_national}}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% if client.adresse %}
+    <div class="row">
+        <div class="col s12">
+            <i class="material-icons icon-description">location_on</i>
+            <span class="information">{{client.adresse}}</span>
+            {% if client.complement_adresse %}
+            <span class="sous_information">, {{client.complement_adresse}}</span>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
 
+    {% if client.devis %}
+    <ul class="collapsible">
+        {% if client.devis %}
+            <li>
+                <div class="collapsible-header"><i class="material-icons">description</i>Historique des devis ({{client.devis|length}})</div>
+                <div class="collapsible-body">
+                    <table class="striped centered highlight">
+                        <thead class="grey lighten-2">
+                            <th class="th-date">Date</th>
+                            <th class="th-prestations">Préstations</th>
+                            <th class="th-prix">Prix total (€)</th>
+                            <th class="th-pdf"></th>
+                        </thead>
+                        <tbody>
+                        {% for devis in client.devis %}
+                            <tr onclick="location.href=&quot;{% url 'devis_detail' devis.id %}&quot;">
+                                <td>{{devis.date_creation}}</td>
+                                <td class="td-prestations">{{devis.prest_str}}</td>
+                                <td>{{devis.prix_total}}</td>
+                                <td class="left"><a href="{% url 'get_pdf' devis.id %}" class="btn-floating waves-effect grey"><i class="material-icons">picture_as_pdf</i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+
+                </div>
+            </li>
+        {% endif %}
+    </ul>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'global/js/initCollapsible.js' %}"></script>
 {% endblock %}
