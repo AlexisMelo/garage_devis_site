@@ -115,7 +115,7 @@ def sauvegarder_devis(request):
     if 'mesPrestationsCoutVariable' in request.session:
         for prestationId in request.session['mesPrestationsCoutVariable']:
             prestReference = PrestationCoutVariableStandard.objects.get(id=prestationId)
-            nouvellePrestConcrete = PrestationCoutVariableConcrete(libelle=prestReference.libelle,
+            nouvellePrestConcrete = PrestationCoutVariableConcrete(libelle=prestReference.get_libelle,
                                                                    categorie=prestReference.categorie)
             nouvellePrestConcrete.save()
 

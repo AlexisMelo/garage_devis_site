@@ -28,7 +28,7 @@ class PieceDetacheeStandard(models.Model):
     libelle = models.CharField(max_length=50, default="Pièce détachée standard")
 
     def __str__(self):
-        return self.libelle
+        return self.get_libelle()
 
     class Meta:
         verbose_name = "Pièce détachée sans prix"
@@ -38,7 +38,7 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
     def __str__(self):
-        return "{} - {}€".format(self.libelle, self.prix)
+        return "{} - {}€".format(self.get_libelle(), self.prix)
 
     class Meta:
         verbose_name = "Pièce détachée avec prix associé"
@@ -59,12 +59,14 @@ class Prestation(PolymorphicModel):
         verbose_name = "Prestation standard, sans coût"
 
     def __str__(self):
-        return self.libelle
+        return self.get_libelle()
 
     @property
     def prix_total(self):
         return 0
 
+    def get_libelle(self):
+        return self.libelle
 
 class PrestationCoutFixe(Prestation):
     prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
@@ -73,12 +75,11 @@ class PrestationCoutFixe(Prestation):
         verbose_name = "Prestation à coût fixe"
 
     def __str__(self):
-        return "{} - {}".format(self.libelle, self.prix)
+        return "{} - {}".format(self.get_libelle(), self.prix)
 
     @property
     def prix_total(self):
         return self.prix
-
 
 class PrestationCoutVariableStandard(Prestation):
     pieces_detachees = models.ManyToManyField(PieceDetacheeStandard)
@@ -87,7 +88,7 @@ class PrestationCoutVariableStandard(Prestation):
         verbose_name = "Prestation à prix variable, sans prix associés"
 
     def __str__(self):
-        return "{} - {}".format(self.libelle, self.pieces_detachees)
+        return "{} - {}".format(self.get_libelle(), self.pieces_detachees)
 
     @property
     def prix_total(self):
@@ -101,7 +102,7 @@ class PrestationCoutVariableConcrete(Prestation):
         verbose_name = "Prestation à prix variable, prix des pièces connus"
 
     def __str__(self):
-        return "{} - {}".format(self.libelle, self.pieces_detachees)
+        return "{} - {}".format(self.get_libelle(), self.pieces_detachees)
 
     @property
     def prix_total(self):
@@ -141,7 +142,7 @@ class Devis(models.Model):
 
     @property
     def prest_str(self):
-        str = " + ".join([ligne.prestation.libelle for ligne in self.lignes.all()])
+        str = " + ".join([ligne.prestation.get_libelle() for ligne in self.lignes.all()])
         return str
 
 def pluriel(quantite, mot):
@@ -220,6 +221,12 @@ class PrestationPneumatique(Prestation):
         prixttc += marge
 
         return round(prixttc, 2)
+
+    def get_libelle(self):
+        if self.marque:
+            return '{} {}"'.format(self.marque.libelle, self.dimensions)
+        else:
+            return 'pneu {}"'.format(self.dimensions)
 
 class PrestationMainOeuvre(Prestation):
     tauxHoraire = models.DecimalField(max_digits=7, decimal_places=2, default=55)

@@ -10,7 +10,7 @@
 
                         {% if p.categorie == categorie %}
                         <tr href="#{{p.id}}-modal" class="modal-trigger">
-                            <td class="td-libelle">{{p.libelle}}</td>
+                            <td class="td-libelle">{{p.get_libelle}}</td>
                             <td class="td-champs right-align">Champs : {% for piece in p.pieces_detachees.all %} {% if not forloop.first %}, {% endif %} {{piece.libelle}} {% endfor %}</td>
                         </tr>
                         {% endif %}
@@ -27,7 +27,7 @@
                         <div class="modal-content">
                             <div class="row modal-entete valign-wrapper">
                                 <div class="col s7">
-                                    <h4>{{p.libelle}}</h4>
+                                    <h4>{{p.get_libelle}}</h4>
                                 </div>
                                 <div class="col s5 right-align">
                                     <span>
@@ -70,7 +70,7 @@
                                         <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
                                         <label for="{{p.id}}-quantite">Quantité</label>
                                         <input type="hidden" name="id_prestation" value="{{p.id}}" required>
-                                        <input type="hidden" name="libelle" value="{{p.libelle}}" required>
+                                        <input type="hidden" name="libelle" value="{{p.get_libelle}}" required>
 
                                     </div>
                                     <div class="col s2 xl1">

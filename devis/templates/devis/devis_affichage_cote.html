@@ -17,7 +17,7 @@
 
                 <div class="collapsible-body body-collaspe-cote">
                     {% for indicePrestation, prestation in request.session.mesPrestationsNouvelles.items %}
-                    <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsNouvelles' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.libelle}}">
+                    <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsNouvelles' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.get_libelle}}">
                         <div class="col s9">
                             <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
                         </div>
@@ -37,7 +37,7 @@
               <div class="collapsible-body body-collaspe-cote">
 
                     {% for indicePrestation, prestation in request.session.mesPrestationsCoutFixe.items %}
-                    <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsCoutFixe' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.libelle}}">
+                    <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsCoutFixe' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.get_libelle}}">
                         <div class="col s9">
                             <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
                         </div>
@@ -59,7 +59,7 @@
                 <div class="collapsible-body body-collaspe-cote">
 
                     {% for indicePrestation, prestation in request.session.mesPrestationsCoutVariable.items %}
-                        <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsCoutVariable' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.libelle}}">
+                        <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsCoutVariable' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.get_libelle}}">
 
                             <div class="col s9">
                                 <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
@@ -90,7 +90,7 @@
                     <div onclick="location.href='{% url 'supprimer_prestation_en_session' type_prestation='mesPrestationsPneumatiques' prestation_id=indicePrestation %}'" class="row tooltipped valign-wrapper row-prestation" data-position="bottom" data-tooltip="{{prestation.marque}}">
 
                         <div class="col s9">
-                            <span><span class="libelle_prestation">{{prestation.marque|truncatechars:20}} {{prestation.dimensions}}"</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
+                            <span><span class="libelle_prestation">{{prestation.libelle|truncatechars:25}}</span><span class="quantite_prestation"> x {{prestation.quantite}}</span></span>
                         </div>
                         <div class="col s3 right-align">
                             <span class="cout_prestation">{{prestation.prix_total}} €</span>

@@ -146,15 +146,15 @@ def getLigne(c, ligne, movingY):
 
     if isinstance(ligne.prestation, PrestationNouvelle):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationCoutFixe):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationCoutVariableConcrete):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.libelle, movingY))
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationPneumatique):
         tailleOccupee = 1.5 * cm

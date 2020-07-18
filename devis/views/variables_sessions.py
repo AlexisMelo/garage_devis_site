@@ -130,7 +130,8 @@ def ajouter_prestation_pneumatique_en_session(request):
                                                                     'dimensions': dimensions,
                                                                     'prixAchat': prixAchat,
                                                                     'marque': marque,
-                                                                    'prix_total': round(prixttc, 2)}
+                                                                    'prix_total': round(prixttc, 2),
+                                                                    'libelle' : '{} {}"'.format(marque, dimensions)}
 
     request.session.modified = True
     update_prix_total_session(request)
