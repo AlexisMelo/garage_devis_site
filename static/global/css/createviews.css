@@ -1,0 +1,17 @@
+form {
+    margin-top: 5%;
+    padding-left: 10%;
+    padding-right : 10%;
+}
+
+.titre {
+    margin-top: 5%;
+}
+
+.row-submit {
+    margin-top: 5%;
+}
+
+.row-submit .btn {
+    width: 150px;
+}

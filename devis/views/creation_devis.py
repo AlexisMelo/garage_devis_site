@@ -6,9 +6,10 @@ from django.db.models import Max
 from django.shortcuts import render, redirect
 from django.urls import reverse
 
-from devis.models import Client, Categorie, PrestationCoutFixe, PrestationCoutVariableStandard, Devis, LigneDevis, \
-    PrestationCoutVariableConcrete, PieceDetacheeStandard, PieceDetacheeAvecPrix, PrestationPneumatique, Marque, \
-    PrestationMainOeuvre, PrestationNouvelle
+from devis.models import Client, Devis, LigneDevis
+from prestations.models import PrestationCoutFixe, Categorie, PrestationCoutVariableStandard, PieceDetacheeStandard, \
+    PieceDetacheeAvecPrix, PrestationPneumatique, PrestationNouvelle, PrestationMainOeuvre, Marque, \
+    PrestationCoutVariableConcrete
 
 
 def ajouter_prestation_pneumatique(request):

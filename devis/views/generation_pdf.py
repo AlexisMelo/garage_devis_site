@@ -11,12 +11,13 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 from django.templatetags.static import static
-from devis.models import Devis, PrestationCoutFixe, PrestationCoutVariableConcrete, PrestationPneumatique, \
-    PrestationMainOeuvre, PrestationNouvelle
+from devis.models import Devis
 
 from reportlab.lib.units import cm
 
 from devis.views.utilitaires import iterable
+from prestations.models import PrestationNouvelle, PrestationCoutFixe, PrestationCoutVariableConcrete, \
+    PrestationPneumatique, PrestationMainOeuvre
 
 largeur, hauteur = A4
 

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Ensemble des prestations avec un coût fixe
+{% endblock %}
+
+{% block description %}
+    Affichage de ma liste de prestations à coût fixe
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{% static 'global/css/listviews.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+
+    <div class="row valign-wrapper row-add-search">
+        <div class="col s3">
+            <a href="{% url 'ajout_prestation_cout_fixe' %}" class="grey waves-effect waves-light btn">Nouveau Forfait</a>
+        </div>
+        <div class="col s9">
+            <div class="nav-wrapper">
+              <form method="GET" action="">
+                <div class="input-field">
+                  <input placeholder="Rechercher une préstation par libellé, catégorie..." id="search" type="search" name="search" required value="{{request.GET.search}}">
+                  <label class="label-icon" for="search"><i id="searchIcon" class="material-icons">search</i></label>
+                    <i class="material-icons" onclick="location.href='{% url 'liste_prestations_cout_fixe' %}';">close</i>
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+
+    {% if prestations %}
+    <table class="striped highlight">
+        <thead class="grey lighten-2">
+            <tr>
+                <th>Libellé</th>
+                <th>Catégorie</th>
+                <th>Prix (€)</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in prestations %}
+                <tr>
+                    <td>{{ p.libelle }}</td>
+                    <td>{{ p.categorie }}</td>
+                    <td>{{ p.prix }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% include "pagination.html" %}
+
+    {% else %}
+
+    <div class="row center-align row-none">
+        <h6>Aucune préstation ne correspond à vos critères de recherche...</h6>
+    </div>
+
+    {% endif %}
+
+{% endblock %}

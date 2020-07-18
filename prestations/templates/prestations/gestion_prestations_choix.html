@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Menu préstations
+{% endblock %}
+
+{% block description %}
+    Menu permettant de choisir de quel type de préstations on va s'occuper
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{% static 'prestations/css/gestion_prestation_choix.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+    <div class="row row-buttons center-align">
+        <div class="col s5 col-btn">
+            <a href="{% url 'liste_prestations_cout_fixe' %}" class="btn-centre waves-effect waves-light btn grey darken-4">
+                <span>
+                    <span class="gestion-txt">Gestion</span>
+                    <br>
+                    <span class="type-txt">Forfaits</span>
+                </span>
+            </a>
+        </div>
+        <div class="col s5 offset-s2 col-btn">
+            <a href="#" class="btn-centre waves-effect waves-light btn grey darken-4">
+                <span>
+                    <span class="gestion-txt">Gestion</span>
+                    <br>
+                    <span class="type-txt">Prestations variables</span>
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="row center-align">
+
+    </div>
+{% endblock %}

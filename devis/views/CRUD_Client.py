@@ -21,9 +21,12 @@ class ListeClients(ListView):
         result = super(ListeClients, self).get_queryset()
         query = self.request.GET.get('search')
         if query:
-            postresult = Client.objects.filter(Q(intitule__icontains=query) | Q(telephone__icontains=query) | Q(adresse__icontains=query) | Q(complement_adresse__icontains=query))
+            postresult = Client.objects.filter(
+                Q(intitule__icontains=query) | Q(telephone__icontains=query) | Q(adresse__icontains=query) | Q(
+                    complement_adresse__icontains=query))
             result = postresult
         return result
+
 
 @method_decorator(login_required, name='dispatch')
 class ClientCreate(CreateView):
@@ -31,23 +34,27 @@ class ClientCreate(CreateView):
     template_name = "devis/client_creer.html"
     fields = ['intitule', 'adresse', 'complement_adresse', 'telephone']
     success_url = reverse_lazy("liste_clients")
+
     def form_valid(self, form):
         self.object = form.save()
         messages.success(self.request, "Client ajouté avec succès !")
+
         if self.request.session.get("ajout_client_inconnu_pour_devis", None):
             self.request.session["client"] = {
-                    'intitule' : self.object.intitule,
-                    'id' : self.object.id
-                }
+                'intitule': self.object.intitule,
+                'id': self.object.id
+            }
             return redirect("sauvegarder_devis")
 
         return HttpResponseRedirect(self.get_success_url())
+
 
 @method_decorator(login_required, name='dispatch')
 class ClientUpdate(UpdateView):
     model = Client
     fields = ['intitule', 'adresse', 'complement_adresse', 'telephone']
     template_name = "devis/client_update.html"
+
 
 @method_decorator(login_required, name='dispatch')
 class ClientDetail(DetailView):

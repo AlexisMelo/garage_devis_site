@@ -6,7 +6,6 @@ urlpatterns = [
     path('choix/', views.oral_ecrit, name="creer_devis"),
     path('', views.ListeDevis.as_view(), name="liste_devis"),
     path('clients/', views.ListeClients.as_view(), name="liste_clients"),
-    path('prestation/', views.ListePrestation.as_view(), name="liste_prestations"),
     path('<int:pk>', views.DevisDetail.as_view(), name="devis_detail"),
     path('clients/<int:pk>', views.ClientDetail.as_view(), name="client_detail"),
     path('clients/ajout', views.ClientCreate.as_view(), name="ajout_client"),

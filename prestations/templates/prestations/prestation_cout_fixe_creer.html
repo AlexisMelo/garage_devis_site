@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Ajout Forfait
+{% endblock %}
+
+{% block description %}
+    Formulaire pour ajouter une préstation à cout fixe (Forfait) à la liste de préstations proposées
+{% endblock %}
+
+{% block stylesheets %}
+    <link href="{% static 'global/css/createviews.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block contenu %}
+
+    <div class="row center-align titre">
+        <h5>Ajout d'une préstation à cout fixe (Forfait)</h5>
+    </div>
+    <form action="{% url 'ajout_prestation_cout_fixe' %}" class="formulaire-ajout" method="post">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="row">
+            {{ form.libelle.errors }}
+            <div class="col s10">
+                <div class="input-field ">
+                    <i class="material-icons prefix">bookmark</i>
+                    <label for="{{ form.libelle.id_for_label }}">Libellé</label>
+                    {{ form.libelle }}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            {{ form.categorie.errors }}
+            <div class="col s4 ">
+                <div class="input-field">
+                                    <i class="material-icons prefix">view_module</i>
+
+                    {{ form.categorie }}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s2">
+                {{ form.prix.errors }}
+
+                <div class="input-field">
+                    <i class="material-icons prefix">euro</i>
+                    {{ form.prix }}
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row center-align row-submit">
+              <button class="btn waves-effect waves-light green" type="submit" name="action">Ajouter
+                <i class="material-icons right">send</i>
+            </button>
+        </div>
+    </form>
+
+
+
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{% static 'global/js/initSelect.js' %}"></script>
+{% endblock %}

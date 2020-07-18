@@ -1,0 +1,20 @@
+.row-add-search {
+    margin-top : 2%;
+}
+
+.row-add-search .btn {
+    width: 100%;
+}
+
+table {
+    margin-top : 5%;
+}
+
+table.highlight > tbody > tr:hover {
+    background-color : #e0e0e0;
+    cursor: pointer;
+}
+
+.row-none {
+    margin-top: 30%;
+}

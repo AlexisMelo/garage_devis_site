@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'devis',
     'utilisateurs',
+    'prestations',
     'phonenumber_field',
     'polymorphic',
 ]

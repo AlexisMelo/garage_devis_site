@@ -1,8 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
-from devis.models import PieceDetacheeStandard, Client
+from devis.models import Client
 from devis.views.utilitaires import application_marge
+from prestations.models import PieceDetacheeStandard
 
 
 @login_required

@@ -11,22 +11,23 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <link href="{% static 'global/css/listviews.css' %}" rel="stylesheet">
     <link href="{% static 'devis/css/client_list.css' %}" rel="stylesheet">
 {% endblock %}
 
 {% block contenu %}
 
-    <div class="row valign-wrapper" id="rowTop">
+    <div class="row valign-wrapper row-add-search">
         <div class="col s3">
-            <a href="{% url 'ajout_client' %}" class="grey waves-effect waves-light btn" id="btnNveauClient">Nouveau client</a>
+            <a href="{% url 'ajout_client' %}" class="grey waves-effect waves-light btn">Nouveau client</a>
         </div>
         <div class="col s9">
             <div class="nav-wrapper">
-              <form id="formRecherche" method="GET" action="">
+              <form method="GET" action="">
                 <div class="input-field">
                   <input placeholder="Rechercher un client par intitulé, adresse, téléphone, ..." id="search" type="search" name="search" required value="{{request.GET.search}}">
                   <label class="label-icon" for="search"><i id="searchIcon" class="material-icons">search</i></label>
-                    <i class="material-icons" onclick="location.href='{% url 'liste_clients' %}'; console.log('c cliqué');">close</i>
+                    <i class="material-icons" onclick="location.href='{% url 'liste_clients' %}';">close</i>
                 </div>
               </form>
             </div>
@@ -35,7 +36,7 @@
 
 
     {% if clients %}
-    <table id="table-clients" class="striped highlight">
+    <table class="striped highlight">
         <thead class="grey lighten-2">
             <tr>
                 <th  id="th_intitule">Intitule</th>
@@ -55,12 +56,12 @@
 
     </table>
     {% else %}
-        <div class="row center-align" id="row-aucun-client">
+        <div class="row center-align row-none">
             <h6>Aucun client ne correspond à vos critères de recherche...</h6>
         </div>
     {% endif %}
 
-        {% include "devis/pagination.html" %}
+        {% include "pagination.html" %}
 
 {% endblock %}
 
