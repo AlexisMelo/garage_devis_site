@@ -1,12 +1,14 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView
 
 from prestations.forms import CreatePrestationCoutFixeForm
-from prestations.models import PrestationCoutFixe
+from prestations.models import PrestationCoutFixe, Categorie
+
 
 @method_decorator(login_required, name='dispatch')
 class ListePrestationCoutFixe(ListView):
@@ -14,6 +16,22 @@ class ListePrestationCoutFixe(ListView):
     context_object_name = "prestations"
     template_name = "prestations/prestation_cout_fixe_list.html"
     paginate_by = 10
+
+    def get_queryset(self):
+        result = super(ListePrestationCoutFixe, self).get_queryset()
+        query = self.request.GET.get('search')
+
+        if query:
+            catpossibles = Categorie.objects.filter(libelle__icontains=query).values_list('id', flat=True)
+
+            querycats = Q(libelle__icontains=query)
+            for cat in catpossibles:
+                querycats |= Q(categorie__id=cat)
+
+            postresult = PrestationCoutFixe.objects.filter(querycats)
+
+            result = postresult
+        return result
 
 @method_decorator(login_required, name='dispatch')
 class CreatePrestationCoutFixe(CreateView):
