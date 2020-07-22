@@ -20,10 +20,10 @@ class PieceDetacheeStandard(models.Model):
     libelle = models.CharField(max_length=50, default="Pièce détachée standard")
 
     def __str__(self):
-        return self.get_libelle()
+        return self.libelle
 
     class Meta:
-        verbose_name = "Pièce détachée sans prix"
+        verbose_name = "Pièce détachée standard"
         db_table = "prestations_piecedetacheestandard"
 
 
@@ -31,10 +31,10 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
     def __str__(self):
-        return "{} - {}€".format(self.get_libelle(), self.prix)
+        return "{} - {}€".format(self.libelle, self.prix)
 
     class Meta:
-        verbose_name = "Pièce détachée avec prix associé"
+        verbose_name = "Pièce détachée tarifée"
         db_table = "prestations_piecedetacheeavecprix"
 
     @property
@@ -84,7 +84,7 @@ class PrestationCoutVariableStandard(Prestation):
     pieces_detachees = models.ManyToManyField(PieceDetacheeStandard)
 
     class Meta:
-        verbose_name = "Prestation à prix variable, sans prix associés"
+        verbose_name = "Prestation à prix variable"
         db_table = "prestations_prestationcoutvariablestandard"
 
     def __str__(self):
@@ -94,12 +94,16 @@ class PrestationCoutVariableStandard(Prestation):
     def prix_total(self):
         return 0
 
+    @property
+    def champs_str(self):
+        return ", ".join([p.libelle for p in self.pieces_detachees.all()])
+
 
 class PrestationCoutVariableConcrete(Prestation):
     pieces_detachees = models.ManyToManyField(PieceDetacheeAvecPrix)
 
     class Meta:
-        verbose_name = "Prestation à prix variable, prix des pièces connus"
+        verbose_name = "Prestation à prix variable tarifée"
         db_table = "prestations_prestationcoutvariableconcrete"
 
     def __str__(self):
@@ -109,6 +113,9 @@ class PrestationCoutVariableConcrete(Prestation):
     def prix_total(self):
         return sum([piece.prix for piece in self.pieces_detachees.all()])
 
+    @property
+    def champs_str(self):
+        return ", ".join([p.libelle for p in self.pieces_detachees.all()])
 
 class Marque(models.Model):
     libelle = models.CharField(max_length=50)

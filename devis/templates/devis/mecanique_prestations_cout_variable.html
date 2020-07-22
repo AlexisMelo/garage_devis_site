@@ -11,7 +11,7 @@
                         {% if p.categorie == categorie %}
                         <tr href="#{{p.id}}-modal" class="modal-trigger">
                             <td class="td-libelle">{{p.get_libelle}}</td>
-                            <td class="td-champs right-align">Champs : {% for piece in p.pieces_detachees.all %} {% if not forloop.first %}, {% endif %} {{piece.libelle}} {% endfor %}</td>
+                            <td class="td-champs right-align">Champs : {{ p.champs_str }}</td>
                         </tr>
                         {% endif %}
 

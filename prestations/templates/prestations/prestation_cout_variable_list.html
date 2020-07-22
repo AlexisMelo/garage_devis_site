@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block title %}
-    Forfaits
+   Prst. Coût Variable
 {% endblock %}
 
 {% block description %}
-    Affichage de ma liste de prestations à coût fixe
+    Affichage de ma liste de prestations à coût variable
 {% endblock %}
 
 {% block stylesheets %}
@@ -18,15 +18,15 @@
 
     <div class="row valign-wrapper row-add-search">
         <div class="col s3">
-            <a href="{% url 'ajout_prestation_cout_fixe' %}" class="grey waves-effect waves-light btn">Nouveau Forfait</a>
+            <a href="#" class="grey waves-effect waves-light btn">Nouvelle Prestation</a>
         </div>
         <div class="col s9">
             <div class="nav-wrapper">
               <form method="GET" action="">
                 <div class="input-field">
-                  <input placeholder="Rechercher une préstation par libellé, catégorie..." id="search" type="search" name="search" required value="{{request.GET.search}}">
+                  <input placeholder="Rechercher une préstation par libellé, catégorie, champs à remplir..." id="search" type="search" name="search" required value="{{request.GET.search}}">
                   <label class="label-icon" for="search"><i id="searchIcon" class="material-icons">search</i></label>
-                    <i class="material-icons" onclick="location.href='{% url 'liste_prestations_cout_fixe' %}';">close</i>
+                    <i class="material-icons" onclick="location.href='{% url 'liste_prestations_cout_variable' %}';">close</i>
                 </div>
               </form>
             </div>
@@ -39,7 +39,7 @@
             <tr>
                 <th>Libellé</th>
                 <th>Catégorie</th>
-                <th>Prix (€)</th>
+                <th>Champs à remplir</th>
 
             </tr>
         </thead>
@@ -48,7 +48,7 @@
                 <tr>
                     <td>{{ p.libelle }}</td>
                     <td>{{ p.categorie }}</td>
-                    <td>{{ p.prix }}</td>
+                    <td>{{ p.champs_str }}</td>
                 </tr>
             {% endfor %}
         </tbody>
