@@ -10,7 +10,7 @@
 
                         {% if p.categorie == categorie %}
                         <tr href="#{{p.id}}-modal" class="modal-trigger">
-                            <td class="td-libelle">{{p.get_libelle}}</td>
+                            <td class="td-libelle">{{p.vrai_libelle}}</td>
                             <td class="td-prix">{{p.prix}} €</td>
                         </tr>
                         {% endif %}
@@ -27,7 +27,7 @@
                         <div class="modal-content">
                             <div class="row modal-entete valign-wrapper">
                                 <div class="col s8">
-                                    <h4>{{p.get_libelle}}</h4>
+                                    <h4>{{p.vrai_libelle}}</h4>
                                 </div>
                                 <div class="col s4 right-align">
                                     <span>
@@ -52,7 +52,7 @@
                                     <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
                                     <label for="{{p.id}}-quantite">Quantité</label>
                                     <input type="hidden" name="id_prestation" value="{{p.id}}" required>
-                                    <input type="hidden" name="libelle" value="{{p.get_libelle}}" required>
+                                    <input type="hidden" name="libelle" value="{{p.vrai_libelle}}" required>
                                     <input type="hidden" name="prix_unit" value="{{p.prix}}" required>
 
                                 </div>

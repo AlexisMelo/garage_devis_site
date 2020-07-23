@@ -10,7 +10,7 @@
 
                         {% if p.categorie == categorie %}
                         <tr href="#{{p.id}}-modal" class="modal-trigger">
-                            <td class="td-libelle">{{p.get_libelle}}</td>
+                            <td class="td-libelle">{{p.vrai_libelle}}</td>
                             <td class="td-champs right-align">Champs : {{ p.champs_str }}</td>
                         </tr>
                         {% endif %}
@@ -27,7 +27,7 @@
                         <div class="modal-content">
                             <div class="row modal-entete valign-wrapper">
                                 <div class="col s7">
-                                    <h4>{{p.get_libelle}}</h4>
+                                    <h4>{{p.vrai_libelle}}</h4>
                                 </div>
                                 <div class="col s5 right-align">
                                     <span>
@@ -47,7 +47,7 @@
                                 {% for piece in p.pieces_detachees.all %}
                                     <div class="row valign-wrapper row-piece">
                                         <div class="col s5 offset-s1">
-                                            {{piece.libelle}}
+                                            {{piece.vrai_libelle}}
                                         </div>
 
                                         <div class="col s4 input-field">
@@ -70,7 +70,7 @@
                                         <input id="{{p.id}}-quantite" name="quantite" type="number" class="validate" min="1" value="1" required>
                                         <label for="{{p.id}}-quantite">Quantité</label>
                                         <input type="hidden" name="id_prestation" value="{{p.id}}" required>
-                                        <input type="hidden" name="libelle" value="{{p.get_libelle}}" required>
+                                        <input type="hidden" name="libelle" value="{{p.vrai_libelle}}" required>
 
                                     </div>
                                     <div class="col s2 xl1">

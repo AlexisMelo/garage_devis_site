@@ -157,7 +157,7 @@ def ajouter_prestation_variable_en_session(request):
             piece_detachee_object = PieceDetacheeStandard.objects.get(id=piece_detachee_id)
 
             piece_detachee = {}
-            piece_detachee['libelle'] = piece_detachee_object.libelle
+            piece_detachee['libelle'] = piece_detachee_object.vrai_libelle()
             piece_detachee['prix_achat'] = round(float(request.POST.get(key).replace(',', '.')), 2)
             piece_detachee['prix_vente'] = round(application_marge(float(request.POST.get(key).replace(',', '.'))), 2)
 

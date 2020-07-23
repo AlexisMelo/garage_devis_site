@@ -1,8 +1,12 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import ListView
+from django.views.generic import ListView, CreateView
 
+from prestations.forms import CreatePrestationCoutVariableForm
 from prestations.models import PrestationCoutVariableStandard, Categorie, PieceDetacheeStandard
 
 
@@ -33,3 +37,23 @@ class ListePrestationCoutVariable(ListView):
 
             result = postresult
         return result
+
+@method_decorator(login_required, name='dispatch')
+class CreatePrestationCoutVariable(CreateView):
+    model = PrestationCoutVariableStandard
+    template_name = "prestations/prestation_cout_variable_creer.html"
+    form_class = CreatePrestationCoutVariableForm
+    success_url = reverse_lazy("liste_prestations_cout_variable")
+
+    def get_initial(self):
+        return {
+            'libelle' : None,
+            'categorie': "Sélectionnez une catégorie"
+        }
+    def form_valid(self, form):
+        print(form)
+        self.object = form.save()
+        print(self.object)
+        messages.success(self.request, "Préstation à coût variable ajoutée avec succès !")
+
+        return HttpResponseRedirect(self.get_success_url())

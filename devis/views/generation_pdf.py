@@ -145,23 +145,28 @@ def getLigne(c, ligne, movingY):
     textObjects = []
     boxsize = largeur * 1 / 6
 
+    print("-----------------------------------------------")
+    print(ligne.prestation.vrai_libelle())
+    print(ligne.prestation.vrai_libelle)
+    print(ligne.prestation)
+
     if isinstance(ligne.prestation, PrestationNouvelle):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.vrai_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationCoutFixe):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.vrai_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationCoutVariableConcrete):
         tailleOccupee = 1.5 * cm
-        textObjects.append(getPrestationNameTO(c, ligne.prestation.get_libelle(), movingY))
+        print(ligne.prestation.vrai_libelle)
+        textObjects.append(getPrestationNameTO(c, ligne.prestation.vrai_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationPneumatique):
         tailleOccupee = 1.5 * cm
         textObjects.append(
-            getPrestationNameTO(c, "{} {}\"".format(ligne.prestation.marque.libelle, ligne.prestation.dimensions),
-                                movingY))
+            getPrestationNameTO(c, ligne.prestation.vrai_libelle(), movingY))
 
     elif isinstance(ligne.prestation, PrestationMainOeuvre):
         tailleOccupee = 1.5 * cm

@@ -81,7 +81,7 @@ class Devis(models.Model):
 
     @property
     def prest_str(self):
-        str = " + ".join([ligne.prestation.get_libelle() for ligne in self.lignes.all()])
+        str = " + ".join([ligne.prestation.vrai_libelle() for ligne in self.lignes.all()])
         return str
 
 def pluriel(quantite, mot):

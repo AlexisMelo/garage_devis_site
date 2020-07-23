@@ -116,21 +116,23 @@ def sauvegarder_devis(request):
     if 'mesPrestationsCoutVariable' in request.session:
         for prestationId in request.session['mesPrestationsCoutVariable']:
             prestReference = PrestationCoutVariableStandard.objects.get(id=prestationId)
-            nouvellePrestConcrete = PrestationCoutVariableConcrete(libelle=prestReference.get_libelle,
+            nouvellePrestConcrete = PrestationCoutVariableConcrete(libelle=prestReference.vrai_libelle(),
                                                                    categorie=prestReference.categorie)
             nouvellePrestConcrete.save()
 
             for pieceId in request.session['mesPrestationsCoutVariable'][prestationId]['pieces_detachees']:
                 pieceReference = PieceDetacheeStandard.objects.get(id=pieceId)
-                nouvellePieceConcrete = PieceDetacheeAvecPrix(libelle=pieceReference.libelle)
+
+                nouvellePieceConcrete = PieceDetacheeAvecPrix(piece_standard=pieceReference)
                 nouvellePieceConcrete.prix = \
                 request.session['mesPrestationsCoutVariable'][prestationId]['pieces_detachees'][pieceId]['prix_vente']
                 nouvellePieceConcrete.save()
                 nouvellePrestConcrete.pieces_detachees.add(nouvellePieceConcrete)
 
-            nouvellePrestConcrete.save()
-            ligne, created = LigneDevis.objects.get_or_create(prestation=nouvellePrestConcrete, quantite=
+            #nouvellePrestConcrete.save()
+            ligne = LigneDevis(prestation=nouvellePrestConcrete, quantite=
             request.session['mesPrestationsCoutVariable'][prestationId]['quantite'])
+            ligne.save()
             devis.lignes.add(ligne)
 
     if 'mesPrestationsPneumatiques' in request.session:

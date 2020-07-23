@@ -20,18 +20,21 @@ class PieceDetacheeStandard(models.Model):
     libelle = models.CharField(max_length=50, default="Pièce détachée standard")
 
     def __str__(self):
-        return self.libelle
+        return self.vrai_libelle()
 
     class Meta:
         verbose_name = "Pièce détachée standard"
         db_table = "prestations_piecedetacheestandard"
 
+    def vrai_libelle(self):
+        return self.libelle
 
-class PieceDetacheeAvecPrix(PieceDetacheeStandard):
+class PieceDetacheeAvecPrix(models.Model):
+    piece_standard = models.ForeignKey(PieceDetacheeStandard, on_delete=models.PROTECT)
     prix = models.DecimalField(max_digits=7, decimal_places=2, default=0)
 
     def __str__(self):
-        return "{} - {}€".format(self.libelle, self.prix)
+        return "{} - {}€".format(self.vrai_libelle(), self.prix)
 
     class Meta:
         verbose_name = "Pièce détachée tarifée"
@@ -40,6 +43,9 @@ class PieceDetacheeAvecPrix(PieceDetacheeStandard):
     @property
     def prix_total(self):
         return self.prix
+
+    def vrai_libelle(self):
+        return self.piece_standard.vrai_libelle()
 
 
 def get_autre_categorie():
@@ -55,13 +61,13 @@ class Prestation(PolymorphicModel):
         db_table = "prestations_prestation"
 
     def __str__(self):
-        return self.get_libelle()
+        return self.vrai_libelle()
 
     @property
     def prix_total(self):
         return 0
 
-    def get_libelle(self):
+    def vrai_libelle(self):
         return self.libelle
 
 
@@ -73,7 +79,7 @@ class PrestationCoutFixe(Prestation):
         db_table = "prestations_prestationcoutfixe"
 
     def __str__(self):
-        return "{} - {}".format(self.get_libelle(), self.prix)
+        return "{} - {}".format(self.vrai_libelle(), self.prix)
 
     @property
     def prix_total(self):
@@ -88,7 +94,7 @@ class PrestationCoutVariableStandard(Prestation):
         db_table = "prestations_prestationcoutvariablestandard"
 
     def __str__(self):
-        return "{} - {}".format(self.get_libelle(), self.pieces_detachees)
+        return "{} - {}".format(self.vrai_libelle(), self.pieces_detachees)
 
     @property
     def prix_total(self):
@@ -96,7 +102,7 @@ class PrestationCoutVariableStandard(Prestation):
 
     @property
     def champs_str(self):
-        return ", ".join([p.libelle for p in self.pieces_detachees.all()])
+        return ", ".join([p.vrai_libelle() for p in self.pieces_detachees.all()])
 
 
 class PrestationCoutVariableConcrete(Prestation):
@@ -107,7 +113,7 @@ class PrestationCoutVariableConcrete(Prestation):
         db_table = "prestations_prestationcoutvariableconcrete"
 
     def __str__(self):
-        return "{} - {}".format(self.get_libelle(), self.pieces_detachees)
+        return "{} - {}".format(self.vrai_libelle(), self.pieces_detachees)
 
     @property
     def prix_total(self):
@@ -115,7 +121,7 @@ class PrestationCoutVariableConcrete(Prestation):
 
     @property
     def champs_str(self):
-        return ", ".join([p.libelle for p in self.pieces_detachees.all()])
+        return ", ".join([p.vrai_libelle() for p in self.pieces_detachees.all()])
 
 class Marque(models.Model):
     libelle = models.CharField(max_length=50)
@@ -151,7 +157,7 @@ class PrestationPneumatique(Prestation):
 
         return round(prixttc, 2)
 
-    def get_libelle(self):
+    def vrai_libelle(self):
         if self.marque:
             return '{} {}"'.format(self.marque.libelle, self.dimensions)
         else:

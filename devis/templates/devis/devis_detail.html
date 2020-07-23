@@ -18,10 +18,10 @@
 
             {% if ligne.prestation|get_class == "PrestationCoutVariableConcrete" %}
 
-            <p>{{ligne.prestation.get_libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
+            <p>{{ligne.prestation.vrai_libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
 
                 {% for piece in ligne.prestation.pieces_detachees.all %}
-                    <p>{{piece.libelle}} {{piece.prix}}</p>
+                    <p>{{piece.vrai_libelle}} {{piece.prix}}</p>
                 {% endfor %}
 
 
@@ -31,10 +31,10 @@
 
             {% elif ligne.prestation|get_class == "PrestationCoutFixe" %}
 
-            <p>{{ligne.prestation.get_libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
+            <p>{{ligne.prestation.vrai_libelle}} x{{ligne.quantite}} = {{ligne.prix_total}}</p>
             {% elif ligne.prestation|get_class == "PrestationNouvelle" %}
 
-            <p>{{ligne.prestation.get_libelle}} x {{ligne.quantite}} = {{ligne.prix_total}}</p>
+            <p>{{ligne.prestation.vrai_libelle}} x {{ligne.quantite}} = {{ligne.prix_total}}</p>
             {% elif ligne.prestation|get_class == "PrestationMainOeuvre" %}
 
             <p>Main oeuvre : {{ligne.quantite}} Heures à {{ligne.prestation.tauxHoraire}} € = {{ligne.prix_total}}</p>

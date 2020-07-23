@@ -3,11 +3,11 @@
 {% load static %}
 
 {% block title %}
-    Ajout Forfait
+    Ajout Prest. Coût Variable
 {% endblock %}
 
 {% block description %}
-    Formulaire pour ajouter une préstation à cout fixe (Forfait) à la liste de préstations proposées
+    Formulaire pour ajouter une préstation à coût variable à la liste de prestations proposées
 {% endblock %}
 
 {% block stylesheets %}
@@ -17,9 +17,9 @@
 {% block contenu %}
 
     <div class="row center-align titre">
-        <h5>Ajout d'une préstation à coût fixe (Forfait)</h5>
+        <h5>Ajout d'une préstation à coût variable</h5>
     </div>
-    <form action="{% url 'ajout_prestation_cout_fixe' %}" class="formulaire-ajout" method="post">
+    <form action="{% url 'ajout_prestation_cout_variable' %}" class="formulaire-ajout" method="post">
 
         {% csrf_token %}
 
@@ -41,7 +41,8 @@
             {{ form.categorie.errors }}
             <div class="col s4 ">
                 <div class="input-field">
-                    <i class="material-icons prefix">view_module</i>
+                                    <i class="material-icons prefix">view_module</i>
+
                     {{ form.categorie }}
                 </div>
 
@@ -49,12 +50,12 @@
         </div>
 
         <div class="row">
-            <div class="col s2">
-                {{ form.prix.errors }}
+            <div class="col s10">
+                {{ form.pieces_detachees.errors }}
 
                 <div class="input-field">
                     <i class="material-icons prefix">euro</i>
-                    {{ form.prix }}
+                    {{ form.pieces_detachees }}
                 </div>
             </div>
         </div>
@@ -66,8 +67,6 @@
             </button>
         </div>
     </form>
-
-
 
 {% endblock %}
 
