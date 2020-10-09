@@ -15,8 +15,6 @@ class CreatePrestationCoutFixeForm(forms.ModelForm):
 
 class CreatePrestationCoutVariableForm(forms.ModelForm):
 
-    pieces_detachees = forms.MultipleChoiceField
-
     class Meta:
         model = PrestationCoutVariableStandard
         fields = ('libelle', 'categorie', 'pieces_detachees')
