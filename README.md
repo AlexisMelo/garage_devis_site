@@ -20,8 +20,6 @@ Technologies utilisées :
 - Javascript / Jquery
 - Materialize (Framework CSS)
 
-Le site est uniquement accessible en localhost, il n'est actuellement pas déployé ni utilisé (bien qu'il soit largement fonctionnel, les raisons sont autres).
-Il a été temporairement accessible sur un serveur Alwaysdata (fournisseur qui propose de l'aide pour le déploiement d'une application Django), mais j'ai préféré arrêter l'abonnement.
+Le site est uniquement accessible en localhost, il n'est actuellement pas déployé ni utilisé bien qu'il soit largement fonctionnel.
 
 Ai suivi le tutoriel suivant : https://openclassrooms.com/fr/courses/1871271-developpez-votre-site-web-avec-le-framework-django
-Terminé à 81% (manque partie test unitaire, et déploiement)
